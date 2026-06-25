@@ -3349,6 +3349,25 @@
       `).join("");
     }
 
+    function getOptionOrder(questionId) {
+      const orders = [
+        [0, 1, 2, 3],
+        [1, 3, 0, 2],
+        [2, 0, 3, 1],
+        [3, 2, 1, 0],
+        [1, 0, 2, 3],
+        [2, 3, 1, 0],
+        [3, 1, 0, 2],
+        [0, 2, 3, 1]
+      ];
+      return orders[(questionId * 7 + 3) % orders.length];
+    }
+
+    function getDisplayLetter(question, originalIndex) {
+      const displayIndex = getOptionOrder(question.id).indexOf(originalIndex);
+      return letters[displayIndex >= 0 ? displayIndex : originalIndex];
+    }
+
     function renderQuestion() {
       const ids = filteredIds();
       const q = currentQuestion();
@@ -3372,22 +3391,24 @@
         : `<strong>${escapeHtml(lecture?.label || "Lecture")} 作答提示</strong><span>${escapeHtml(lecture?.examFocus || "先独立判断，不显示口诀；选完后会显示题目翻译、速记和解析。")}</span>`;
       els.options.innerHTML = "";
 
-      q.options.forEach((option, index) => {
+      const optionOrder = getOptionOrder(q.id);
+      optionOrder.forEach((originalIndex, displayIndex) => {
+        const option = q.options[originalIndex];
         const button = document.createElement("button");
         button.type = "button";
         button.className = "option";
         if (record) {
-          if (index === q.answer) button.classList.add("correct");
-          if (index === record.selected && index !== q.answer) button.classList.add("wrong");
+          if (originalIndex === q.answer) button.classList.add("correct");
+          if (originalIndex === record.selected && originalIndex !== q.answer) button.classList.add("wrong");
         }
-        button.innerHTML = `<span class="letter">${letters[index]}</span><span>${escapeHtml(option)}</span>`;
-        button.addEventListener("click", () => answerQuestion(q.id, index));
+        button.innerHTML = `<span class="letter">${letters[displayIndex]}</span><span>${escapeHtml(option)}</span>`;
+        button.addEventListener("click", () => answerQuestion(q.id, originalIndex));
         els.options.appendChild(button);
       });
 
       if (record) {
-        const selectedLetter = letters[record.selected];
-        const correctLetter = letters[q.answer];
+        const selectedLetter = getDisplayLetter(q, record.selected);
+        const correctLetter = getDisplayLetter(q, q.answer);
         const zh = TRANSLATIONS[q.id] || {
           questionZh: q.questionZh,
           answerZh: q.answerZh,
