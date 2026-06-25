@@ -1,252 +1,0 @@
-  ENTERPRISE ARCHITECTURE (EA) AND
-  DATABASE PROGRAMMING
-  LECTURE 2
-
-
-
-
-Azadeh Sarkheyli
-azadeh.sarkheyli@hh.se
-             Enterprise Architecture
-             The Architecture Process
-CONTENTS:    Drivers for Enterprise Architecture
-             Enterprise Architecture and Other Governance Instruments
- ENTERPRISE ARCHITECTURE
-
-
-To create an integrated perspective of
-an enterprise, we need techniques for
-describing architectures in a coherent
-way and communicating these with all
-relevant stakeholders. Different types
-of stakeholders will have their own
-viewpoints on the architecture.
-THE ARCHITECTURE PROCESS
-
-The architecture process consists of the usual
-steps that take an initial idea through design and
-implementation phases to an operational system,
-and finally changing or replacing this system,
-closing the loop. In all of the phases of the
-architecture process, clear communication with and
-between stakeholders is indispensable.
-DRIVERS FOR ENTERPRISE ARCHITECTURE
-
-
-Drivers are the events, conditions or circumstances that motivate an enterprise to change some aspect of
-its goals and consequently its objectives, and potentially business activities or technical solutions.
-There are many different drivers, including:
-•   Legal or Regulatory - for example, a new law governing Credit Card Usage
-•   Cultural or Social - for example acceptance of a product in a new market
-•   Financial and Economic - for example, reduction in profit due to changes of an exchange rate for
-    borrowed foreign capital
-•   Organizational or Cultural - for example, high staff turn-over in a particular division or business unit
-DRIVERS FOR ENTERPRISE ARCHITECTURE
-
- Drivers:
-
-  Internal drivers to execute effectively an organisation’s strategy and optimise its operations
-    (such as financial or budget pressures)
-
-  External drivers (external pressures) that push organisations towards adopting enterprise
-    architecture practice (such as regulatory obligations or forces from competitors)
-
- They can be top-down, in the form of strategic drivers such as regulatory compliance and rule
- changes, or bottom-up in the form of tactical drivers such as technology changes or opportunities
- that have been discovered by audits, performance assessment, surveys or other mechanisms.
- DRIVERS FOR ENTERPRISE ARCHITECTURE: INTERNAL DRIVERS
-
-
-The    well-known    strategic    alignment    model    of
-Henderson and Venkatraman (1993) distinguishes
-between    the   aspects   of    business   strategy   and
-organisational infrastructure on the one hand and IT
-strategy and IT infrastructure on the other hand (Fig.
-1.3). The model provides four dominant perspectives
-that are used to tackle the alignment between these
-aspects. In any of these perspectives, an enterprise
-architecture can be a valuable help in executing the
-business or IT strategy.
-DRIVERS FOR ENTERPRISE ARCHITECTURE: INTERNAL DRIVERS
-
-Nadler et al. (1992) identify four relevant alignment components:
-
- work
-
- people
-
- the formal organisation
-
- the informal organisation
-DRIVERS FOR ENTERPRISE ARCHITECTURE: INTERNAL DRIVERS
-
-
-Labovitz and Rosansky (1997) emphasise the horizontal and vertical alignment dimensions of an organisation.
-
- Vertical alignment describes the relation between the top strategy and the people at the bottom
-
- Horizontal alignment describes the relation between internal processes and external customers.
-DRIVERS FOR ENTERPRISE ARCHITECTURE: INTERNAL DRIVERS
-
-                  Why does it         Image of
-                    exist?           the future
-DRIVERS FOR ENTERPRISE ARCHITECTURE: INTERNAL DRIVERS
-
-Moreover, architecture is a strategic instrument in guiding an
-organization through a planned course of development. As Ross
-et al. (2006) show with numerous case studies, successful
-enterprises employ an ‘operating model’ with clear choices on the
-levels of integration and standardisation of business processes
-across the enterprise (Fig. 1.5). This operating model should fit
-both their area of business and their stage of development.
-
-
-
-
-                                                                    Fig. 1.5 Operating model (Ross et al. 2006)
-DRIVERS FOR ENTERPRISE ARCHITECTURE: EXTERNAL DRIVERS
-
-
-Example
-
-   In the USA, the Clinger–Cohen Act (1996), also known as the Information Technology Management Reform Act,
-    demands that every government agency must have an IT architecture, which is defined as: ‘an integrated framework
-    for evolving or maintaining existing information technology and acquiring new information technology to achieve the
-    agency’s strategic goals and information resources management goals’.
-DRIVERS FOR ENTERPRISE ARCHITECTURE
-
-
-    Discussion
-
-    According to your business (project) describe what are the
-    internal and external drivers?
-ENTERPRISE ARCHITECTURE: SUMMARY
-
-   Architecture is the art and science of designing complex structures.
-   Enterprise architecture, more specifically, is defined as a coherent whole of principles, methods, and models that are
-    used in the design and realisation of an enterprise’s organisational structure, business processes, information
-    systems, and infrastructure.
-   Architecture models, views, presentations, and analyses all help to bridge the ‘communication gap’ between
-    architects and stakeholders.
-   Architecture is an indispensable instrument in controlling the complexity of the enterprise and its processes and
-    systems.
-   On the one hand, we see internal drivers for using an architectural approach, related to the strategy execution of an
-    organisation. Better alignment between business and IT leads to lower cost, high equality, better time-to-market, and
-    greater customer satisfaction.
-   On the other hand, external drivers from regulatory authorities and other pressures necessitate companies to have a
-    thorough insight into their structure and operations.
-   All of these drivers make a clear case for the use of enterprise architecture.
-ENTERPRISE ARCHITECTURE: SUMMARY
-
-The Increasing Value of Enterprise Architecture
-  ENTERPRISE ARCHITECTURE: SUMMARY
-
-The Focus of Enterprise Architecture
-ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
-
-
-     How does EA fit in with
-                                         How does EA position
-               other
-                                          within the context of
-    established management
-                                           corporate and IT
-          practices and
-                                              governance?
-          instruments?
-ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
-ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
-
-
-There is a relationship between enterprise architecture with some well-known management practices in each of
-these areas, which can be shown as the position and role of enterprise architecture in a management context:
-    Strategic management: Balanced Scorecard
-    Business model development: Business Model Canvas
-    Business architecture: BIZBOK® Guide and O-BA
-    Quality management: EFQM and ISO 9001
-    IT governance: COBIT
-    IT delivery and support: ITIL
-    IT implementation: CMM and CMMI
-ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
-ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
-
-Strategic Management
-
-Kaplan and Norton (1992) introduced the Balanced Scorecard (BSC) as a management system that helps an enterprise to
-clarify and implement its vision and strategy. The BSC therefore suggests viewing an enterprise from four perspectives.
-
- The Customer perspective asks how the enterprise should appear to its customers, with measures like customer
-   satisfaction.
-
- The Financial perspective is focused on the business value created by the enterprise, entailing measures such as
-   shareholder value.
-
- The Internal Business Processes perspective looks at the effectiveness and efficiency of a company’s internal
-   operations, paying special attention to the primary, mission-oriented processes.
-
- Finally, the Learning and Growth perspective addresses the corporate and individual ability to change and improve,
-   which is critical to any knowledge-intensive organisation.
- ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
-
-
-For each of the four perspectives the BSC proposes a three-layered structure:
-
-   1) mission (e.g., to become the customers’ preferred supplier);
-
-   2) objectives (e.g., to provide the customers with new products);
-
-   3) measures (e.g., percentage of turnover generated by new products).
-ENTERPRISE
-ARCHITECTURE
-AND OTHER
-GOVERNANCE
-INSTRUMENTS
-ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
-
-Business Model Development
-
-The Business Model Canvas (Osterwalder and Pigneur 2010) is a template to create high-level descriptions of new or existing business
-models. The Business Model Canvas consists of several parts:
-
-– Value proposition: the centre of the canvas, describing what products and services an organisation has to offer to its different customers
-– Key activities: what the organisation needs to do to provide its value propositions
-– Key resources: the resources needed for these activities
-– Customer segments: the typical customer groups the organisation distinguishes
-– Customer relationships: the kind of links the organisation has with its customers
-– Channels: how the organisation gets in touch with its customers.
-– Key partners: others with which the organisation cooperates in delivering value to its customers
-– Cost structure: the financial view of the means employed by the organisation
-– Revenue streams: the way the organisation makes money from various revenue flows from its customer segments
-ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
-ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
-
-
-
-Business Architecture
-
-A blueprint of the enterprise that provides a common understanding of the organisation and is used to align strategic
-objectives and tactical demands.
-
-A business architecture provides a business-oriented abstraction of the enterprise in its ecosystem, which helps to
-translate strategy into action. The role of model-based support for design, analysis and decision making is becoming
-increasingly important in the business architecture discipline.
-ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
-ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
-
-
-     Discussion
-
-     According the below paper describe What are the characteristics
-     of good enterprise architecture?
-      Khayami, R. (2011). Qualitative characteristics of enterprise
-        architecture. Procedia Computer Science, 3, 1277-1282.
-REFERENCES
-
-
-  Lankhorst, M. (2017). Enterprise architecture at work (ISBN 978-3-662-53933-
-    0). Berlin: Springer.
-  Khayami, R. (2011). Qualitative characteristics of enterprise architecture.
-    Procedia Computer Science, 3, 1277-1282.
-  https://sparxsystems.com/enterprise_architect_user_guide/14.0/guidebooks/ea_
-    enterprise_architecture.html
-

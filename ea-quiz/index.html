@@ -284,6 +284,29 @@
       color: var(--bad);
     }
 
+    .qdot.discussion {
+      position: relative;
+      border-color: #d6b44a;
+      box-shadow: inset 0 0 0 2px rgba(214, 180, 74, .18);
+    }
+
+    .qdot.discussion::after {
+      content: "D";
+      position: absolute;
+      right: -4px;
+      top: -6px;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: #8a5a00;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
     .main {
       min-height: 620px;
       padding: 22px;
@@ -599,7 +622,7 @@
     <header class="topbar">
       <div class="title">
         <h1>EA 期末刷题</h1>
-        <p>40 道单选，可按 Lecture + Discussion 考点逐讲刷题。</p>
+        <p>130 道单选，覆盖 Lecture 1-6，可按 Lecture + Discussion 考点逐讲刷题。</p>
       </div>
       <div class="toolbar">
         <button class="btn" id="shuffleBtn" type="button">随机顺序</button>
@@ -611,7 +634,7 @@
     <section class="layout">
       <aside class="side">
         <div class="stats" aria-live="polite">
-          <div class="stat"><span>已答</span><strong id="answeredStat">0/40</strong></div>
+          <div class="stat"><span>已答</span><strong id="answeredStat">0/130</strong></div>
           <div class="stat"><span>正确率</span><strong id="accuracyStat">0%</strong></div>
           <div class="stat"><span>正确</span><strong id="correctStat">0</strong></div>
           <div class="stat"><span>错题</span><strong id="wrongStat">0</strong></div>
@@ -620,6 +643,7 @@
         <div class="mode-row">
           <button class="btn primary" id="allModeBtn" type="button">全部题目</button>
           <button class="btn" id="unansweredBtn" type="button">未答题</button>
+          <button class="btn" id="discussionBtn" type="button">Discussion 题</button>
         </div>
         <div class="lecture-section">
           <div class="lecture-title">逐 Lecture 刷题 <span>按老师 Discussion 抓考点</span></div>
@@ -641,7 +665,7 @@
         <article id="questionCard">
           <div class="question-head">
             <span class="tag" id="topicTag">Topic</span>
-            <span class="question-index" id="questionIndex">Question 1 of 40</span>
+            <span class="question-index" id="questionIndex">Question 1 of 130</span>
           </div>
           <h2 class="question" id="questionText"></h2>
           <div class="memory-card" id="memoryCard"></div>
@@ -1180,6 +1204,1179 @@
       }
     ];
 
+    QUESTIONS.push(...[
+      {
+        id: 41, lecture: "L1", topic: "Architecture abstraction",
+        question: "What does the house example in Lecture 1 illustrate about an architectural model?",
+        options: ["It defines major functions and structure while ignoring many details", "It contains every construction invoice", "It is only useful after implementation", "It replaces all stakeholder communication"],
+        answer: 0,
+        explanation: "The house example shows architecture as an abstract design of major functions and structure.",
+        questionZh: "Lecture 1 中房屋例子说明 architectural model 的什么特点？",
+        answerZh: "它定义主要功能和结构，同时忽略许多细节。",
+        memory: "Architecture model = 抽象抓主结构，不是列所有细节。",
+        clue: "题干关键词是 house example、major functions、structured、abstract design。",
+        explanationZh: "选 A。房屋架构图不是把每颗螺丝都列出来，而是先说明主要功能和结构。EA 也是先抓企业结构、流程、系统和基础设施的关系。",
+        avoid: "B 太细，C 说只有实施后有用，D 说取代沟通，都不符合课件。"
+      },
+      {
+        id: 42, lecture: "L1", topic: "Enterprise scope",
+        question: "Which set of elements is explicitly included in the socio-technical scope of an enterprise?",
+        options: ["People, information, technology, and business", "Only servers, networks, and storage", "Only shareholders and customers", "Only databases and reports"],
+        answer: 0,
+        explanation: "Lecture 1 says the enterprise includes people, information, technology, and business operations.",
+        questionZh: "企业作为社会-技术系统时，明确包括哪些元素？",
+        answerZh: "人员、信息、技术和业务。",
+        memory: "Enterprise scope = people + information + technology + business。",
+        clue: "看到 socio-technical scope，不要只想 IT。",
+        explanationZh: "选 A。课件明确说 enterprise 不只是信息系统，而是包含 people、information、technology、business 的整体。",
+        avoid: "B/D 都只看技术，C 只看部分利益相关者，范围都太窄。"
+      },
+      {
+        id: 43, lecture: "L1", topic: "EA boundary",
+        question: "What is an important first step in creating an enterprise architecture?",
+        options: ["Defining the boundary or scope of the enterprise", "Buying a database server", "Selecting a programming language", "Writing all final reports"],
+        answer: 0,
+        explanation: "The slides state that defining the boundary or scope of the enterprise is an important first step.",
+        questionZh: "创建企业架构的一个重要第一步是什么？",
+        answerZh: "定义企业的边界或范围。",
+        memory: "做 EA 先划边界：这次架构到底描述哪个 enterprise。",
+        clue: "关键词 first step、boundary、scope。",
+        explanationZh: "选 A。EA 先要说清楚描述对象是谁，是整个公司、业务单元、联盟还是外包业务。",
+        avoid: "B/C 是技术选择，D 是交付物，不是架构工作的第一步。"
+      },
+      {
+        id: 44, lecture: "L1", topic: "Gartner EA definition",
+        question: "In Gartner's definition, EA is mainly the process of translating:",
+        options: ["Business vision and strategy into effective enterprise change", "Source code into machine code", "Customer complaints into advertisements", "Financial statements into tax reports"],
+        answer: 0,
+        explanation: "Gartner defines EA as translating business vision and strategy into effective enterprise change.",
+        questionZh: "在 Gartner 的定义中，EA 主要是把什么转化为什么？",
+        answerZh: "把业务愿景和战略转化为有效的企业变革。",
+        memory: "Gartner EA = vision/strategy -> enterprise change。",
+        clue: "看到 translating business vision and strategy，选 Gartner 这条定义。",
+        explanationZh: "选 A。这条定义强调 EA 通过关键要求、原则和模型来支持企业未来状态和演化。",
+        avoid: "B 是编译，C/D 是营销或财务，不是 EA。"
+      },
+      {
+        id: 45, lecture: "L1", topic: "Weill EA definition",
+        question: "Peter Weill's definition emphasizes the organizing logic for:",
+        options: ["Business processes and IT infrastructure", "Only employee salaries", "Only legal contracts", "Only user interface colors"],
+        answer: 0,
+        explanation: "Weill defines EA as organizing logic for business processes and IT infrastructure.",
+        questionZh: "Peter Weill 对 EA 的定义强调哪两者的 organizing logic？",
+        answerZh: "业务流程和 IT 基础设施。",
+        memory: "Weill = business processes + IT infrastructure + integration/standardization。",
+        clue: "关键词 organizing logic、integration、standardization。",
+        explanationZh: "选 A。Weill 这条定义强调企业运行模型里流程整合和标准化要求。",
+        avoid: "B/C/D 都不是这条定义关注的对象。"
+      },
+      {
+        id: 46, lecture: "L1", topic: "US Government EA definition",
+        question: "The United States Government definition of EA emphasizes defining an agency's mission and describing:",
+        options: ["The technology and information needed to perform that mission", "Only the office furniture layout", "Only the brand identity", "Only personal performance bonuses"],
+        answer: 0,
+        explanation: "The US Government definition links mission with the technology and information needed to perform it.",
+        questionZh: "美国政府对 EA 的定义强调定义机构使命，并描述什么？",
+        answerZh: "执行该使命所需的技术和信息。",
+        memory: "US Gov 定义 = mission + technology/information + change response。",
+        clue: "题干出现 agency mission，就找 technology and information needed。",
+        explanationZh: "选 A。它还强调组织架构如何随 mission 变化而改变。",
+        avoid: "B/C/D 都和 agency mission 的技术与信息支持无关。"
+      },
+      {
+        id: 47, lecture: "L1", topic: "EA problems",
+        question: "Which symptom is listed as a result of poor business-IT alignment in Lecture 1?",
+        options: ["A culture of distrust between business and technology sides", "Too many coffee machines", "Perfectly aligned IT systems", "No need for architecture models"],
+        answer: 0,
+        explanation: "Lecture 1 lists distrust between business and technology sides among EA-related problems.",
+        questionZh: "Lecture 1 中，业务与 IT 对齐差会造成哪种现象？",
+        answerZh: "业务侧和技术侧之间出现不信任文化。",
+        memory: "Poor alignment 的症状：成本高、响应慢、信息错、business/technology distrust。",
+        clue: "关键词 poor alignment、business and technology sides。",
+        explanationZh: "选 A。课件把这种不信任作为 EA 需要解决的背景问题之一。",
+        avoid: "B 是无关细节；C/D 和 poor alignment 的意思相反。"
+      },
+      {
+        id: 48, lecture: "L1", topic: "Architecture need",
+        question: "According to Lecture 1, why do large organizations or systems need architecture?",
+        options: ["To manage complexity", "To remove all processes", "To avoid stakeholder communication", "To make every detail visible at once"],
+        answer: 0,
+        explanation: "Lecture 1 states that architecture is needed to manage complexity.",
+        questionZh: "根据 Lecture 1，大型组织或系统为什么需要 architecture？",
+        answerZh: "为了管理复杂性。",
+        memory: "EA 的底层动机：complexity 太高，所以要 architecture。",
+        clue: "看到 large organization/system，想到 manage complexity。",
+        explanationZh: "选 A。架构通过抽象、结构和关系帮助理解复杂系统。",
+        avoid: "B/C/D 都和架构管理复杂性的目的相反。"
+      },
+      {
+        id: 49, lecture: "L2", topic: "Architecture process",
+        question: "What is indispensable in all phases of the architecture process?",
+        options: ["Clear communication with and between stakeholders", "Avoiding all stakeholder contact", "Only writing source code", "Skipping design and implementation"],
+        answer: 0,
+        explanation: "Lecture 2 states that clear communication with and between stakeholders is indispensable in all phases.",
+        questionZh: "架构过程的所有阶段都不可缺少什么？",
+        answerZh: "与利益相关者以及利益相关者之间的清晰沟通。",
+        memory: "Architecture process 全阶段关键词：clear communication。",
+        clue: "题干问 all phases，不是某个单一技术活动。",
+        explanationZh: "选 A。架构过程从想法、设计、实施、运行到替换，都需要 stakeholder 沟通。",
+        avoid: "B/C/D 都把架构过程简化或破坏了。"
+      },
+      {
+        id: 50, lecture: "L2", topic: "Drivers definition",
+        question: "Drivers in EA are best described as:",
+        options: ["Events, conditions, or circumstances motivating enterprise change", "Only software bugs", "Only database tables", "Only financial reports after a project"],
+        answer: 0,
+        explanation: "Lecture 2 defines drivers as events, conditions, or circumstances that motivate change.",
+        questionZh: "EA 中 drivers 最准确是什么？",
+        answerZh: "促使企业改变目标、活动或技术方案的事件、条件或情境。",
+        memory: "Driver = 让企业不得不变的原因。",
+        clue: "关键词 motivate an enterprise to change。",
+        explanationZh: "选 A。driver 可以来自法律、文化、财务、组织等方面。",
+        avoid: "B/C/D 都只是局部对象，不是 driver 的定义。"
+      },
+      {
+        id: 51, lecture: "L2", topic: "Driver types",
+        question: "A reduction in profit due to exchange-rate changes is an example of which driver type?",
+        options: ["Financial and economic", "Object-oriented", "Application interface", "Semantic model"],
+        answer: 0,
+        explanation: "Lecture 2 lists profit reduction due to exchange-rate changes as financial and economic.",
+        questionZh: "汇率变化导致利润下降属于哪类 driver？",
+        answerZh: "金融和经济类 driver。",
+        memory: "Profit/exchange rate = financial/economic driver。",
+        clue: "题干出现 profit、exchange rate。",
+        explanationZh: "选 A。它影响企业财务状况，因此会驱动企业调整目标或方案。",
+        avoid: "B/C/D 是软件或建模概念，不是 driver 类型。"
+      },
+      {
+        id: 52, lecture: "L2", topic: "Internal drivers",
+        question: "Internal drivers for EA are mainly related to:",
+        options: ["Executing strategy and optimizing operations", "New laws from government only", "Mass mailing of architecture views", "Replacing all stakeholders"],
+        answer: 0,
+        explanation: "Lecture 2 links internal drivers to strategy execution and operational optimization.",
+        questionZh: "EA 的内部驱动因素主要与什么有关？",
+        answerZh: "有效执行组织战略并优化运营。",
+        memory: "Internal driver = 内部想把战略和运营做得更好。",
+        clue: "关键词 internal、strategy、operations。",
+        explanationZh: "选 A。内部驱动来自企业内部管理和运营需要。",
+        avoid: "B 是外部监管；C 是沟通技术；D 说法荒唐。"
+      },
+      {
+        id: 53, lecture: "L2", topic: "Top-down vs bottom-up drivers",
+        question: "Technology changes discovered by audits or performance assessment are examples of:",
+        options: ["Bottom-up tactical drivers", "Top-down strategic drivers", "EFQM results criteria only", "TOGAF content artifacts only"],
+        answer: 0,
+        explanation: "Lecture 2 describes technology changes or opportunities found by audits as bottom-up tactical drivers.",
+        questionZh: "通过审计或绩效评估发现的技术变化/机会属于什么？",
+        answerZh: "自下而上的战术驱动因素。",
+        memory: "Top-down 多是 regulation/strategy；bottom-up 多是 audits/performance/technology opportunities。",
+        clue: "题干出现 audits、performance assessment、technology changes。",
+        explanationZh: "选 A。它不是高层战略直接下达，而是从具体技术或评估中发现的机会。",
+        avoid: "B 是战略/监管层面；C/D 是其他框架。"
+      },
+      {
+        id: 54, lecture: "L2", topic: "Strategic alignment model",
+        question: "Henderson and Venkatraman's strategic alignment model distinguishes business strategy and organizational infrastructure from:",
+        options: ["IT strategy and IT infrastructure", "Customer segments and channels", "Plateaus and gaps", "Data objects and artefacts only"],
+        answer: 0,
+        explanation: "The model distinguishes business strategy/organizational infrastructure and IT strategy/IT infrastructure.",
+        questionZh: "Henderson 和 Venkatraman 的战略对齐模型把业务战略/组织基础设施与什么对应区分？",
+        answerZh: "IT 战略和 IT 基础设施。",
+        memory: "Strategic alignment model = Business side 对 IT side。",
+        clue: "关键词 business strategy、organisational infrastructure。",
+        explanationZh: "选 A。这个模型用来处理业务和 IT 之间的对齐。",
+        avoid: "B 是 BMC，C 是 ArchiMate migration，D 是应用/技术概念。"
+      },
+      {
+        id: 55, lecture: "L2", topic: "Nadler alignment components",
+        question: "Which set contains the four alignment components identified by Nadler et al.?",
+        options: ["Work, people, formal organization, informal organization", "Cost, revenue, channel, segment", "CIM, PIM, PSM, ADM", "Node, device, path, material"],
+        answer: 0,
+        explanation: "Nadler et al. identify work, people, formal organization, and informal organization.",
+        questionZh: "Nadler 等人提出的四个对齐组件是哪一组？",
+        answerZh: "工作、人员、正式组织、非正式组织。",
+        memory: "Nadler 四件：work, people, formal org, informal org。",
+        clue: "题干问 alignment components。",
+        explanationZh: "选 A。这组用于理解组织内部组成如何对齐。",
+        avoid: "B 是 BMC，C 混合 MDA/TOGAF，D 是 ArchiMate 技术/物理概念。"
+      },
+      {
+        id: 56, lecture: "L2", topic: "Operating model",
+        question: "Ross et al.'s operating model is based on clear choices about the levels of:",
+        options: ["Integration and standardization of business processes", "Only programming languages", "Only customer age groups", "Only software defects"],
+        answer: 0,
+        explanation: "Lecture 2 says operating models involve choices on integration and standardization of business processes.",
+        questionZh: "Ross 等人的 operating model 基于对哪两个水平的明确选择？",
+        answerZh: "业务流程的整合水平和标准化水平。",
+        memory: "Operating model = process integration + process standardization。",
+        clue: "关键词 operating model、integration、standardisation。",
+        explanationZh: "选 A。它帮助企业决定业务流程跨企业应整合和标准化到什么程度。",
+        avoid: "B/C/D 都不是 operating model 的核心维度。"
+      },
+      {
+        id: 57, lecture: "L2", topic: "Clinger-Cohen Act",
+        question: "The Clinger-Cohen Act example is used in Lecture 2 to illustrate:",
+        options: ["An external regulatory driver for IT architecture", "A UML diagram category", "An EFQM enabler", "A business model canvas channel"],
+        answer: 0,
+        explanation: "The act requires US government agencies to have an IT architecture, illustrating regulatory pressure.",
+        questionZh: "Lecture 2 中 Clinger-Cohen Act 例子说明什么？",
+        answerZh: "外部监管压力可以驱动组织采用 IT architecture。",
+        memory: "Clinger-Cohen Act = external regulatory driver。",
+        clue: "看到 Act/law/government agency，就是监管驱动。",
+        explanationZh: "选 A。该法案要求政府机构有 IT architecture，是典型外部驱动。",
+        avoid: "B/C/D 都属于其他主题。"
+      },
+      {
+        id: 58, lecture: "L2", topic: "EA benefit",
+        question: "Better alignment between business and IT is said to lead to:",
+        options: ["Lower cost, higher quality, better time-to-market, and greater customer satisfaction", "No need for governance", "Removal of all applications", "More isolated architecture views"],
+        answer: 0,
+        explanation: "Lecture 2 lists these benefits of better business-IT alignment.",
+        questionZh: "业务与 IT 更好对齐会带来什么？",
+        answerZh: "更低成本、更高质量、更快上市时间和更高客户满意度。",
+        memory: "Alignment 好处：cost↓ quality↑ time-to-market↑ customer satisfaction↑。",
+        clue: "题干问 better alignment benefits。",
+        explanationZh: "选 A。这是 EA 用来支持业务-IT 对齐的价值说明。",
+        avoid: "B/C/D 都与对齐价值相反。"
+      },
+      {
+        id: 59, lecture: "L2", topic: "EA and governance instruments",
+        question: "Which management practice is linked with strategic management in Lecture 2?",
+        options: ["Balanced Scorecard", "COBIT", "ITIL", "CMMI"],
+        answer: 0,
+        explanation: "Lecture 2 links strategic management with the Balanced Scorecard.",
+        questionZh: "Lecture 2 中，哪个管理实践对应 strategic management？",
+        answerZh: "Balanced Scorecard。",
+        memory: "Strategic management -> BSC。",
+        clue: "题干问 strategic management 的工具。",
+        explanationZh: "选 A。COBIT 对应 IT governance，ITIL 对应 IT delivery/support，CMMI 对应 IT implementation。",
+        avoid: "B/C/D 都是 IT 治理、服务或实施相关。"
+      },
+      {
+        id: 60, lecture: "L2", topic: "BMC components",
+        question: "In the Business Model Canvas, 'key activities' means:",
+        options: ["What the organization needs to do to provide its value propositions", "How customers pay invoices only", "A maturity level in COBIT", "A viewpoint convention in ISO 42010"],
+        answer: 0,
+        explanation: "Key activities describe what the organization needs to do to deliver its value propositions.",
+        questionZh: "BMC 中 key activities 指什么？",
+        answerZh: "组织为了提供价值主张需要做的事情。",
+        memory: "Key activities = 为了交付 value proposition 必须做的事。",
+        clue: "看到 needs to do / provide value proposition。",
+        explanationZh: "选 A。BMC 用 key activities 描述企业交付价值所需的核心活动。",
+        avoid: "B 是收入/支付，C 是 COBIT，D 是 ISO 42010。"
+      },
+      {
+        id: 61, lecture: "L2", topic: "BMC components",
+        question: "In the Business Model Canvas, 'channels' refer to:",
+        options: ["How the organization gets in touch with customers", "How databases are normalized", "How CMMI levels are numbered", "How plateaus differ"],
+        answer: 0,
+        explanation: "Channels describe how the organization contacts or reaches customers.",
+        questionZh: "BMC 中 channels 指什么？",
+        answerZh: "组织如何接触/触达客户。",
+        memory: "Channels = reach customers。",
+        clue: "关键词 gets in touch with customers。",
+        explanationZh: "选 A。渠道说明企业通过什么方式把价值传递或触达到客户。",
+        avoid: "B/C/D 是数据库、CMMI、ArchiMate 迁移概念。"
+      },
+      {
+        id: 62, lecture: "L2", topic: "BMC components",
+        question: "In the Business Model Canvas, revenue streams describe:",
+        options: ["The way the organization makes money", "The structure of UML diagrams", "The reason for a view selection", "The relation between nodes"],
+        answer: 0,
+        explanation: "Revenue streams describe how the organization makes money from customer segments.",
+        questionZh: "BMC 中 revenue streams 描述什么？",
+        answerZh: "组织如何从客户细分中赚钱。",
+        memory: "Revenue streams = money in。",
+        clue: "题干出现 revenue。",
+        explanationZh: "选 A。它是商业模式中收入来源的描述。",
+        avoid: "B/C/D 分别属于 UML、ISO 42010、ArchiMate 技术层。"
+      },
+      {
+        id: 63, lecture: "L3", topic: "EFQM history",
+        question: "The EFQM model was first introduced in 1992 as a framework for assessing applications for:",
+        options: ["The European Quality Award", "The TOGAF ADM cycle", "The COBIT BAI domain", "The UML sequence diagram"],
+        answer: 0,
+        explanation: "Lecture 3 says EFQM was introduced for assessing applications for the European Quality Award.",
+        questionZh: "EFQM 模型最初在 1992 年作为评估什么的框架？",
+        answerZh: "European Quality Award 的申请。",
+        memory: "EFQM 1992 -> European Quality Award。",
+        clue: "题干问 first introduced in 1992。",
+        explanationZh: "选 A。这是 EFQM 的历史来源。",
+        avoid: "B/C/D 都是其他框架或图。"
+      },
+      {
+        id: 64, lecture: "L3", topic: "EFQM criteria",
+        question: "In EFQM, enablers cover:",
+        options: ["What an organization does", "Only what an organization achieves", "Only platform-specific models", "Only service desk tickets"],
+        answer: 0,
+        explanation: "EFQM enablers cover what an organization does; results cover what it achieves.",
+        questionZh: "EFQM 中 enablers 覆盖什么？",
+        answerZh: "组织做了什么。",
+        memory: "EFQM: enablers = does；results = achieves。",
+        clue: "题干问 enablers。",
+        explanationZh: "选 A。enablers 是促成组织绩效的做法，results 才是结果。",
+        avoid: "B 是 results；C/D 是 MDA 或 ITIL。"
+      },
+      {
+        id: 65, lecture: "L3", topic: "EFQM improvement",
+        question: "EFQM measurements are the basis for continuous:",
+        options: ["Learning, innovation, and improvement", "Coding, compiling, and deployment only", "Marketing, sales, and taxation only", "Deletion of all processes"],
+        answer: 0,
+        explanation: "Lecture 3 states EFQM measurements support continuous learning, innovation, and improvement.",
+        questionZh: "EFQM 的测量是持续什么的基础？",
+        answerZh: "持续学习、创新和改进。",
+        memory: "EFQM 结果不是看完就完，而是 learning/innovation/improvement。",
+        clue: "关键词 continuous。",
+        explanationZh: "选 A。EFQM 通过测量和指标推动组织持续改进。",
+        avoid: "B/C/D 都不是 EFQM 在课件中的目的。"
+      },
+      {
+        id: 66, lecture: "L3", topic: "COBIT origin",
+        question: "COBIT was initially published in 1996 by:",
+        options: ["The Information Systems Audit and Control Association", "The Business Process Management Initiative", "The European Foundation for Quality Management", "The Object Watch Inc."],
+        answer: 0,
+        explanation: "Lecture 3 says COBIT was initially published by ISACA.",
+        questionZh: "COBIT 最初由哪个组织在 1996 年发布？",
+        answerZh: "Information Systems Audit and Control Association（ISACA）。",
+        memory: "COBIT 和 audit/control 绑定：ISACA。",
+        clue: "题干问 COBIT origin。",
+        explanationZh: "选 A。COBIT 是 IT governance/control 框架，发布组织也带 audit/control。",
+        avoid: "B 与 BPMN，C 与 EFQM，D 与 Roger Sessions 背景不对应。"
+      },
+      {
+        id: 67, lecture: "L3", topic: "COBIT control",
+        question: "In COBIT, control is defined through policies, procedures, practices, and organizational structures designed to:",
+        options: ["Provide reasonable assurance that business objectives will be achieved", "Replace all business objectives", "Eliminate IT governance", "Create customer channels"],
+        answer: 0,
+        explanation: "COBIT control provides reasonable assurance that objectives are achieved and undesired events handled.",
+        questionZh: "COBIT 中 control 的目的是什么？",
+        answerZh: "合理保证业务目标能够实现，并预防/发现/纠正不希望发生的事件。",
+        memory: "COBIT control = assurance + prevent/detect/correct。",
+        clue: "关键词 policies/procedures/practices/organizational structures。",
+        explanationZh: "选 A。COBIT 的 control 不是管得越多越好，而是为业务目标实现提供合理保证。",
+        avoid: "B/C/D 都偏离 control 的治理含义。"
+      },
+      {
+        id: 68, lecture: "L3", topic: "COBIT maturity",
+        question: "Which COBIT maturity level is characterized by no standardized processes and case-by-case approaches?",
+        options: ["Ad Hoc", "Defined", "Managed", "Optimised"],
+        answer: 0,
+        explanation: "COBIT's Ad Hoc level has no standardized processes and uses case-by-case approaches.",
+        questionZh: "COBIT 成熟度中，没有标准化流程、按个案处理的是哪一级？",
+        answerZh: "Ad Hoc。",
+        memory: "Ad Hoc = 临时、无标准。",
+        clue: "关键词 no standardized processes。",
+        explanationZh: "选 A。Ad Hoc 就是流程还很随意。",
+        avoid: "Defined 有标准化文档，Managed 理解和对齐更完整，Optimised 是持续改进。"
+      },
+      {
+        id: 69, lecture: "L3", topic: "COBIT maturity",
+        question: "Which COBIT maturity level has continuous improvement as the defining characteristic?",
+        options: ["Optimised", "Repeatable", "Ad Hoc", "Defined"],
+        answer: 0,
+        explanation: "The Optimised maturity level is defined by continuous improvement.",
+        questionZh: "COBIT 成熟度中，哪一级以持续改进为核心特征？",
+        answerZh: "Optimised。",
+        memory: "Optimised = continuous improvement。",
+        clue: "关键词 continuous improvement。",
+        explanationZh: "选 A。Optimised 说明流程已接近外部最佳实践，并基于持续改进不断优化。",
+        avoid: "Repeatable/Defined/Ad Hoc 都没达到这个成熟度。"
+      },
+      {
+        id: 70, lecture: "L3", topic: "ITIL process groups",
+        question: "The two broad groups of ITIL processes in Lecture 3 are:",
+        options: ["Service Delivery and Service Support", "CIM and PIM", "Business and Technology only", "Enablers and Results"],
+        answer: 0,
+        explanation: "Lecture 3 says ITIL's core consists of Service Delivery and Service Support.",
+        questionZh: "Lecture 3 中 ITIL 的两大流程组是什么？",
+        answerZh: "Service Delivery 和 Service Support。",
+        memory: "ITIL 两组：Delivery + Support。",
+        clue: "题干问 two broad groups of ITIL processes。",
+        explanationZh: "选 A。Service Delivery 偏服务层级、可用性、财务、容量等；Service Support 偏事件、问题、服务台、变更等。",
+        avoid: "B 是 MDA，C 太粗，D 是 EFQM。"
+      },
+      {
+        id: 71, lecture: "L3", topic: "ITIL service support",
+        question: "Which item belongs to ITIL Service Support?",
+        options: ["Incident management", "Value proposition", "Platform-independent model", "Business actor"],
+        answer: 0,
+        explanation: "Service Support includes incident management, problem management, service desk, change management, release management, and configuration management.",
+        questionZh: "哪一项属于 ITIL Service Support？",
+        answerZh: "Incident management（事件管理）。",
+        memory: "ITIL Support 常见：incident/problem/service desk/change/release/configuration。",
+        clue: "题干问 Service Support。",
+        explanationZh: "选 A。incident management 是 IT 服务支持中的典型流程。",
+        avoid: "B 是 BMC，C 是 MDA，D 是 ArchiMate。"
+      },
+      {
+        id: 72, lecture: "L3", topic: "ITIL quality",
+        question: "In ITIL, quality is defined as matched to:",
+        options: ["Business needs and user requirements as they evolve", "Only developer preferences", "Only hardware speed", "Only tax rules"],
+        answer: 0,
+        explanation: "Lecture 3 defines ITIL quality as matched to business needs and user requirements as they evolve.",
+        questionZh: "ITIL 中 quality 被定义为匹配什么？",
+        answerZh: "不断变化的业务需求和用户要求。",
+        memory: "ITIL quality = fit business needs + user requirements。",
+        clue: "关键词 matched to business needs and user requirements。",
+        explanationZh: "选 A。ITIL 的服务质量不是单纯技术指标，而是要适配业务和用户需求。",
+        avoid: "B/C/D 都过窄。"
+      },
+      {
+        id: 73, lecture: "L3", topic: "CMMI",
+        question: "CMMI expanded the scope of SW-CMM to include the entire:",
+        options: ["Product life cycle", "Customer channel only", "Financial invoice cycle", "UML notation set only"],
+        answer: 0,
+        explanation: "Lecture 3 states CMMI expands the scope to the entire product life cycle.",
+        questionZh: "CMMI 把 SW-CMM 的范围扩展到整个什么？",
+        answerZh: "产品生命周期。",
+        memory: "CMMI = CMM integrated，范围扩到 whole product life cycle。",
+        clue: "关键词 expanded scope、entire product life cycle。",
+        explanationZh: "选 A。CMMI 还包括系统工程、集成产品与过程开发、供应商采购等。",
+        avoid: "B/C/D 都不是 CMMI 扩展范围。"
+      },
+      {
+        id: 74, lecture: "L3", topic: "CMMI levels",
+        question: "At CMMI Level 2 Managed, processes are:",
+        options: ["Planned, performed, measured, and controlled", "Always chaotic and ad hoc", "Fully optimized to external best practices", "Only represented by BPMN"],
+        answer: 0,
+        explanation: "Level 2 Managed means processes are planned, performed, measured, and controlled.",
+        questionZh: "CMMI Level 2 Managed 中，流程处于什么状态？",
+        answerZh: "被计划、执行、测量和控制。",
+        memory: "Managed = planned/performed/measured/controlled。",
+        clue: "题干问 Level 2 Managed。",
+        explanationZh: "选 A。Level 1 才是 chaotic/ad hoc；Level 5 才接近优化。",
+        avoid: "B 是 Level 1，C 太高，D 是流程表示法。"
+      },
+      {
+        id: 75, lecture: "L3", topic: "CMMI levels",
+        question: "At CMMI Level 4 Quantitatively Managed, management is based on:",
+        options: ["Quantitative objectives for quality and process performance", "Only informal conversations", "Only stakeholder names", "Only physical materials"],
+        answer: 0,
+        explanation: "Level 4 uses quantitative objectives as criteria in managing processes.",
+        questionZh: "CMMI Level 4 Quantitatively Managed 基于什么管理流程？",
+        answerZh: "质量和过程绩效的量化目标。",
+        memory: "Quantitatively Managed = 用数字目标管质量和过程绩效。",
+        clue: "关键词 quantitative objectives。",
+        explanationZh: "选 A。Level 4 的重点是量化管理，不只是流程有定义。",
+        avoid: "B/C/D 都不体现 quantitative。"
+      },
+      {
+        id: 76, lecture: "L3", topic: "ISO 42010 practices",
+        question: "Which architecture description practice explains why the current architecture was selected from alternatives?",
+        options: ["Architectural rationale", "Customer relationship", "Revenue stream", "Application event"],
+        answer: 0,
+        explanation: "Architectural rationale explains the selection of the current architecture from alternatives.",
+        questionZh: "哪项架构描述实践解释为什么从多个备选架构中选择当前架构？",
+        answerZh: "Architectural rationale（架构理由）。",
+        memory: "Rationale = 为什么选这个架构。",
+        clue: "关键词 why selected from alternatives。",
+        explanationZh: "选 A。rationale 就是决策理由。",
+        avoid: "B/C 是 BMC，D 是 ArchiMate。"
+      },
+      {
+        id: 77, lecture: "L3", topic: "ISO 42010 practices",
+        question: "Which practice requires checking that architectural views do not conflict with each other?",
+        options: ["Consistency among architectural views", "Key partner selection", "Service desk setup", "Platform-specific mapping"],
+        answer: 0,
+        explanation: "ISO/IEEE 42010 includes consistency among architectural views.",
+        questionZh: "哪项实践要求检查不同架构视图之间不冲突？",
+        answerZh: "Architectural views 之间的一致性。",
+        memory: "多 view 必须 consistency。",
+        clue: "关键词 views do not conflict。",
+        explanationZh: "选 A。架构可能有多个视图，必须保证它们之间一致。",
+        avoid: "B 是 BMC，C 是 ITIL，D 是 MDA。"
+      },
+      {
+        id: 78, lecture: "L3", topic: "Zachman framework",
+        question: "In its simple form, the Zachman Framework intersects roles in the design process with:",
+        options: ["Product abstractions such as what, how, and where", "Only service delivery processes", "Only maturity levels", "Only communication techniques"],
+        answer: 0,
+        explanation: "Zachman intersects roles such as owner/designer/builder with product abstractions such as what/how/where.",
+        questionZh: "Zachman 简化形式中，设计过程角色与什么相交？",
+        answerZh: "产品抽象，如 what、how、where。",
+        memory: "Zachman = roles × what/how/where 等抽象。",
+        clue: "关键词 intersects roles and product abstractions。",
+        explanationZh: "选 A。它是分类矩阵，不是流程方法。",
+        avoid: "B/C/D 分别是 ITIL、成熟度、沟通技术。"
+      },
+      {
+        id: 79, lecture: "L3", topic: "TOGAF capability",
+        question: "TOGAF's Architecture Capability Framework addresses:",
+        options: ["Organization, processes, skills, roles, and responsibilities for an architecture function", "Only database indexes", "Only BSC measures", "Only customer emotions"],
+        answer: 0,
+        explanation: "The capability framework covers organization, processes, skills, roles, and responsibilities.",
+        questionZh: "TOGAF 的 Architecture Capability Framework 处理什么？",
+        answerZh: "建立和运行架构职能所需的组织、流程、技能、角色和责任。",
+        memory: "Capability Framework = 搭建 EA 团队和能力。",
+        clue: "关键词 organization/processes/skills/roles/responsibilities。",
+        explanationZh: "选 A。它不是具体业务模型，而是企业如何具备架构能力。",
+        avoid: "B/C/D 都不是该框架关注范围。"
+      },
+      {
+        id: 80, lecture: "L3", topic: "TOGAF Enterprise Continuum",
+        question: "The TOGAF Enterprise Continuum illustrates how architectures develop from foundational architectures toward:",
+        options: ["An enterprise's own individual architecture", "Only UML class diagrams", "Only informal pictures", "Only incident tickets"],
+        answer: 0,
+        explanation: "The continuum ranges from foundational architectures through common and industry architectures to an enterprise's own architecture.",
+        questionZh: "TOGAF Enterprise Continuum 表示架构从基础架构逐步发展到什么？",
+        answerZh: "企业自己的个性化架构。",
+        memory: "Enterprise Continuum = from generic/foundation to enterprise-specific。",
+        clue: "关键词 foundational -> enterprise's own individual architecture。",
+        explanationZh: "选 A。它描述架构资产从通用到企业专属的连续谱。",
+        avoid: "B/C/D 都只是局部产物。"
+      },
+      {
+        id: 81, lecture: "L3", topic: "TOGAF ADM iteration",
+        question: "For each ADM iteration, TOGAF requires fresh decisions about breadth, detail, time horizon, and:",
+        options: ["Architecture assets to be leveraged", "Number of coffee breaks", "Color of diagrams only", "Tax filing schedule"],
+        answer: 0,
+        explanation: "TOGAF ADM iterations include decisions about assets leveraged in the Enterprise Continuum.",
+        questionZh: "每次 ADM 迭代都要重新决定覆盖范围、细节程度、时间范围以及什么？",
+        answerZh: "要利用的架构资产。",
+        memory: "ADM iteration 决策：breadth/detail/time/assets。",
+        clue: "关键词 breadth、detail、time horizon。",
+        explanationZh: "选 A。ADM 是迭代的，每次都要判断用哪些已有资产。",
+        avoid: "B/C/D 都不是 ADM 决策项。"
+      },
+      {
+        id: 82, lecture: "L3", topic: "MDA purpose",
+        question: "OMG's Model-Driven Architecture aims to provide an open, vendor-neutral approach to:",
+        options: ["Interoperability", "Customer satisfaction surveys", "Financial auditing", "Human resource rewards"],
+        answer: 0,
+        explanation: "MDA aims to provide an open, vendor-neutral approach to interoperability.",
+        questionZh: "OMG 的 MDA 旨在提供一种开放、供应商中立的什么方法？",
+        answerZh: "互操作性方法。",
+        memory: "MDA = vendor-neutral interoperability。",
+        clue: "关键词 open、vendor-neutral。",
+        explanationZh: "选 A。MDA 通过模型和标准支持跨平台实现。",
+        avoid: "B/C/D 都不是 MDA 的目标。"
+      },
+      {
+        id: 83, lecture: "L3", topic: "MDA standards",
+        question: "MDA builds upon OMG modelling standards such as UML, MOF, and:",
+        options: ["CWM", "BSC", "EFQM", "ITIL"],
+        answer: 0,
+        explanation: "Lecture 3 lists UML, MOF, and CWM as modelling standards used by MDA.",
+        questionZh: "MDA 建立在 OMG 建模标准之上，包括 UML、MOF 和什么？",
+        answerZh: "CWM。",
+        memory: "MDA standards = UML + MOF + CWM。",
+        clue: "题干问 OMG modelling standards。",
+        explanationZh: "选 A。CWM 是 Common Warehouse Meta-model。",
+        avoid: "B/C/D 分别是战略、质量和 IT 服务框架。"
+      },
+      {
+        id: 84, lecture: "L4", topic: "IDEF family",
+        question: "IDEF is a family of languages used to perform:",
+        options: ["Enterprise modelling and analysis", "Only financial accounting", "Only customer advertising", "Only physical construction"],
+        answer: 0,
+        explanation: "Lecture 4 defines IDEF as a family of languages for enterprise modelling and analysis.",
+        questionZh: "IDEF 是用于执行什么的一族语言？",
+        answerZh: "企业建模和分析。",
+        memory: "IDEF = enterprise modelling and analysis。",
+        clue: "题干问 IDEF family。",
+        explanationZh: "选 A。IDEF0/IDEF3/IDEF1X 分别覆盖功能、流程和数据建模。",
+        avoid: "B/C/D 都不是 IDEF 主要用途。"
+      },
+      {
+        id: 85, lecture: "L4", topic: "IDEF3",
+        question: "IDEF3 captures the workflow of a business process via:",
+        options: ["Process flow diagrams", "Financial balance sheets", "BSC mission tables", "COBIT maturity surveys only"],
+        answer: 0,
+        explanation: "IDEF3 captures workflow through process flow diagrams.",
+        questionZh: "IDEF3 通过什么捕获业务流程的工作流？",
+        answerZh: "Process flow diagrams。",
+        memory: "IDEF3 = process flow / workflow。",
+        clue: "关键词 workflow、business process。",
+        explanationZh: "选 A。IDEF3 关注任务顺序、决策逻辑和不同场景。",
+        avoid: "B/C/D 都属于其他领域。"
+      },
+      {
+        id: 86, lecture: "L4", topic: "IDEF3",
+        question: "In IDEF3, boxes representing elements are called:",
+        options: ["Units of Behaviour (UOB)", "Business Model Canvas", "Architecture Rationale", "Service Delivery"],
+        answer: 0,
+        explanation: "IDEF3 uses Unit Of Behaviour (UOB) for elements represented by boxes.",
+        questionZh: "在 IDEF3 中，用盒子表示的元素叫什么？",
+        answerZh: "Unit Of Behaviour（UOB）。",
+        memory: "IDEF3 box = UOB。",
+        clue: "关键词 IDEF3 boxes。",
+        explanationZh: "选 A。UOB 是 IDEF3 里的流程行为单元。",
+        avoid: "B/C/D 都不是 IDEF3 盒子元素名。"
+      },
+      {
+        id: 87, lecture: "L4", topic: "IDEF3 modes",
+        question: "Object state transition network diagrams in IDEF3 summarize:",
+        options: ["Allowable transitions an object may undergo throughout a process", "Only revenue streams", "Only architecture assets", "Only service-level agreements"],
+        answer: 0,
+        explanation: "They summarize allowable transitions of an object during a process.",
+        questionZh: "IDEF3 的 object state transition network diagrams 总结什么？",
+        answerZh: "对象在特定流程中可能经历的允许状态转换。",
+        memory: "Object state transition = 对象状态怎么变。",
+        clue: "关键词 object、state、transition。",
+        explanationZh: "选 A。它不是流程顺序本身，而是对象状态变化。",
+        avoid: "B/C/D 分别是 BMC、TOGAF、ITIL。"
+      },
+      {
+        id: 88, lecture: "L4", topic: "IDEF limitation",
+        question: "A limitation of the IDEF family in EA is that:",
+        options: ["There are no communication mechanisms between models", "It cannot model any architecture view", "It is not used in industry", "It only supports customer surveys"],
+        answer: 0,
+        explanation: "Lecture 4 says IDEF supports views but lacks communication mechanisms between models.",
+        questionZh: "IDEF 家族在 EA 中的一个限制是什么？",
+        answerZh: "模型之间没有沟通机制。",
+        memory: "IDEF 问题：views isolated，不能很好跨模型切换/连接。",
+        clue: "关键词 limitation、communication mechanisms between models。",
+        explanationZh: "选 A。课件说 IDEF 支持若干视图，但模型孤立，难以把所有模型作为相互关联的架构系统可视化。",
+        avoid: "B/C/D 与课件相反或无关。"
+      },
+      {
+        id: 89, lecture: "L4", topic: "BPMN origin",
+        question: "BPMN was developed by the Business Process Management Initiative, which later merged with:",
+        options: ["Object Management Group", "European Foundation for Quality Management", "ISACA", "MIT Center for IS Research"],
+        answer: 0,
+        explanation: "Lecture 4 says BPMI merged with OMG.",
+        questionZh: "BPMN 由 BPMI 开发，后来 BPMI 与哪个组织合并？",
+        answerZh: "Object Management Group（OMG）。",
+        memory: "BPMN/UML 都和 OMG 有关系。",
+        clue: "题干问 BPMI merged with。",
+        explanationZh: "选 A。BPMN 标准由 OMG 相关体系管理。",
+        avoid: "B 是 EFQM，C 是 COBIT/ISACA，D 是 Weill 定义背景。"
+      },
+      {
+        id: 90, lecture: "L4", topic: "BPMN purpose",
+        question: "The main purpose of BPMN is to provide:",
+        options: ["A uniform notation for modelling business processes", "A quality award scoring method", "A vendor-neutral code generation method", "A matrix of enterprise artifacts only"],
+        answer: 0,
+        explanation: "BPMN provides a uniform notation for business process modelling.",
+        questionZh: "BPMN 的主要目的是什么？",
+        answerZh: "为业务流程建模提供统一表示法。",
+        memory: "BPMN = uniform notation for business processes。",
+        clue: "关键词 uniform notation、business processes。",
+        explanationZh: "选 A。它帮助业务分析师和流程人员用统一图形语言表达流程。",
+        avoid: "B 是 EFQM，C 是 MDA，D 是 Zachman。"
+      },
+      {
+        id: 91, lecture: "L4", topic: "UML",
+        question: "UML is primarily an industry-standard language for specifying, visualizing, constructing, and documenting artifacts of:",
+        options: ["Software systems", "Financial statements", "Customer emotions", "Legal acts"],
+        answer: 0,
+        explanation: "Lecture 4 identifies UML as an industry-standard language for software system artifacts.",
+        questionZh: "UML 主要是用于描述、可视化、构造和文档化什么产物的行业标准语言？",
+        answerZh: "软件系统产物。",
+        memory: "UML = software system artifacts。",
+        clue: "关键词 specifying/visualizing/constructing/documenting。",
+        explanationZh: "选 A。UML 原本面向面向对象软件系统设计。",
+        avoid: "B/C/D 都不是 UML 的对象。"
+      },
+      {
+        id: 92, lecture: "L4", topic: "UML audience",
+        question: "Why may UML models be difficult for some business stakeholders?",
+        options: ["They are intended for system designers and often require computer-science/object-oriented background", "They contain only financial data", "They cannot describe software", "They are only used for mailing"],
+        answer: 0,
+        explanation: "Lecture 4 notes UML models are clearer to those with a computer-science/object-oriented background.",
+        questionZh: "为什么 UML 模型对某些业务利益相关者可能较难？",
+        answerZh: "因为 UML 主要面向系统设计者，通常需要计算机科学/面向对象背景。",
+        memory: "UML 强但偏技术，非专家可能难懂。",
+        clue: "关键词 system designers、computer science、object orientation。",
+        explanationZh: "选 A。UML 对软件设计人员清楚，但对业务人员不一定易懂。",
+        avoid: "B/C/D 都不是课件理由。"
+      },
+      {
+        id: 93, lecture: "L4", topic: "UML diagrams",
+        question: "Which UML diagram is listed under the Behaviour category?",
+        options: ["Sequence diagram", "Class diagram", "Deployment diagram", "Package diagram"],
+        answer: 0,
+        explanation: "Lecture 4 lists sequence diagrams under Behaviour.",
+        questionZh: "哪种 UML 图属于 Behaviour 类别？",
+        answerZh: "Sequence diagram。",
+        memory: "Sequence = 行为/交互顺序。",
+        clue: "题干问 Behaviour category。",
+        explanationZh: "选 A。class/package 属于结构，deployment 属于实现。",
+        avoid: "B/D 是 Structure，C 是 Implementation。"
+      },
+      {
+        id: 94, lecture: "L4", topic: "Description language weakness",
+        question: "A common weakness of many description languages is that they lack:",
+        options: ["A clearly defined semantics", "Any visual notation at all", "Any use in modelling", "Any relation to software"],
+        answer: 0,
+        explanation: "Lecture 4 says most languages have a weak formal basis and lack clearly defined semantics.",
+        questionZh: "许多描述语言的共同弱点之一是缺少什么？",
+        answerZh: "清晰定义的语义。",
+        memory: "Description language weakness = weak semantics。",
+        clue: "关键词 weak formal basis。",
+        explanationZh: "选 A。语义不清会导致不同模型难以准确集成。",
+        avoid: "B/C/D 都过于绝对，且与课件不符。"
+      },
+      {
+        id: 95, lecture: "L5", topic: "Design support",
+        question: "Besides a common language, design support for architects includes guidelines, best practices, drawing standards, and support for:",
+        options: ["Tracking architectural decisions and changes", "Deleting all models", "Ignoring stakeholder concerns", "Only writing invoices"],
+        answer: 0,
+        explanation: "Lecture 5 mentions tracking architectural decisions and changes as desirable support.",
+        questionZh: "除共同语言外，架构设计支持还包括指南、最佳实践、绘图标准，以及对什么的支持？",
+        answerZh: "跟踪架构决策和变更。",
+        memory: "Design support = vocabulary + guidelines + best practices + decision/change tracking。",
+        clue: "关键词 design support、tracking decisions and changes。",
+        explanationZh: "选 A。架构设计是迭代的，需要记录决策和变更。",
+        avoid: "B/C/D 都与设计支持相反或无关。"
+      },
+      {
+        id: 96, lecture: "L5", topic: "Communication support",
+        question: "Communication support for architectures should make it possible to visualize:",
+        options: ["Relevant aspects for a particular group of stakeholders", "Every detail for everyone at once", "Only database indexes", "Only office locations"],
+        answer: 0,
+        explanation: "Lecture 5 says communication should visualize relevant aspects for particular stakeholder groups.",
+        questionZh: "架构沟通支持应该使我们能够可视化什么？",
+        answerZh: "特定利益相关者群体关心的相关方面。",
+        memory: "Communication = 给不同 stakeholder 看相关 view。",
+        clue: "关键词 relevant aspects、particular group of stakeholders。",
+        explanationZh: "选 A。不同 stakeholder 关注点不同，所以要显示与他们相关的内容。",
+        avoid: "B 反而会造成信息过载；C/D 太窄。"
+      },
+      {
+        id: 97, lecture: "L5", topic: "Realization support",
+        question: "Realization support requires links from enterprise architecture to more detailed activities such as business process design, information modelling, or:",
+        options: ["Software development", "Tax filing only", "Customer gossip", "Office decoration"],
+        answer: 0,
+        explanation: "Lecture 5 includes software development among detailed design activities linked to realization.",
+        questionZh: "架构 realization 支持需要把 EA 连接到业务流程设计、信息建模以及什么更详细活动？",
+        answerZh: "软件开发。",
+        memory: "Realization = EA 要接到更细的设计/开发活动。",
+        clue: "关键词 realization、detailed level。",
+        explanationZh: "选 A。架构不是画完就结束，还要连接到具体实现活动和工具。",
+        avoid: "B/C/D 都与架构实现无关。"
+      },
+      {
+        id: 98, lecture: "L5", topic: "Change support",
+        question: "Why is change support important for enterprise architectures?",
+        options: ["Because changes may have a profound impact across related architectures", "Because architecture never changes", "Because only one small file is affected", "Because stakeholders are irrelevant"],
+        answer: 0,
+        explanation: "Lecture 5 says architecture changes may have profound impacts and should be assessed and planned.",
+        questionZh: "为什么 EA 中 change support 很重要？",
+        answerZh: "因为架构变更可能对相关架构产生深远影响。",
+        memory: "Change support = 先评估影响，再规划演化。",
+        clue: "关键词 profound impact、evolution planning。",
+        explanationZh: "选 A。EA 覆盖组织很大范围，所以变更不能随便改。",
+        avoid: "B/C/D 都与课件说法相反。"
+      },
+      {
+        id: 99, lecture: "L5", topic: "Architectural complexity",
+        question: "In current practice, enterprise architectures often contain heterogeneous models with ill-defined relations, inconsistencies, and lack of:",
+        options: ["Coherence and vision", "Customer discounts", "Office chairs", "Only programming syntax"],
+        answer: 0,
+        explanation: "Lecture 5 says current architectures often lack coherence and vision.",
+        questionZh: "现实中 EA 经常包含异构模型、关系不清、不一致，并缺乏什么？",
+        answerZh: "连贯性和整体愿景。",
+        memory: "复杂性问题：heterogeneous models + weak relations + no coherence/vision。",
+        clue: "关键词 heterogeneous models、ill-defined relations。",
+        explanationZh: "选 A。这正是为什么需要集成架构语言和清晰语义。",
+        avoid: "B/C/D 都不是架构复杂性的核心问题。"
+      },
+      {
+        id: 100, lecture: "L5", topic: "Domain integration",
+        question: "The UML-BPMN example in Lecture 5 is called a:",
+        options: ["Business-IT alignment problem", "Revenue stream problem", "Customer segmentation problem", "Physical distribution problem"],
+        answer: 0,
+        explanation: "Lecture 5 calls the UML-BPMN integration issue a business-IT alignment problem.",
+        questionZh: "Lecture 5 中 UML-BPMN 例子被称为什么问题？",
+        answerZh: "业务-IT 对齐问题。",
+        memory: "UML applications + BPMN processes 对不上 = business-IT alignment problem。",
+        clue: "关键词 UML-BPMN example。",
+        explanationZh: "选 A。业务流程模型和应用模型概念关系不清，会造成业务与 IT 对齐问题。",
+        avoid: "B/C/D 是商业或物理领域问题。"
+      },
+      {
+        id: 101, lecture: "L5", topic: "Domain",
+        question: "In Lecture 5, a domain is:",
+        options: ["A subset of a conception of the universe conceived as a part or aspect", "A complete programming language", "A financial tax code", "A stakeholder's job title only"],
+        answer: 0,
+        explanation: "Lecture 5 defines domain as any subset of a conception of the universe conceived as a part or aspect.",
+        questionZh: "Lecture 5 中 domain 是什么？",
+        answerZh: "对 universe 的 conception 中被认为是某个部分或方面的子集。",
+        memory: "Domain = 你从整体里切出来看的一个部分/方面。",
+        clue: "关键词 subset、part/aspect。",
+        explanationZh: "选 A。比如业务流程、应用系统、技术基础设施都可以看作不同 domain。",
+        avoid: "B/C/D 都不是 domain 的抽象定义。"
+      },
+      {
+        id: 102, lecture: "L5", topic: "Model",
+        question: "A model is defined as:",
+        options: ["A purposely abstracted and unambiguous conception of a domain", "A random screenshot", "A stakeholder meeting invitation", "A financial contract only"],
+        answer: 0,
+        explanation: "Lecture 5 defines model as a purposely abstracted and unambiguous conception of a domain.",
+        questionZh: "model 的定义是什么？",
+        answerZh: "对某个 domain 有目的地抽象且无歧义的 conception。",
+        memory: "Model = 有目的的抽象 + 无歧义。",
+        clue: "关键词 purposely abstracted、unambiguous。",
+        explanationZh: "选 A。模型不是随便画图，而是为了某个目的抽象描述领域。",
+        avoid: "B/C/D 都不是模型定义。"
+      },
+      {
+        id: 103, lecture: "L5", topic: "Ways of working",
+        question: "Which 'way' describes how abstract modelling concepts are communicated to human beings, for example through textual or graphical notation?",
+        options: ["A way of communicating", "A way of thinking", "A way of supporting", "A way of using"],
+        answer: 0,
+        explanation: "A way of communicating concerns notation, syntax, style, and medium for humans.",
+        questionZh: "哪一种 'way' 描述如何通过文本或图形符号把抽象建模概念传达给人？",
+        answerZh: "A way of communicating。",
+        memory: "Communicating = notation/syntax/style/medium。",
+        clue: "关键词 communicated to human beings、textual/graphical notation。",
+        explanationZh: "选 A。它关注模型如何被人理解和交流。",
+        avoid: "thinking 是假设，supporting 是工具支持，using 是适用情境和启发式。"
+      },
+      {
+        id: 104, lecture: "L5", topic: "Ways of working",
+        question: "Which 'way' identifies heuristics for situations, stakeholder classes, and concerns where a viewpoint is suitable?",
+        options: ["A way of using", "A way of modelling", "A way of thinking", "A way of communicating"],
+        answer: 0,
+        explanation: "A way of using identifies heuristics for suitable situations, stakeholders, and concerns.",
+        questionZh: "哪一种 'way' 给出何种场景、stakeholder 类别和 concerns 适合某 viewpoint 的启发式？",
+        answerZh: "A way of using。",
+        memory: "Using = 什么时候、给谁、为哪个 concern 用这个 viewpoint。",
+        clue: "关键词 heuristics、situations、stakeholders、concerns。",
+        explanationZh: "选 A。它帮助选择和调整 viewpoint。",
+        avoid: "modelling 讲核心概念，thinking 讲假设，communicating 讲表示法。"
+      },
+      {
+        id: 105, lecture: "L5", topic: "Semantic model",
+        question: "In the semantic-model example, the sentence about a Director being responsible for every Employee constrains the interpretation of Director to be:",
+        options: ["A non-empty set", "A mailing list", "A cost structure", "A BPMN lane"],
+        answer: 0,
+        explanation: "Lecture 5 says the logical sentence constrains Director to be a non-empty set.",
+        questionZh: "语义模型例子中，关于 Director 对每个 Employee 负责的逻辑句子把 Director 的解释约束为什么？",
+        answerZh: "非空集合。",
+        memory: "Semantic model 用逻辑约束解释符号含义。",
+        clue: "关键词 Director、Employee、logical sentence、non-empty。",
+        explanationZh: "选 A。这个例子说明语义模型能给符号模型添加精确定义和约束。",
+        avoid: "B/C/D 都不是该逻辑句子的语义约束。"
+      },
+      {
+        id: 106, lecture: "L6", topic: "Architecture description use",
+        question: "Which use of architecture descriptions involves comparing different possible architectures?",
+        options: ["Analysis of alternative architectures", "Customer relationship management", "Object state transition only", "Revenue collection"],
+        answer: 0,
+        explanation: "IEEE 1471 uses include analysis of alternative architectures.",
+        questionZh: "哪种 architecture description 用途涉及比较不同可能架构？",
+        answerZh: "分析备选架构。",
+        memory: "Alternative architectures = 比较备选方案。",
+        clue: "关键词 comparing different possible architectures。",
+        explanationZh: "选 A。架构描述可以用于评估不同架构方案。",
+        avoid: "B/C/D 都不是该用途。"
+      },
+      {
+        id: 107, lecture: "L6", topic: "Knowledge transformation",
+        question: "Lecture 6 regards system development as a process of:",
+        options: ["Knowledge transformation", "Only code compilation", "Only financial reporting", "Only hardware purchasing"],
+        answer: 0,
+        explanation: "System development is regarded as a knowledge transformation process.",
+        questionZh: "Lecture 6 把系统开发看作什么过程？",
+        answerZh: "知识转化过程。",
+        memory: "System development = knowledge transformation through conversations。",
+        clue: "关键词 conversations、share and create knowledge。",
+        explanationZh: "选 A。开发过程通过各种 conversation 分享和创造关于系统与开发过程的知识。",
+        avoid: "B/C/D 都把开发过度简化成单一活动。"
+      },
+      {
+        id: 108, lecture: "L6", topic: "System development community",
+        question: "A system development community consists of objects such as:",
+        options: ["Actors and representations involved in system development", "Only end customers", "Only network devices", "Only revenue streams"],
+        answer: 0,
+        explanation: "Lecture 6 defines the community as actors and representations involved in developing a system.",
+        questionZh: "system development community 包括哪些对象？",
+        answerZh: "参与系统开发的 actors 和 representations 等对象。",
+        memory: "Development community = actors + representations。",
+        clue: "关键词 community、actors、representations。",
+        explanationZh: "选 A。它不是只指人，也包括表示物/文档/模型等。",
+        avoid: "B/C/D 都范围太窄或无关。"
+      },
+      {
+        id: 109, lecture: "L6", topic: "Concern",
+        question: "A concern is an interest of a stakeholder regarding:",
+        options: ["The architecture description of a system", "Only a tax form", "Only a physical office", "Only code syntax"],
+        answer: 0,
+        explanation: "Lecture 6 defines concern as a stakeholder's interest regarding architecture description.",
+        questionZh: "concern 是 stakeholder 关于什么的 interest？",
+        answerZh: "关于某系统 architecture description 的 interest。",
+        memory: "Concern = stakeholder 对 architecture description 关心什么。",
+        clue: "关键词 interest of a stakeholder。",
+        explanationZh: "选 A。concern 来自 stakeholder 的目标和系统在这些目标中的角色。",
+        avoid: "B/C/D 都不是 concern 的架构语境。"
+      },
+      {
+        id: 110, lecture: "L6", topic: "Conversation situation",
+        question: "Which situational factor refers to time, actors, intellectual capacities, or financial means available for a conversation?",
+        options: ["Availability of resources", "Plateau", "Business event", "Revenue stream"],
+        answer: 0,
+        explanation: "Availability of resources includes time, actors, intellectual capacity, and financial means.",
+        questionZh: "哪个情境因素指 conversation 可用的时间、参与者、智力能力或资金？",
+        answerZh: "Availability of resources。",
+        memory: "Availability = 有多少资源可用。",
+        clue: "关键词 time、actors、financial means。",
+        explanationZh: "选 A。它影响应该采用什么 conversation strategy。",
+        avoid: "B/C/D 是 ArchiMate 或 BMC 概念。"
+      },
+      {
+        id: 111, lecture: "L6", topic: "Conversation situation",
+        question: "Heterogeneity and quantity of actors are examples of which conversation-situation factor?",
+        options: ["Complexity", "Outcome", "Contract", "Value proposition"],
+        answer: 0,
+        explanation: "Lecture 6 lists actor heterogeneity and quantity as complexity factors.",
+        questionZh: "参与者异质性和数量属于哪种 conversation 情境因素？",
+        answerZh: "Complexity。",
+        memory: "Complexity = 人多、人杂、技术复杂、知识复杂、差距大。",
+        clue: "关键词 heterogeneity、quantity of actors。",
+        explanationZh: "选 A。复杂度会影响沟通策略选择。",
+        avoid: "B/C/D 是结果、合同或 BMC 概念。"
+      },
+      {
+        id: 112, lecture: "L6", topic: "Knowledge goals",
+        question: "Which knowledge goal typically leads to training or awareness sessions?",
+        options: ["Introduction of knowledge", "Commitment to knowledge", "Agreement to knowledge", "Gap analysis"],
+        answer: 0,
+        explanation: "Introduction of knowledge often leads to training or awareness sessions.",
+        questionZh: "哪类知识目标通常会导向 training 或 awareness sessions？",
+        answerZh: "Introduction of knowledge。",
+        memory: "Introduction = 先让大家知道，所以 training/awareness。",
+        clue: "关键词 training or awareness sessions。",
+        explanationZh: "选 A。它用于把新知识引入开发共同体。",
+        avoid: "B 是让人按知识行动，C 是让人达成一致，D 是迁移分析。"
+      },
+      {
+        id: 113, lecture: "L6", topic: "Knowledge goals",
+        question: "Which knowledge goal goes beyond agreement and requires stakeholders to act on the knowledge?",
+        options: ["Commitment to knowledge", "Introduction of knowledge", "Aware state", "Mailing"],
+        answer: 0,
+        explanation: "Commitment requires stakeholders to act according to agreed knowledge.",
+        questionZh: "哪类知识目标超越 agreement，并要求 stakeholder 按该知识行动？",
+        answerZh: "Commitment to knowledge。",
+        memory: "Committed = 不只是同意，还要按它行动。",
+        clue: "关键词 beyond agreement、act upon。",
+        explanationZh: "选 A。commitment 是比 agreement 更强的知识目标。",
+        avoid: "B 只是引入知识，C 是状态，D 是沟通方式。"
+      },
+      {
+        id: 114, lecture: "L6", topic: "Conversation techniques",
+        question: "A brown-paper session is best described as:",
+        options: ["A structured brainstorm-like group session using collected items", "A one-way mass email", "A platform-specific model transformation", "A financial audit"],
+        answer: 0,
+        explanation: "Lecture 6 defines brown-paper session as a structured brainstorm-like group session.",
+        questionZh: "brown-paper session 最准确是什么？",
+        answerZh: "结构化的头脑风暴式小组会议，用收集到的关键词/短语进行整理。",
+        memory: "Brown-paper = group brainstorm + collect/categorize items。",
+        clue: "关键词 brainstorm-like、group session、items。",
+        explanationZh: "选 A。它通常最多约 15 人，围绕问题收集和整理条目。",
+        avoid: "B 是 mailing，C 是 MDA，D 是审计。"
+      },
+      {
+        id: 115, lecture: "L6", topic: "Conversation techniques",
+        question: "An elicitation interview aims to:",
+        options: ["Gather knowledge from informants", "Select one architecture alternative formally", "Mail a model to many people", "Create a physical distribution network"],
+        answer: 0,
+        explanation: "Elicitation interviews gather knowledge by asking informative questions.",
+        questionZh: "elicitation interview 的目标是什么？",
+        answerZh: "从 informants 那里收集知识。",
+        memory: "Elicitation = 访谈收集信息。",
+        clue: "关键词 analyst asks informative questions。",
+        explanationZh: "选 A。它可以较开放或较聚焦。",
+        avoid: "B 是 committing review，C 是 mailing，D 是物理概念。"
+      },
+      {
+        id: 116, lecture: "L6", topic: "Conversation techniques",
+        question: "A validation interview is typically more closed because it checks whether:",
+        options: ["A view or model matches the informant's views and expectations", "A customer segment pays invoices", "A platform model compiles", "A revenue stream is profitable"],
+        answer: 0,
+        explanation: "Validation interviews check whether a view or model matches an informant's views and expectations.",
+        questionZh: "validation interview 通常更封闭，因为它检查什么？",
+        answerZh: "某个 view 或 model 是否符合 informant 的看法和期望。",
+        memory: "Validation = 检查模型对不对。",
+        clue: "关键词 matches views and expectations。",
+        explanationZh: "选 A。它需要系统性地验证模型或视图的有效性。",
+        avoid: "B/C/D 不是 validation interview 的目标。"
+      },
+      {
+        id: 117, lecture: "L6", topic: "Conversation techniques",
+        question: "Which technique involves one to three people presenting a model or view to a group of up to about a hundred people?",
+        options: ["Presentation", "Elicitation interview", "Brown-paper session", "Committing review"],
+        answer: 0,
+        explanation: "Presentation involves one to three presenters and a larger audience.",
+        questionZh: "哪种技术是一到三个人向最多约一百人的群体展示模型或视图？",
+        answerZh: "Presentation。",
+        memory: "Presentation = 少数人讲给大群体听。",
+        clue: "关键词 one to three people、up to a hundred。",
+        explanationZh: "选 A。反馈通常之后以更个人化方式收集。",
+        avoid: "B 是一对一/少数访谈，C 是小组头脑风暴，D 是正式承诺选择。"
+      },
+      {
+        id: 118, lecture: "L6", topic: "Conversation techniques",
+        question: "Mailing is best described as:",
+        options: ["Mass communication where a model or view is handed over to many people", "A joint modelling workshop", "A formal architecture alternative decision", "A maturity level"],
+        answer: 0,
+        explanation: "Mailing is mass communication of a model or view to a large number of people.",
+        questionZh: "mailing 最准确是什么？",
+        answerZh: "把模型或视图交给大量人员的一种 mass communication。",
+        memory: "Mailing = mass distribution of model/view。",
+        clue: "关键词 mass communication、large number of people。",
+        explanationZh: "选 A。它可能鼓励反馈，也可能不鼓励。",
+        avoid: "B 是 workshop，C 是 committing review，D 是成熟度。"
+      },
+      {
+        id: 119, lecture: "L6", topic: "ArchiMate need",
+        question: "One reason for an enterprise architecture modelling language is that architects in different domains often use:",
+        options: ["Their own description techniques and conventions", "Exactly the same language", "Only legal documents", "Only financial charts"],
+        answer: 0,
+        explanation: "Lecture 6 says architects in different domains often use their own description techniques and conventions.",
+        questionZh: "为什么需要企业架构建模语言？一个原因是不同领域架构师经常使用什么？",
+        answerZh: "各自的描述技术和约定。",
+        memory: "Need ArchiMate = domains use different techniques, hard to integrate。",
+        clue: "关键词 different domains、own description techniques。",
+        explanationZh: "选 A。统一语言有助于跨领域表达和集成。",
+        avoid: "B 与问题相反，C/D 太窄。"
+      },
+      {
+        id: 120, lecture: "L6", topic: "ArchiMate integration",
+        question: "The enterprise architecture modelling language provides a means for integration by allowing models to show high-level structures within domains and:",
+        options: ["Relations between domains", "Only tax numbers", "Only personal preferences", "Only raw source code"],
+        answer: 0,
+        explanation: "Lecture 6 says it shows high-level structures within domains and relations between domains.",
+        questionZh: "企业架构建模语言如何提供集成手段？它允许模型显示领域内高层结构以及什么？",
+        answerZh: "领域之间的关系。",
+        memory: "ArchiMate integration = structures within domains + relations between domains。",
+        clue: "关键词 integration、relations between domains。",
+        explanationZh: "选 A。这正是解决跨业务/应用/技术层对齐问题的关键。",
+        avoid: "B/C/D 都不是架构集成关注点。"
+      },
+      {
+        id: 121, lecture: "L6", topic: "ArchiMate premise",
+        question: "A premise of ArchiMate is that the general structure of models across different layers is:",
+        options: ["Similar", "Completely unrelated", "Only financial", "Always informal"],
+        answer: 0,
+        explanation: "ArchiMate assumes similar general structures across layers, enabling alignment.",
+        questionZh: "ArchiMate 的一个前提是不同层模型的一般结构是怎样的？",
+        answerZh: "相似的。",
+        memory: "ArchiMate 层间可对齐，因为结构相似。",
+        clue: "关键词 general structure、different layers。",
+        explanationZh: "选 A。虽然概念的具体性质和粒度不同，但概念类型和关系相似。",
+        avoid: "B/C/D 都与课件相反。"
+      },
+      {
+        id: 122, lecture: "L6", topic: "Motivation concepts",
+        question: "In ArchiMate motivation concepts, an assessment is:",
+        options: ["The result of analysing the enterprise's state with respect to a driver", "A formal agreement between provider and consumer", "An encapsulation of application functionality", "A physical IT resource"],
+        answer: 0,
+        explanation: "Assessment is the result of analysis of the state of affairs with respect to a driver.",
+        questionZh: "ArchiMate motivation concepts 中 assessment 是什么？",
+        answerZh: "针对某个 driver 分析企业当前状态所得的结果。",
+        memory: "Driver 促使变化；Assessment 分析当前状态。",
+        clue: "关键词 state of affairs、with respect to driver。",
+        explanationZh: "选 A。它属于 motivation 层概念。",
+        avoid: "B 是 contract，C 是 application component，D 是 node/device。"
+      },
+      {
+        id: 123, lecture: "L6", topic: "Motivation concepts",
+        question: "A constraint is best defined as:",
+        options: ["A factor that prevents or obstructs the realization of goals", "An end result already achieved", "A business entity capable of behaviour", "A piece of deployment data"],
+        answer: 0,
+        explanation: "A constraint prevents or obstructs the realization of goals.",
+        questionZh: "constraint 最准确的定义是什么？",
+        answerZh: "阻止或妨碍目标实现的因素。",
+        memory: "Constraint = 卡住 goal 的限制。",
+        clue: "关键词 prevents or obstructs goals。",
+        explanationZh: "选 A。它属于 motivation concepts。",
+        avoid: "B 是 outcome，C 是 business actor，D 是 artefact。"
+      },
+      {
+        id: 124, lecture: "L6", topic: "Strategy concepts",
+        question: "In ArchiMate strategy concepts, a capability is:",
+        options: ["An ability possessed by an active structure element such as an organization, person, or system", "A sequence of technology behaviours", "A point of access for an application service", "A stable architecture state"],
+        answer: 0,
+        explanation: "Capability is an ability possessed by an organization, person, or system.",
+        questionZh: "ArchiMate strategy concepts 中 capability 是什么？",
+        answerZh: "组织、人员或系统等 active structure element 所具备的能力。",
+        memory: "Capability = 能力；Resource = 资产。",
+        clue: "关键词 ability、organization/person/system。",
+        explanationZh: "选 A。capability 用来表达企业能做什么。",
+        avoid: "B 是 technology process，C 是 application interface，D 是 plateau。"
+      },
+      {
+        id: 125, lecture: "L6", topic: "Business structure",
+        question: "A business role is:",
+        options: ["The responsibility for performing specific behaviour to which an actor can be assigned", "A data structure for automated processing", "A computational resource hosting software", "A difference between plateaus"],
+        answer: 0,
+        explanation: "A business role is a responsibility for behaviour, assignable to an actor.",
+        questionZh: "business role 是什么？",
+        answerZh: "执行特定行为的责任，可以分配给某个 actor。",
+        memory: "Actor 是实体；Role 是这个实体扮演的职责。",
+        clue: "关键词 responsibility、actor assigned。",
+        explanationZh: "选 A。比如某个人/组织可以扮演 customer、provider 等角色。",
+        avoid: "B 是 data object，C 是 node，D 是 gap。"
+      },
+      {
+        id: 126, lecture: "L6", topic: "Business behaviour",
+        question: "A business function is:",
+        options: ["A collection of business behaviour based on selected criteria such as resources or competences", "A formal agreement between provider and consumer", "An exposed application behaviour", "A physical network transporting materials"],
+        answer: 0,
+        explanation: "Business function groups business behaviour based on criteria such as resources or competences.",
+        questionZh: "business function 是什么？",
+        answerZh: "基于某些标准（如资源或能力）组织起来的一组业务行为。",
+        memory: "Function = 按能力/资源分组的行为集合；Process = 有顺序达成结果。",
+        clue: "关键词 collection、criteria、resources/competences。",
+        explanationZh: "选 A。它和 business process 不同，process 强调顺序和 outcome。",
+        avoid: "B 是 contract，C 是 application service，D 是 distribution network。"
+      },
+      {
+        id: 127, lecture: "L6", topic: "Application structure",
+        question: "An application component is:",
+        options: ["An encapsulation of application functionality that is modular and replaceable", "A business entity capable of behaviour", "A physical machine", "A customer relationship type"],
+        answer: 0,
+        explanation: "Application component encapsulates application functionality and is modular and replaceable.",
+        questionZh: "application component 是什么？",
+        answerZh: "封装应用功能、模块化且可替换的组件。",
+        memory: "Application component = modular replaceable software functionality。",
+        clue: "关键词 encapsulation、modular、replaceable。",
+        explanationZh: "选 A。它暴露服务并通过接口提供。",
+        avoid: "B 是 business actor，C 是 device/equipment，D 是 BMC。"
+      },
+      {
+        id: 128, lecture: "L6", topic: "Application structure",
+        question: "A data object is:",
+        options: ["Data structured for automated processing", "A business service contract", "A stable architecture state", "A group brainstorm session"],
+        answer: 0,
+        explanation: "Lecture 6 defines data object as data structured for automated processing.",
+        questionZh: "data object 是什么？",
+        answerZh: "为自动化处理而结构化的数据。",
+        memory: "Data object = automated processing 的结构化数据。",
+        clue: "关键词 data、automated processing。",
+        explanationZh: "选 A。它属于 application structure concepts。",
+        avoid: "B 是 contract，C 是 plateau，D 是 brown-paper session。"
+      },
+      {
+        id: 129, lecture: "L6", topic: "Technology structure",
+        question: "A node in the technology layer is:",
+        options: ["A computational or physical resource that hosts, manipulates, or interacts with other resources", "A customer segment", "A business goal", "A project mission statement"],
+        answer: 0,
+        explanation: "Node is a computational or physical resource in the technology layer.",
+        questionZh: "technology layer 中 node 是什么？",
+        answerZh: "托管、操作或与其他计算/物理资源交互的计算或物理资源。",
+        memory: "Node = 技术层承载/交互资源。",
+        clue: "关键词 computational or physical resource。",
+        explanationZh: "选 A。node 可以承载系统软件、设备等技术元素。",
+        avoid: "B 是 BMC，C/D 是 motivation/项目概念。"
+      },
+      {
+        id: 130, lecture: "L6", topic: "Technology alignment",
+        question: "In application-technology alignment, artefacts can realize:",
+        options: ["Data objects and application components", "Customer segments and channels", "BSC missions and measures", "Brown-paper items only"],
+        answer: 0,
+        explanation: "Lecture 6 says artefacts can realize data objects and application components.",
+        questionZh: "在 application-technology alignment 中，artefacts 可以实现什么？",
+        answerZh: "data objects 和 application components。",
+        memory: "Artefact realizes data objects/application components。",
+        clue: "关键词 artefacts can realize。",
+        explanationZh: "选 A。这说明技术层的部署产物如何实现应用层元素。",
+        avoid: "B 是 BMC，C 是 BSC，D 是沟通技术。"
+      }
+    ]);
+
     const LECTURES = [
       {
         id: "L1",
@@ -1316,6 +2513,30 @@
         ]
       }
     ];
+
+    const DISCUSSION_EXTENSIONS = [
+      { lectureId: "L1", title: "Stakeholder / Enterprise", questionIds: [42, 43] },
+      { lectureId: "L1", title: "Why Enterprise Architecture", questionIds: [41, 44, 45, 46, 47, 48] },
+      { lectureId: "L2", title: "Internal / External Drivers", questionIds: [50, 51, 52, 53, 54, 55, 56, 57] },
+      { lectureId: "L2", title: "Good Enterprise Architecture", questionIds: [49, 58, 59] },
+      { lectureId: "L3", title: "ISO 9001 vs EFQM", questionIds: [63, 64, 65] },
+      { lectureId: "L3", title: "ITIL vs COBIT", questionIds: [66, 67, 68, 69, 70, 71, 72] },
+      { lectureId: "L4", title: "TOGAF vs Zachman", questionIds: [78, 79, 80, 81] },
+      { lectureId: "L4", title: "BPMN vs UML vs IDEF", questionIds: [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94] },
+      { lectureId: "L5", title: "Integrating EA Domains", questionIds: [95, 96, 97, 98, 99, 100, 101, 102, 103, 104] },
+      { lectureId: "L5", title: "Symbolic / Semantic Integration", questionIds: [105] },
+      { lectureId: "L6", title: "Communication-focused EA Theories", questionIds: [106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118] },
+      { lectureId: "L6", title: "BMC to ArchiMate / ArchiMate Concepts", questionIds: [119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130] }
+    ];
+
+    DISCUSSION_EXTENSIONS.forEach(({ lectureId, title, questionIds }) => {
+      const lecture = LECTURES.find((item) => item.id === lectureId);
+      const discussion = lecture?.discussions.find((item) => item.title === title);
+      if (!discussion) return;
+      const existing = new Set(discussion.questionIds || []);
+      questionIds.forEach((id) => existing.add(id));
+      discussion.questionIds = [...existing].sort((a, b) => a - b);
+    });
 
     const TRANSLATIONS = {
       1: {
@@ -1838,6 +3059,7 @@
       progressBar: document.getElementById("progressBar"),
       allModeBtn: document.getElementById("allModeBtn"),
       unansweredBtn: document.getElementById("unansweredBtn"),
+      discussionBtn: document.getElementById("discussionBtn"),
       shuffleBtn: document.getElementById("shuffleBtn"),
       wrongBtn: document.getElementById("wrongBtn"),
       resetBtn: document.getElementById("resetBtn"),
@@ -1874,6 +3096,9 @@
         if (saved.lecture === "all" || LECTURES.some((lecture) => lecture.id === saved.lecture)) {
           state.lecture = saved.lecture;
         }
+        if (["all", "wrong", "unanswered", "discussion"].includes(saved.mode)) {
+          state.mode = saved.mode;
+        }
       } catch {
         localStorage.removeItem(STORAGE_KEY);
       }
@@ -1883,6 +3108,7 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         order: state.order,
         current: state.current,
+        mode: state.mode,
         lecture: state.lecture,
         answers: state.answers
       }));
@@ -1927,9 +3153,22 @@
       );
     }
 
+    function isDiscussionQuestion(questionId) {
+      return getQuestionDiscussions(questionId).length > 0;
+    }
+
     function getQuestionSearchText(q) {
-      const zh = TRANSLATIONS[q.id] || {};
-      const human = HUMAN_EXPLANATIONS[q.id] || {};
+      const zh = TRANSLATIONS[q.id] || {
+        questionZh: q.questionZh,
+        answerZh: q.answerZh,
+        explanationZh: q.explanationZh
+      };
+      const human = HUMAN_EXPLANATIONS[q.id] || q.human || {
+        ask: q.ask,
+        clue: q.clue,
+        choose: q.choose,
+        avoid: q.avoid
+      };
       const discussions = getQuestionDiscussions(q.id);
       return [
         q.topic,
@@ -1940,6 +3179,7 @@
         zh.answerZh,
         zh.explanationZh,
         MEMORY_TIPS[q.id],
+        q.memory,
         human.ask,
         human.clue,
         human.choose,
@@ -1963,7 +3203,8 @@
         const matchesMode =
           state.mode === "all" ||
           (state.mode === "wrong" && record && !record.correct) ||
-          (state.mode === "unanswered" && !record);
+          (state.mode === "unanswered" && !record) ||
+          (state.mode === "discussion" && isDiscussionQuestion(id));
         const matchesLecture = questionMatchesLecture(id);
         const matchesSearch = !term || getQuestionSearchText(q).includes(term);
         return matchesMode && matchesLecture && matchesSearch;
@@ -2006,6 +3247,7 @@
       els.allModeBtn.classList.toggle("primary", state.mode === "all");
       els.unansweredBtn.classList.toggle("primary", state.mode === "unanswered");
       els.wrongBtn.classList.toggle("primary", state.mode === "wrong");
+      els.discussionBtn.classList.toggle("primary", state.mode === "discussion");
     }
 
     function renderLectureFilters() {
@@ -2039,7 +3281,7 @@
           ${LECTURES.map((lecture) => `
             <div class="guide-card">
               <strong>${escapeHtml(lecture.label)} · ${escapeHtml(lecture.summary)}</strong>
-              <span class="guide-meta">${escapeHtml(lecture.discussions.map((item) => `${item.page} ${item.title}`).join("；"))}</span>
+              <span class="guide-meta">本讲题数：${getLectureProgress(lecture.id).total} 题；${escapeHtml(lecture.discussions.map((item) => `${item.page} ${item.title}`).join("；"))}</span>
               <span class="guide-focus">${escapeHtml(lecture.examFocus)}</span>
             </div>
           `).join("")}
@@ -2084,9 +3326,11 @@
         if (index === state.current) button.classList.add("current");
         if (record && record.correct) button.classList.add("correct");
         if (record && !record.correct) button.classList.add("wrong");
+        if (isDiscussionQuestion(id)) button.classList.add("discussion");
         const lecture = getLectureForQuestion(id);
+        const discussionTitle = getQuestionDiscussions(id).map((item) => item.title).join(" / ");
         button.textContent = String(id);
-        button.title = `Question ${id} · ${lecture?.title || "Lecture"} · ${q.topic}`;
+        button.title = `Question ${id} · ${lecture?.title || "Lecture"} · ${q.topic}${discussionTitle ? ` · Discussion: ${discussionTitle}` : ""}`;
         button.addEventListener("click", () => {
           state.current = index;
           saveState();
@@ -2120,7 +3364,7 @@
       const discussionText = discussions.length
         ? discussions.map(({ lecture: itemLecture, page, title }) => `${itemLecture.label} ${page} · ${title}`).join("；")
         : `${lecture?.label || "Lecture"} 基础定义/组件清单`;
-      els.topicTag.textContent = `${lecture?.title || "Lecture"} · ${q.topic}`;
+      els.topicTag.textContent = `${lecture?.title || "Lecture"} · ${q.topic}${discussions.length ? " · Discussion" : ""}`;
       els.questionIndex.textContent = `Question ${q.id} | ${state.current + 1} of ${ids.length}`;
       els.questionText.textContent = q.question;
       els.memoryCard.innerHTML = record
@@ -2214,6 +3458,7 @@
     function setMode(mode) {
       state.mode = mode;
       state.current = 0;
+      saveState();
       render();
     }
 
@@ -2226,6 +3471,7 @@
 
     els.allModeBtn.addEventListener("click", () => setMode("all"));
     els.unansweredBtn.addEventListener("click", () => setMode("unanswered"));
+    els.discussionBtn.addEventListener("click", () => setMode("discussion"));
     els.wrongBtn.addEventListener("click", () => setMode("wrong"));
     els.shuffleBtn.addEventListener("click", shuffleOrder);
     els.resetBtn.addEventListener("click", () => {
