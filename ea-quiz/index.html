@@ -481,6 +481,21 @@
       font-size: 13px;
     }
 
+    .guide-card.mastered {
+      border-color: #9ad7b0;
+      background: #f1fbf5;
+    }
+
+    .guide-card.warning {
+      border-color: #e7c85c;
+      background: #fff9df;
+    }
+
+    .guide-card.danger {
+      border-color: #e59287;
+      background: #fff1ef;
+    }
+
     .guide-card strong,
     .guide-card span {
       display: block;
@@ -622,7 +637,7 @@
     <header class="topbar">
       <div class="title">
         <h1>EA 期末刷题</h1>
-        <p>60 道正式考试风格单选，按 Lecture 1-6 覆盖核心概念、易混点和 Discussion 考点。</p>
+        <p>Discussion 高优先级，但完整题库同时保留普通 PPT 核心题和跨概念应用题。</p>
       </div>
       <div class="toolbar">
         <button class="btn" id="shuffleBtn" type="button">随机顺序</button>
@@ -634,7 +649,7 @@
     <section class="layout">
       <aside class="side">
         <div class="stats" aria-live="polite">
-          <div class="stat"><span>已答</span><strong id="answeredStat">0/60</strong></div>
+          <div class="stat"><span>已答</span><strong id="answeredStat">0/120</strong></div>
           <div class="stat"><span>正确率</span><strong id="accuracyStat">0%</strong></div>
           <div class="stat"><span>正确</span><strong id="correctStat">0</strong></div>
           <div class="stat"><span>错题</span><strong id="wrongStat">0</strong></div>
@@ -644,6 +659,10 @@
           <button class="btn primary" id="allModeBtn" type="button">全部题目</button>
           <button class="btn" id="unansweredBtn" type="button">未答题</button>
           <button class="btn" id="discussionBtn" type="button">Discussion 题</button>
+          <button class="btn" id="coreBtn" type="button">Core PPT 题</button>
+          <button class="btn" id="mockBtn" type="button">Full Mock 40</button>
+          <button class="btn" id="masteryBtn" type="button">Discussion Mastery</button>
+          <button class="btn" id="weaknessBtn" type="button">Discussion Weakness</button>
         </div>
         <div class="lecture-section">
           <div class="lecture-title">逐 Lecture 刷题 <span>按老师 Discussion 抓考点</span></div>
@@ -665,7 +684,7 @@
         <article id="questionCard">
           <div class="question-head">
             <span class="tag" id="topicTag">Topic</span>
-            <span class="question-index" id="questionIndex">Question 1 of 60</span>
+            <span class="question-index" id="questionIndex">Question 1 of 120</span>
           </div>
           <h2 class="question" id="questionText"></h2>
           <div class="memory-card" id="memoryCard"></div>
@@ -3039,11 +3058,12 @@
       }
     };
 
-    const STORAGE_KEY = "ea-final-quiz-state-v4";
+    const STORAGE_KEY = "ea-final-quiz-state-v6";
     const letters = ["A", "B", "C", "D"];
 
     const state = {
       order: QUESTIONS.map((q) => q.id),
+      mockOrder: [],
       current: 0,
       mode: "all",
       lecture: "all",
@@ -3060,6 +3080,10 @@
       allModeBtn: document.getElementById("allModeBtn"),
       unansweredBtn: document.getElementById("unansweredBtn"),
       discussionBtn: document.getElementById("discussionBtn"),
+      coreBtn: document.getElementById("coreBtn"),
+      mockBtn: document.getElementById("mockBtn"),
+      masteryBtn: document.getElementById("masteryBtn"),
+      weaknessBtn: document.getElementById("weaknessBtn"),
       shuffleBtn: document.getElementById("shuffleBtn"),
       wrongBtn: document.getElementById("wrongBtn"),
       resetBtn: document.getElementById("resetBtn"),
@@ -3096,7 +3120,10 @@
         if (saved.lecture === "all" || LECTURES.some((lecture) => lecture.id === saved.lecture)) {
           state.lecture = saved.lecture;
         }
-        if (["all", "wrong", "unanswered", "discussion"].includes(saved.mode)) {
+        if (Array.isArray(saved.mockOrder)) {
+          state.mockOrder = saved.mockOrder.filter((id) => QUESTIONS.some((q) => q.id === id));
+        }
+        if (["all", "wrong", "unanswered", "discussion", "core", "mock", "mastery", "discussionWeak"].includes(saved.mode)) {
           state.mode = saved.mode;
         }
       } catch {
@@ -3107,6 +3134,7 @@
     function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         order: state.order,
+        mockOrder: state.mockOrder,
         current: state.current,
         mode: state.mode,
         lecture: state.lecture,
@@ -3144,6 +3172,18 @@
     }
 
     function getQuestionDiscussions(questionId) {
+      const question = getQuestionById(questionId);
+      if (question?.discussion === true) {
+        const lecture = getLectureById(question.discussionLecture || question.lecture);
+        return [{
+          lecture,
+          page: question.discussionPage,
+          title: question.discussionTopic,
+          tip: question.discussionRole === "prerequisite" ? "Discussion prerequisite" : "Direct Discussion practice",
+          questionIds: [question.id],
+          crossRefIds: []
+        }];
+      }
       return LECTURES.flatMap((lecture) => lecture.discussions
         .filter((discussion) =>
           (discussion.questionIds || []).includes(questionId) ||
@@ -3155,6 +3195,32 @@
 
     function isDiscussionQuestion(questionId) {
       return getQuestionDiscussions(questionId).length > 0;
+    }
+
+    function isCoreQuestion(questionId) {
+      return !isDiscussionQuestion(questionId);
+    }
+
+    function getDiscussionKey(question) {
+      if (!question?.discussion) return "";
+      return `${question.discussionLecture}|${question.discussionPage}|${question.discussionTopic}`;
+    }
+
+    function getDiscussionTopicStats() {
+      return STRICT_DISCUSSION_MAP.map((entry) => {
+        const ids = entry.ids.filter((id) => getQuestionById(id));
+        const answered = ids.filter((id) => state.answers[id]).length;
+        const correct = ids.filter((id) => state.answers[id]?.correct).length;
+        const accuracy = answered ? Math.round((correct / answered) * 100) : 0;
+        const status = !answered ? "unstarted" : accuracy < 60 ? "danger" : accuracy < 80 ? "warning" : "mastered";
+        return { ...entry, ids, answered, correct, total: ids.length, accuracy, status };
+      });
+    }
+
+    function getWeakDiscussionKeys() {
+      return new Set(getDiscussionTopicStats()
+        .filter((item) => item.answered > 0 && item.accuracy < 80)
+        .map((item) => `${item.lecture}|${item.page}|${item.topic}`));
     }
 
     function getQuestionSearchText(q) {
@@ -3197,14 +3263,24 @@
 
     function filteredIds() {
       const term = state.search.trim().toLowerCase();
-      return state.order.filter((id) => {
+      const weakDiscussionKeys = getWeakDiscussionKeys();
+      if (state.mode === "mock" && state.mockOrder.length !== 40) {
+        state.mockOrder = buildMockExamOrder();
+      }
+      const orderedIds = state.mode === "mock" ? state.mockOrder : state.order;
+      return orderedIds.filter((id) => {
         const q = getQuestionById(id);
         const record = state.answers[id];
+        const discussionKey = getDiscussionKey(q);
         const matchesMode =
           state.mode === "all" ||
+          state.mode === "mock" ||
           (state.mode === "wrong" && record && !record.correct) ||
           (state.mode === "unanswered" && !record) ||
-          (state.mode === "discussion" && isDiscussionQuestion(id));
+          (state.mode === "discussion" && isDiscussionQuestion(id)) ||
+          (state.mode === "core" && isCoreQuestion(id)) ||
+          (state.mode === "mastery" && isDiscussionQuestion(id)) ||
+          (state.mode === "discussionWeak" && isDiscussionQuestion(id) && ((record && !record.correct) || weakDiscussionKeys.has(discussionKey)));
         const matchesLecture = questionMatchesLecture(id);
         const matchesSearch = !term || getQuestionSearchText(q).includes(term);
         return matchesMode && matchesLecture && matchesSearch;
@@ -3229,7 +3305,7 @@
     }
 
     function renderStats() {
-      const ids = idsForLecture(state.lecture);
+      const ids = state.mode === "mock" ? filteredIds() : idsForLecture(state.lecture);
       const records = ids.map((id) => state.answers[id]).filter(Boolean);
       const answered = records.length;
       const correct = records.filter((r) => r.correct).length;
@@ -3248,6 +3324,10 @@
       els.unansweredBtn.classList.toggle("primary", state.mode === "unanswered");
       els.wrongBtn.classList.toggle("primary", state.mode === "wrong");
       els.discussionBtn.classList.toggle("primary", state.mode === "discussion");
+      els.coreBtn.classList.toggle("primary", state.mode === "core");
+      els.mockBtn.classList.toggle("primary", state.mode === "mock");
+      els.masteryBtn.classList.toggle("primary", state.mode === "mastery");
+      els.weaknessBtn.classList.toggle("primary", state.mode === "discussionWeak");
     }
 
     function renderLectureFilters() {
@@ -3275,16 +3355,21 @@
     }
 
     function renderLectureGuide() {
+      const topicStats = getDiscussionTopicStats()
+        .filter((item) => state.lecture === "all" || item.lecture === state.lecture);
+      const topicCards = topicStats.map((item) => `
+        <div class="guide-card ${item.status === "unstarted" ? "" : item.status}">
+          <strong>${escapeHtml(`${item.lecture} ${item.page} · ${item.topic}`)}</strong>
+          <span class="guide-meta">正确：${item.correct}/${item.total}；已答：${item.answered}/${item.total}；正确率：${item.answered ? `${item.accuracy}%` : "未开始"}</span>
+          <span>${escapeHtml(item.status === "danger" ? "低于 60%，优先补这一组。" : item.status === "warning" ? "低于 80%，建议进入 Weakness 模式。" : item.status === "mastered" ? "当前掌握度达标。" : "尚未作答。")}</span>
+          <span class="guide-questions">覆盖题：${escapeHtml(questionRefs(item.ids))}</span>
+        </div>
+      `).join("");
+
       if (state.lecture === "all") {
         els.lectureGuide.innerHTML = `
-          <div class="guide-title">Lecture Discussion 考点总览</div>
-          ${LECTURES.map((lecture) => `
-            <div class="guide-card">
-              <strong>${escapeHtml(lecture.label)} · ${escapeHtml(lecture.summary)}</strong>
-              <span class="guide-meta">本讲题数：${getLectureProgress(lecture.id).total} 题；${escapeHtml(lecture.discussions.map((item) => `${item.page} ${item.title}`).join("；"))}</span>
-              <span class="guide-focus">${escapeHtml(lecture.examFocus)}</span>
-            </div>
-          `).join("")}
+          <div class="guide-title">Discussion Mastery Map</div>
+          ${topicCards}
         `;
         return;
       }
@@ -3303,14 +3388,7 @@
           <span class="guide-meta">当前 Lecture 进度：${progress.answered}/${progress.total} 已答，${progress.correct} 正确，${progress.wrong} 错题</span>
           <span class="guide-focus">${escapeHtml(lecture.examFocus)}</span>
         </div>
-        ${lecture.discussions.map((item) => `
-          <div class="guide-card">
-            <strong>${escapeHtml(item.page)} · ${escapeHtml(item.title)}</strong>
-            <span>${escapeHtml(item.tip)}</span>
-            ${item.questionIds?.length ? `<span class="guide-questions">覆盖题：${escapeHtml(questionRefs(item.questionIds))}</span>` : ""}
-            ${item.crossRefIds?.length ? `<span class="guide-questions">交叉复习：${escapeHtml(questionRefs(item.crossRefIds))}</span>` : ""}
-          </div>
-        `).join("")}
+        ${topicCards}
       `;
     }
 
@@ -3450,7 +3528,7 @@
           avoid: q.avoid || "其他选项通常属于别的框架，或把概念范围说得太大/太小。"
         };
         const zhBlock = `
-          <div><strong>对应 Discussion</strong><span>${escapeHtml(discussionText)}</span></div>
+          <div><strong>${discussions.length ? "对应 Discussion" : "题目来源"}</strong><span>${escapeHtml(discussionText)}</span></div>
           <div><strong>速记</strong><span>${escapeHtml(memoryTip)}</span></div>
           <div><strong>题目翻译</strong><span>${escapeHtml(cleanQuestionTranslation(zh.questionZh || q.questionZh || q.question) || "暂无翻译")}</span></div>
           <div><strong>正确答案翻译</strong><span>${correctLetter}. ${escapeHtml(zh.answerZh || q.options[q.answer])}</span></div>
@@ -3493,19 +3571,55 @@
     }
 
     function shuffleOrder() {
-      const next = [...state.order];
+      const target = state.mode === "mock" ? state.mockOrder : state.order;
+      const next = [...target];
       for (let i = next.length - 1; i > 0; i -= 1) {
         const j = Math.floor(Math.random() * (i + 1));
         [next[i], next[j]] = [next[j], next[i]];
       }
-      state.order = next;
+      if (state.mode === "mock") state.mockOrder = next;
+      else state.order = next;
       state.current = 0;
       saveState();
       render();
     }
 
+    function shuffledIds(ids) {
+      const next = [...ids];
+      for (let i = next.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [next[i], next[j]] = [next[j], next[i]];
+      }
+      return next;
+    }
+
+    function sampleIds(predicate, count, excluded) {
+      const pool = shuffledIds(QUESTIONS.filter((q) => predicate(q) && !excluded.has(q.id)).map((q) => q.id));
+      const picked = pool.slice(0, count);
+      picked.forEach((id) => excluded.add(id));
+      return picked;
+    }
+
+    function buildMockExamOrder() {
+      const excluded = new Set();
+      const picked = [
+        ...sampleIds((q) => q.sourceType === "discussion", 16, excluded),
+        ...sampleIds((q) => q.sourceType === "discussion-prerequisite", 8, excluded),
+        ...sampleIds((q) => q.sourceType === "core", 12, excluded),
+        ...sampleIds((q) => q.sourceType === "application", 4, excluded)
+      ];
+      if (picked.length < 40) {
+        picked.push(...sampleIds((q) => true, 40 - picked.length, excluded));
+      }
+      return shuffledIds(picked).slice(0, 40);
+    }
+
     function setMode(mode) {
       state.mode = mode;
+      if (mode === "mock") {
+        state.lecture = "all";
+        state.mockOrder = buildMockExamOrder();
+      }
       state.current = 0;
       saveState();
       render();
@@ -3521,6 +3635,10 @@
     els.allModeBtn.addEventListener("click", () => setMode("all"));
     els.unansweredBtn.addEventListener("click", () => setMode("unanswered"));
     els.discussionBtn.addEventListener("click", () => setMode("discussion"));
+    els.coreBtn.addEventListener("click", () => setMode("core"));
+    els.mockBtn.addEventListener("click", () => setMode("mock"));
+    els.masteryBtn.addEventListener("click", () => setMode("mastery"));
+    els.weaknessBtn.addEventListener("click", () => setMode("discussionWeak"));
     els.wrongBtn.addEventListener("click", () => setMode("wrong"));
     els.shuffleBtn.addEventListener("click", shuffleOrder);
     els.resetBtn.addEventListener("click", () => {
@@ -5174,18 +5292,819 @@
       const question = getQuestionById(Number(id));
       if (question) Object.assign(question, rewrite);
     });
+
+    const STRICT_DISCUSSION_MAP = [
+      { lecture: "L1", page: "p10", topic: "Stakeholder / Enterprise", ids: [2, 3, 5, 6, 7] },
+      { lecture: "L1", page: "p16", topic: "Why Enterprise Architecture", ids: [1, 4, 8, 9, 10] },
+      { lecture: "L2", page: "p13", topic: "Internal / External Drivers", ids: [12, 13, 14, 15, 16] },
+      { lecture: "L2", page: "p28", topic: "Good Enterprise Architecture", ids: [11, 17, 18, 19, 20] },
+      { lecture: "L3", page: "p10", topic: "ISO 9001 vs EFQM", ids: [21, 22, 23, 61, 62] },
+      { lecture: "L3", page: "p18", topic: "ITIL vs COBIT", ids: [24, 25, 26, 27, 28, 63, 64, 65] },
+      { lecture: "L4", page: "p6", topic: "TOGAF vs Zachman", ids: [29, 30, 31, 32, 66] },
+      { lecture: "L4", page: "p20", topic: "BPMN vs UML vs IDEF", ids: [33, 34, 35, 36, 37, 38, 39, 40] },
+      { lecture: "L5", page: "p11", topic: "Integrating EA Domains", ids: [41, 42, 43, 44, 46, 47, 48, 49, 50] },
+      { lecture: "L5", page: "p21", topic: "Symbolic / Semantic Integration", ids: [45, 67, 68, 69, 70] },
+      { lecture: "L6", page: "p14", topic: "EA Practice and Communication", ids: [51, 52, 53, 54, 55] },
+      { lecture: "L6", page: "p54", topic: "BMC to ArchiMate", ids: [56, 57, 58, 59, 60, 71, 72, 73, 74, 75] }
+    ];
+
+    const SUPPLEMENTAL_DISCUSSION_QUESTIONS = [
+      {
+        id: 61, lecture: "L3", topic: "EFQM enablers/results",
+        question: "Which set contains only EFQM enablers rather than results?",
+        options: ["Leadership, strategy, people, partnerships and resources, processes", "Customer results, people results, society results, business results", "Financial, customer, internal process, learning and growth", "Evaluate/direct/monitor, align/plan/organise, build/acquire/implement"],
+        answer: 0,
+        explanation: "EFQM enablers describe what the organization does; results describe what it achieves.",
+        questionZh: "哪组只包含 EFQM enablers，而不是 results？",
+        answerZh: "Leadership、strategy、people、partnerships and resources、processes。",
+        memory: "EFQM enablers = 领战人资流。",
+        clue: "enablers 是组织做什么；results 是组织取得什么。",
+        explanationZh: "正确项是 EFQM 五个 enablers；其他选项分别是 EFQM results、BSC 四视角和 COBIT 域。"
+      },
+      {
+        id: 62, lecture: "L3", topic: "ISO/EFQM performance impact",
+        question: "Which statement best explains how EFQM supports performance improvement?",
+        options: ["It provides measures and indicators for benchmarking and improvement", "It specifies documented quality procedures for certification and audit review", "It models business process hand-offs using events, tasks, and gateways", "It defines platform-independent and platform-specific software model mappings"],
+        answer: 0,
+        explanation: "EFQM uses measurements, benchmarking, learning, innovation, and improvement.",
+        questionZh: "哪一项最能说明 EFQM 如何支持绩效改进？",
+        answerZh: "它提供用于标杆比较和持续改进的衡量指标。",
+        memory: "EFQM = performance measurement + benchmarking + improvement。",
+        clue: "benchmarking、continuous improvement。",
+        explanationZh: "正确项对应 EFQM；其他选项分别更像 ISO 9001、BPMN 和 MDA。"
+      },
+      {
+        id: 63, lecture: "L3", topic: "ITIL Service Support",
+        question: "Which activity is most closely associated with ITIL Service Support?",
+        options: ["Incident management", "Value proposition design", "Zachman cell classification", "CIM-to-PIM transformation"],
+        answer: 0,
+        explanation: "Incident management is a classic ITIL Service Support practice.",
+        questionZh: "哪项活动最接近 ITIL Service Support？",
+        answerZh: "Incident management。",
+        memory: "ITIL Service Support 常见 incident management。",
+        clue: "service support = incident/problem/change/service desk 等运维支持实践。",
+        explanationZh: "正确项是 ITIL；其他选项分别属于 BMC、Zachman 和 MDA。"
+      },
+      {
+        id: 64, lecture: "L3", topic: "ITIL Service Delivery",
+        question: "Which concern fits ITIL Service Delivery better than COBIT control objectives?",
+        options: ["Managing service levels, availability, and IT service continuity", "Classifying enterprise artefacts into what/how/where cells", "Describing inputs, outputs, controls, and mechanisms of a function", "Assessing organizational excellence using enablers and results"],
+        answer: 0,
+        explanation: "ITIL Service Delivery includes service-level, availability, continuity, financial, and capacity management.",
+        questionZh: "哪种关注点更符合 ITIL Service Delivery，而不是 COBIT control objectives？",
+        answerZh: "管理服务等级、可用性和 IT 服务连续性。",
+        memory: "ITIL Service Delivery = service level / availability / continuity。",
+        clue: "service-level、availability、continuity 是 ITIL 服务交付词汇。",
+        explanationZh: "正确项是 ITIL；其他选项分别对应 Zachman、IDEF0 和 EFQM。"
+      },
+      {
+        id: 65, lecture: "L3", topic: "COBIT and ITIL complementarity",
+        question: "Why are COBIT and ITIL complementary rather than mutually exclusive?",
+        options: ["COBIT defines governance/control objectives; ITIL gives practices", "COBIT and ITIL both define customer segments, channels, and revenue streams", "COBIT replaces ITIL because service support is outside governance work", "ITIL replaces COBIT because control objectives are only software diagrams"],
+        answer: 0,
+        explanation: "COBIT frames what should be controlled; ITIL describes how IT service practices can implement it.",
+        questionZh: "为什么 COBIT 和 ITIL 是互补的，而不是互斥的？",
+        answerZh: "COBIT 定义治理/控制目标，ITIL 提供实现 IT 服务的实践。",
+        memory: "COBIT what；ITIL how。",
+        clue: "complementary = governance target + service practice。",
+        explanationZh: "正确项说明互补关系；其他选项错误地把二者等同或替代。"
+      },
+      {
+        id: 66, lecture: "L4", topic: "TOGAF content framework",
+        question: "Which set belongs to TOGAF's Architecture Content Framework?",
+        options: ["Business, data, application, and technology architecture", "What, how, where, who, when, and why dimensions", "Activity, input, output, control, and mechanism elements", "Aware, agreed, and committed knowledge states"],
+        answer: 0,
+        explanation: "TOGAF content considers enterprise architecture as business, data, application, and technology architectures.",
+        questionZh: "哪组属于 TOGAF Architecture Content Framework？",
+        answerZh: "Business、data、application、technology architecture。",
+        memory: "TOGAF 内容四架构：BDAT。",
+        clue: "Business/Data/Application/Technology 指向 TOGAF content。",
+        explanationZh: "正确项是 TOGAF；其他选项分别是 Zachman、IDEF0 和 Lecture 6 沟通知识状态。"
+      },
+      {
+        id: 67, lecture: "L5", topic: "Symbolic model",
+        question: "Which statement best describes a symbolic model?",
+        options: ["It is a syntactic structure using symbols for elements and relations", "It is the real-world organization and operations that the model refers to", "It is a service-management procedure for handling incidents and support", "It is a scorecard perspective for measuring learning and growth"],
+        answer: 0,
+        explanation: "A symbolic model is a syntactic representation using symbols and relations.",
+        questionZh: "哪一项最准确描述 symbolic model？",
+        answerZh: "它是用符号表示模型元素和关系的语法结构。",
+        memory: "Symbolic = syntax / symbols。",
+        clue: "symbolic model 先看符号结构，不等于现实本身。",
+        explanationZh: "正确项强调语法和符号；其他选项是现实对象、ITIL 或 BSC。"
+      },
+      {
+        id: 68, lecture: "L5", topic: "Semantic model",
+        question: "Which statement best describes a semantic model?",
+        options: ["It interprets what symbols in a model mean and can add constraints", "It chooses a colour scheme for visualizing architecture diagrams", "It defines service levels for IT availability and continuity management", "It lists the business model's channels, partners, and revenue streams"],
+        answer: 0,
+        explanation: "Semantic models give meaning to symbolic models and may constrain interpretations.",
+        questionZh: "哪一项最准确描述 semantic model？",
+        answerZh: "它解释模型符号的含义，并可加入约束。",
+        memory: "Semantic = meaning / interpretation / constraints。",
+        clue: "meaning、constraints 指向 semantic。",
+        explanationZh: "正确项是语义模型；其他选项分别是可视化、ITIL 和 BMC。"
+      },
+      {
+        id: 69, lecture: "L5", topic: "Syntax vs semantics",
+        question: "Two diagrams use the same graphical symbol but attach different meanings to it. Which distinction is most relevant?",
+        options: ["Syntax may look the same while semantics differ", "COBIT and ITIL are always identical", "BSC and BMC use the same four perspectives", "A plateau and a gap are the same migration concept"],
+        answer: 0,
+        explanation: "Syntax concerns form; semantics concerns meaning.",
+        questionZh: "两个图使用相同图形符号，但赋予不同含义，最相关的区别是什么？",
+        answerZh: "syntax 可能相同，但 semantics 不同。",
+        memory: "Syntax = 形式；semantics = 含义。",
+        clue: "same symbol, different meaning。",
+        explanationZh: "正确项区分形式和含义；其他选项是错误等同。"
+      },
+      {
+        id: 70, lecture: "L5", topic: "Visualization vs meaning",
+        question: "Why is visual integration alone insufficient for model integration?",
+        options: ["Diagrams may look connected while meanings remain inconsistent", "Visual diagrams always remove the need for stakeholder interpretation", "Model integration only means using the same font and colour palette", "Semantic consistency is relevant only to database normalization"],
+        answer: 0,
+        explanation: "Model integration requires semantic consistency, not just visual similarity.",
+        questionZh: "为什么只做视觉上的整合不足以完成模型整合？",
+        answerZh: "因为图看起来连上了，但底层含义和约束仍可能不一致。",
+        memory: "Integration 不只是看起来连上，还要 meaning 对得上。",
+        clue: "visual integration vs semantic integration。",
+        explanationZh: "正确项强调语义一致性；其他选项低估了 interpretation 和 constraints。"
+      },
+      {
+        id: 71, lecture: "L6", topic: "BMC to ArchiMate value proposition",
+        question: "When mapping BMC to ArchiMate, value proposition is most closely related to:",
+        options: ["Value, goal, requirement, or business service concepts", "Technology nodes and physical device deployment only", "Incident queues and service-desk escalation paths only", "CMMI maturity levels and quantitative control objectives only"],
+        answer: 0,
+        explanation: "A BMC value proposition can be represented using ArchiMate motivation/business concepts such as value, goals, requirements, and services.",
+        questionZh: "把 BMC 映射到 ArchiMate 时，value proposition 最接近哪些概念？",
+        answerZh: "Value、goal、requirement 或 business service 等概念。",
+        memory: "Value proposition 可转成 ArchiMate 的 value/goal/service。",
+        clue: "BMC value proposition 不是技术部署或 ITIL 事件。",
+        explanationZh: "正确项对应 motivation/business 概念；其他选项属于技术层、ITIL 或 CMMI。"
+      },
+      {
+        id: 72, lecture: "L6", topic: "BMC to ArchiMate key activities",
+        question: "BMC key activities are most naturally represented in ArchiMate as:",
+        options: ["Business processes or business functions", "Technology nodes or system software only", "Service support incidents and problem records", "Financial measures in a Balanced Scorecard"],
+        answer: 0,
+        explanation: "Key activities describe what the business does, so they map naturally to business processes/functions.",
+        questionZh: "BMC 的 key activities 在 ArchiMate 中最自然映射为什么？",
+        answerZh: "Business processes 或 business functions。",
+        memory: "Key activities = business does -> process/function。",
+        clue: "活动是业务行为，不是技术节点。",
+        explanationZh: "正确项属于业务层；其他选项分别属于技术层、ITIL 和 BSC。"
+      },
+      {
+        id: 73, lecture: "L6", topic: "Capability/resource/course of action",
+        question: "Which distinction among ArchiMate strategy concepts is most accurate?",
+        options: ["Capability is an ability, resource is an asset, and course of action is chosen action", "Capability is a customer segment, resource is a revenue stream, and course of action is a cost structure", "Capability is a UML class, resource is a BPMN event, and course of action is an IDEF0 control", "Capability is a device, resource is a node, and course of action is system software"],
+        answer: 0,
+        explanation: "In ArchiMate strategy concepts, capability means ability, resource means asset, and course of action means chosen direction/action.",
+        questionZh: "ArchiMate strategy concepts 中 capability、resource、course of action 的区别哪项准确？",
+        answerZh: "capability 是能力，resource 是资产，course of action 是企业决定采取的行动方向。",
+        memory: "Capability 能力；Resource 资源；Course of action 做法。",
+        clue: "strategy concepts 三件套。",
+        explanationZh: "正确项是 ArchiMate strategy；其他选项混入 BMC、UML/BPMN/IDEF0 或技术层。"
+      },
+      {
+        id: 74, lecture: "L6", topic: "Business actor/role/service/process/function",
+        question: "Which mapping of ArchiMate business concepts is most accurate?",
+        options: ["Actor performs roles; service is external; process/function describe behaviour", "Actor is a database table; role is a server; service is a CMMI maturity level", "Actor is a value proposition; process is a revenue stream; function is a channel", "Actor is a technology node; service is system software; process is a physical device"],
+        answer: 0,
+        explanation: "Business actors, roles, services, processes, and functions are distinct business-layer concepts.",
+        questionZh: "ArchiMate business concepts 哪组映射最准确？",
+        answerZh: "actor 扮演 role；service 对外提供；process/function 描述业务行为。",
+        memory: "Actor 谁；Role 职责；Service 给外部；Process/Function 做业务。",
+        clue: "business layer 概念辨析。",
+        explanationZh: "正确项属于业务层；其他选项混入数据库、CMMI、BMC 和技术层。"
+      },
+      {
+        id: 75, lecture: "L6", topic: "Motivation concept distinctions",
+        question: "Which distinction among ArchiMate motivation concepts is most accurate?",
+        options: ["Driver creates pressure, assessment analyses a state, goal states intent, and requirement states a need", "Driver is a technology node, assessment is a server, goal is system software, and requirement is a device", "Driver is a BPMN gateway, assessment is a UML class, goal is an IDEF0 input, and requirement is an output", "Driver is a revenue stream, assessment is a channel, goal is a partner, and requirement is a cost structure"],
+        answer: 0,
+        explanation: "ArchiMate motivation concepts explain why change is needed and what must be achieved.",
+        questionZh: "ArchiMate motivation concepts 中哪种区分最准确？",
+        answerZh: "driver 产生压力，assessment 分析状态，goal 表达意图，requirement 表达必须满足的需要。",
+        memory: "Driver 推动；Assessment 分析；Goal 目标；Requirement 需求。",
+        clue: "motivation concepts 不是业务流程或技术部署。",
+        explanationZh: "正确项是 motivation 概念；其他选项分别混入技术层、BPMN/UML/IDEF0 和 BMC。"
+      }
+    ];
+
+    QUESTIONS.push(...SUPPLEMENTAL_DISCUSSION_QUESTIONS);
+
+    const CORE_PPT_QUESTIONS = [
+      {
+        id: 76, lecture: "L1", topic: "Architecture definition", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["architecture", "definition"],
+        question: "Which description best matches an architecture-level description rather than an implementation-level description?",
+        options: ["Key elements, relationships, and principles that shape the system", "Every source-code file, variable name, and commit message", "The daily rota for service-desk staff and incident queues", "A list of invoices, purchase orders, and payment dates"],
+        answer: 0,
+        explanation: "Architecture focuses on fundamental structure and principles, not every implementation detail.",
+        questionZh: "哪一项更像架构层面的描述，而不是实现层面的描述？",
+        answerZh: "塑造系统的关键元素、关系和原则。",
+        memory: "Architecture 抓结构和原则，不抓所有细节。",
+        clue: "题干对比 architecture-level 与 implementation-level。",
+        explanationZh: "正确项强调结构、关系、原则；其他选项是代码细节、运维排班或财务记录。"
+      },
+      {
+        id: 77, lecture: "L1", topic: "Enterprise Architecture definition", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["EA", "definition"],
+        question: "Which option best describes the scope of Enterprise Architecture?",
+        options: ["Only routers, servers, and network diagrams", "Organization, business processes, information systems, and infrastructure", "Only database tables used by a single application", "Only financial ratios reported to shareholders"],
+        answer: 1,
+        explanation: "EA connects organizational structure, processes, information systems, and infrastructure.",
+        questionZh: "哪一项最准确描述 Enterprise Architecture 的范围？",
+        answerZh: "组织、业务流程、信息系统和基础设施。",
+        memory: "EA = organization + process + IS + infrastructure。",
+        clue: "题干问 scope，不是只问 IT 设备。",
+        explanationZh: "正确项体现 EA 的整体范围；其他选项把 EA 缩小成网络、数据库或财务。"
+      },
+      {
+        id: 78, lecture: "L1", topic: "Enterprise scope", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["enterprise", "scope"],
+        question: "In EA work, an enterprise may be best understood as:",
+        options: ["A single software application and its database only", "A set of unrelated departments with no shared purpose", "An organization or collection of organizations with shared goals", "A temporary programming task assigned to one developer"],
+        answer: 2,
+        explanation: "The enterprise can be a broad organizational scope, not just a legal company or IT unit.",
+        questionZh: "在 EA 中，enterprise 最适合理解为什么？",
+        answerZh: "拥有共同目标的一个组织或多个组织集合。",
+        memory: "Enterprise 看共同目标和边界，不等于 IT 部门。",
+        clue: "题干问 enterprise 本身的含义。",
+        explanationZh: "正确项强调组织范围和共同目标；其他选项过窄或没有共同目的。"
+      },
+      {
+        id: 79, lecture: "L1", topic: "Stakeholder concern", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["stakeholder", "concern"],
+        question: "A concern in architecture description is best described as:",
+        options: ["A source-code module that implements a feature", "A process model with events, gateways, and tasks", "A measurement result in the EFQM results criteria", "An interest or issue held by a stakeholder about the system"],
+        answer: 3,
+        explanation: "Concerns are stakeholder interests or issues that architecture descriptions should address.",
+        questionZh: "architecture description 中的 concern 最准确是什么意思？",
+        answerZh: "stakeholder 对系统持有的关注点、利益或问题。",
+        memory: "Stakeholder 有 concern；view 回应 concern。",
+        clue: "题干只问 concern 的定义。",
+        explanationZh: "正确项是 stakeholder 的关注点；其他选项分别属于代码、BPMN 或 EFQM。"
+      },
+      {
+        id: 80, lecture: "L2", topic: "Architecture process", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["architecture process"],
+        question: "Which activity belongs naturally to an architecture process rather than only to one-time documentation?",
+        options: ["Designing, realizing, operating, and changing the architecture over time", "Creating a single diagram and never revisiting it", "Deleting stakeholder concerns after implementation starts", "Choosing one notation and forbidding all views"],
+        answer: 0,
+        explanation: "Architecture work continues across design, realization, operation, and change.",
+        questionZh: "哪项更属于架构过程，而不是一次性文档工作？",
+        answerZh: "长期设计、实现、运行和变更架构。",
+        memory: "Architecture process 是持续过程。",
+        clue: "over time、change 都指向过程。",
+        explanationZh: "正确项体现架构生命周期；其他选项把架构误解成一次性画图。"
+      },
+      {
+        id: 81, lecture: "L2", topic: "Driver definition", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["driver"],
+        question: "A driver in EA is best understood as:",
+        options: ["A diagram shape used only in UML deployment diagrams", "A condition or pressure that motivates architecture change", "A final software package delivered to end users", "A database key that uniquely identifies records"],
+        answer: 1,
+        explanation: "Drivers are internal or external conditions that motivate change.",
+        questionZh: "EA 中 driver 最适合理解为什么？",
+        answerZh: "推动架构变化的条件或压力。",
+        memory: "Driver = pressure for change。",
+        clue: "motivates architecture change。",
+        explanationZh: "正确项说明 driver 的作用；其他选项混入 UML、软件交付和数据库。"
+      },
+      {
+        id: 82, lecture: "L2", topic: "Alignment", questionType: "comparison", sourceType: "core", discussion: false, difficulty: "medium", tags: ["alignment"],
+        question: "Which pairing of alignment concepts is most accurate?",
+        options: ["Vertical aligns suppliers to revenue; horizontal aligns servers to devices", "Vertical aligns code to database; horizontal aligns strategy to employees", "Vertical links strategy to people; horizontal links internal processes to customers", "Vertical means legal compliance; horizontal means model visualization"],
+        answer: 2,
+        explanation: "Vertical alignment links top strategy to people below; horizontal alignment links internal processes with external customers.",
+        questionZh: "哪组对 vertical/horizontal alignment 的搭配最准确？",
+        answerZh: "Vertical 连接战略与人员；horizontal 连接内部流程与客户。",
+        memory: "Vertical 上下；Horizontal 内外。",
+        clue: "strategy-to-people vs process-to-customer。",
+        explanationZh: "正确项抓住两个方向；其他选项把概念换成供应商、代码或法规。"
+      },
+      {
+        id: 83, lecture: "L2", topic: "Balanced Scorecard", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["BSC"],
+        question: "Which set contains the four Balanced Scorecard perspectives?",
+        options: ["Business, data, application, technology", "Driver, assessment, goal, requirement", "Input, output, control, mechanism", "Financial, customer, internal process, learning and growth"],
+        answer: 3,
+        explanation: "BSC uses financial, customer, internal business process, and learning/growth perspectives.",
+        questionZh: "哪组是 Balanced Scorecard 的四个视角？",
+        answerZh: "财务、客户、内部流程、学习与成长。",
+        memory: "BSC = 财客内学。",
+        clue: "Balanced Scorecard 固定四视角。",
+        explanationZh: "正确项是 BSC；其他选项分别属于 TOGAF/ArchiMate、motivation 或 IDEF0。"
+      },
+      {
+        id: 84, lecture: "L2", topic: "Mission objectives measures", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["BSC", "measures"],
+        question: "Within a Balanced Scorecard perspective, which sequence best fits the course structure?",
+        options: ["Goal, node, device", "Mission, objectives, measures", "Actor, role, service", "CIM, PIM, PSM"],
+        answer: 1,
+        explanation: "Each BSC perspective can be structured with mission, objectives, and measures.",
+        questionZh: "在 BSC 每个视角内部，哪一组结构最符合课程内容？",
+        answerZh: "Mission、objectives、measures。",
+        memory: "BSC 每个视角：使命、目标、指标。",
+        clue: "perspective 内部三件套。",
+        explanationZh: "正确项是 BSC 的内部结构；其他选项属于技术层、业务层或 MDA。"
+      },
+      {
+        id: 85, lecture: "L2", topic: "Business Model Canvas", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["BMC"],
+        question: "Which set contains only Business Model Canvas elements?",
+        options: ["Value proposition, channels, key partners, cost structure", "Financial perspective, learning perspective, customer perspective, measures", "Activity, input, output, control", "Viewpoint, view, rationale, consistency"],
+        answer: 0,
+        explanation: "Value proposition, channels, key partners, and cost structure are BMC elements.",
+        questionZh: "哪组只包含 Business Model Canvas 的元素？",
+        answerZh: "Value proposition、channels、key partners、cost structure。",
+        memory: "BMC 看价值、客户、渠道、伙伴、成本、收入等。",
+        clue: "看到 value proposition/channels/cost structure。",
+        explanationZh: "正确项来自 BMC；其他选项分别是 BSC、IDEF0 和 ISO 42010。"
+      },
+      {
+        id: 86, lecture: "L2", topic: "Business architecture", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["business architecture"],
+        question: "Business architecture is mainly useful because it:",
+        options: ["Describes only router placement and cable layouts", "Lists every source-code class inside an application", "Links strategic objectives with tactical business demands", "Replaces all quality-management frameworks"],
+        answer: 2,
+        explanation: "Business architecture translates strategy into business structure and action.",
+        questionZh: "Business architecture 主要为什么有用？",
+        answerZh: "连接战略目标与战术层面的业务需求。",
+        memory: "Business architecture = strategy to action。",
+        clue: "strategic objectives + tactical demands。",
+        explanationZh: "正确项体现业务架构的桥接作用；其他选项过窄或过度夸大。"
+      },
+      {
+        id: 87, lecture: "L3", topic: "EFQM criteria", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["EFQM"],
+        question: "EFQM's nine criteria are commonly summarized as:",
+        options: ["Five maturity levels and four service processes", "Five enablers and four results", "Three abstraction levels and six viewpoints", "Four domains and five modelling languages"],
+        answer: 1,
+        explanation: "EFQM has five enabler criteria and four result criteria.",
+        questionZh: "EFQM 的九个 criteria 通常概括为什么？",
+        answerZh: "五个 enablers 和四个 results。",
+        memory: "EFQM = 5 enablers + 4 results。",
+        clue: "nine criteria。",
+        explanationZh: "正确项是 EFQM 结构；其他选项混入 CMMI/ITIL、MDA/ISO 或其他框架。"
+      },
+      {
+        id: 88, lecture: "L3", topic: "COBIT domains", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["COBIT"],
+        question: "Which set correctly lists COBIT process domains?",
+        options: ["EDM, APO, BAI, DSS, MEA", "CIM, PIM, PSM, ADM, UOB", "BSC, BMC, BPMN, UML, IDEF", "Aware, agreed, committed, validated, mailed"],
+        answer: 0,
+        explanation: "COBIT domains are Evaluate/Direct/Monitor, Align/Plan/Organise, Build/Acquire/Implement, Deliver/Service/Support, and Monitor/Evaluate/Assess.",
+        questionZh: "哪组正确列出 COBIT 的流程域？",
+        answerZh: "EDM、APO、BAI、DSS、MEA。",
+        memory: "COBIT 五域：EDM/APO/BAI/DSS/MEA。",
+        clue: "COBIT domains。",
+        explanationZh: "正确项是 COBIT；其他选项混入 MDA、建模语言或沟通状态。"
+      },
+      {
+        id: 89, lecture: "L3", topic: "COBIT maturity", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["COBIT", "maturity"],
+        question: "Which sequence best matches the common COBIT maturity scale used in the course?",
+        options: ["Aware, agreed, committed, reviewed, mailed", "Initial, repeatable, defined, managed, optimized", "Business, application, data, technology, motivation", "Activity, input, output, control, mechanism"],
+        answer: 1,
+        explanation: "The COBIT maturity levels run from initial through optimized.",
+        questionZh: "哪一序列最符合课程中 COBIT maturity scale？",
+        answerZh: "Initial、repeatable、defined、managed、optimized。",
+        memory: "成熟度从混乱到优化。",
+        clue: "maturity scale。",
+        explanationZh: "正确项是成熟度等级；其他选项是沟通状态、架构层或 IDEF0。"
+      },
+      {
+        id: 90, lecture: "L3", topic: "ITIL components", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["ITIL"],
+        question: "The two major ITIL parts emphasized in the course are:",
+        options: ["Service Delivery and Service Support", "Business Architecture and Data Architecture", "Leadership and Society Results", "CIM and PSM"],
+        answer: 0,
+        explanation: "The course presents ITIL around Service Delivery and Service Support.",
+        questionZh: "课程强调的 ITIL 两大部分是什么？",
+        answerZh: "Service Delivery 和 Service Support。",
+        memory: "ITIL = delivery + support。",
+        clue: "ITIL major parts。",
+        explanationZh: "正确项是 ITIL；其他选项分别属于 TOGAF、EFQM 和 MDA。"
+      },
+      {
+        id: 91, lecture: "L3", topic: "CMMI levels", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["CMMI"],
+        question: "Which sequence best matches the CMMI maturity levels?",
+        options: ["Financial, customer, process, learning, growth", "Initial, managed, defined, quantitatively managed, optimizing", "Input, control, output, mechanism, activity", "Driver, assessment, goal, requirement, outcome"],
+        answer: 1,
+        explanation: "CMMI has five maturity levels from Initial to Optimizing.",
+        questionZh: "哪一序列最符合 CMMI 五级成熟度？",
+        answerZh: "Initial、Managed、Defined、Quantitatively Managed、Optimizing。",
+        memory: "CMMI 五级：初始、管理、定义、量化、优化。",
+        clue: "CMMI maturity levels。",
+        explanationZh: "正确项是 CMMI；其他选项来自 BSC、IDEF0 和 ArchiMate motivation。"
+      },
+      {
+        id: 92, lecture: "L3", topic: "ISO 42010", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["ISO 42010"],
+        question: "ISO/IEC 42010 is most closely related to:",
+        options: ["Architecture description, stakeholders, concerns, views, and viewpoints", "Service-desk incident queues and escalation paths only", "Customer segments, channels, and revenue streams only", "Object-oriented class inheritance only"],
+        answer: 0,
+        explanation: "ISO/IEC 42010 defines key terms and practices for architecture description.",
+        questionZh: "ISO/IEC 42010 最接近哪一类内容？",
+        answerZh: "架构描述、stakeholder、concern、view 和 viewpoint。",
+        memory: "ISO 42010 = architecture description vocabulary。",
+        clue: "stakeholder/concern/view/viewpoint。",
+        explanationZh: "正确项对应 ISO 42010；其他选项属于 ITIL、BMC 或 UML。"
+      },
+      {
+        id: 93, lecture: "L3", topic: "TOGAF capability framework", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["TOGAF"],
+        question: "TOGAF's Architecture Capability Framework is mainly about:",
+        options: ["How an organization establishes and governs architecture capability", "How IDEF0 distinguishes inputs from mechanisms", "How BMC calculates revenue streams", "How UML splits behaviour from implementation diagrams"],
+        answer: 0,
+        explanation: "The capability framework concerns the organizational capability needed to practice architecture.",
+        questionZh: "TOGAF Architecture Capability Framework 主要关注什么？",
+        answerZh: "组织如何建立和治理架构能力。",
+        memory: "Capability Framework = 让组织具备做架构的能力。",
+        clue: "capability/govern architecture practice。",
+        explanationZh: "正确项是 TOGAF 能力建设；其他选项属于 IDEF0、BMC 或 UML。"
+      },
+      {
+        id: 94, lecture: "L3", topic: "Enterprise Continuum", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["TOGAF"],
+        question: "The TOGAF Enterprise Continuum is best understood as:",
+        options: ["A repository/classification idea for architecture assets from generic to specific", "A list of ITIL incidents sorted by urgency", "A set of EFQM society-result indicators", "A UML rule for naming software classes"],
+        answer: 0,
+        explanation: "Enterprise Continuum helps classify and reuse architecture assets across levels of specificity.",
+        questionZh: "TOGAF Enterprise Continuum 最适合理解为什么？",
+        answerZh: "从通用到具体组织架构资产的分类和复用思路。",
+        memory: "Continuum = architecture assets 从通用到具体。",
+        clue: "architecture assets、generic to specific。",
+        explanationZh: "正确项对应 TOGAF；其他选项属于 ITIL、EFQM 或 UML。"
+      },
+      {
+        id: 95, lecture: "L3", topic: "MDA levels", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["MDA"],
+        question: "Which option correctly distinguishes CIM, PIM, and PSM in MDA?",
+        options: ["CIM hides computation, PIM hides platform details, PSM adds platform-specific details", "CIM is a COBIT domain, PIM is an ITIL process, PSM is an EFQM result", "CIM models incidents, PIM models service desks, PSM models revenue streams", "CIM is a stakeholder, PIM is a concern, PSM is a viewpoint"],
+        answer: 0,
+        explanation: "MDA moves from computation-independent to platform-independent to platform-specific models.",
+        questionZh: "MDA 中 CIM、PIM、PSM 的区别哪项正确？",
+        answerZh: "CIM 隐藏计算，PIM 隐藏平台细节，PSM 加入特定平台细节。",
+        memory: "MDA = CIM -> PIM -> PSM。",
+        clue: "computation/platform/platform-specific。",
+        explanationZh: "正确项是 MDA 三层；其他选项混入 COBIT、ITIL、EFQM 或 ISO 42010。"
+      },
+      {
+        id: 96, lecture: "L4", topic: "IDEF0 elements", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["IDEF0"],
+        question: "Which set contains the main elements of an IDEF0 function model?",
+        options: ["Activity, input, output, control, mechanism", "Actor, role, service, interface, event", "Goal, requirement, constraint, outcome, driver", "Segment, channel, partner, cost, revenue"],
+        answer: 0,
+        explanation: "IDEF0 uses activity with inputs, outputs, controls, and mechanisms.",
+        questionZh: "哪组是 IDEF0 功能模型的主要元素？",
+        answerZh: "Activity、input、output、control、mechanism。",
+        memory: "IDEF0 = AICOM。",
+        clue: "function model。",
+        explanationZh: "正确项是 IDEF0；其他选项属于 ArchiMate 或 BMC。"
+      },
+      {
+        id: 97, lecture: "L4", topic: "IDEF3 UOB", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["IDEF3"],
+        question: "In IDEF3, UOB refers to:",
+        options: ["Unit of Behaviour", "Unified Object Boundary", "User Operation Baseline", "Universal Outcome Benchmark"],
+        answer: 0,
+        explanation: "IDEF3 uses Units of Behaviour to describe process knowledge.",
+        questionZh: "IDEF3 中 UOB 指什么？",
+        answerZh: "Unit of Behaviour。",
+        memory: "IDEF3 的 UOB = 行为单元。",
+        clue: "IDEF3 process description。",
+        explanationZh: "正确项是 IDEF3 术语；其他选项是干扰缩写。"
+      },
+      {
+        id: 98, lecture: "L4", topic: "IDEF3 diagrams", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["IDEF3"],
+        question: "Which pair best matches the two IDEF3 diagram types emphasized in the course?",
+        options: ["Process-flow descriptions and object-state transition descriptions", "Financial perspectives and learning perspectives", "Application components and technology nodes", "Maturity domains and service support processes"],
+        answer: 0,
+        explanation: "IDEF3 includes process-flow and object-state transition descriptions.",
+        questionZh: "哪一对最符合课程强调的 IDEF3 两类图？",
+        answerZh: "Process-flow description 和 object-state transition description。",
+        memory: "IDEF3 = 流程流 + 对象状态。",
+        clue: "two diagram types。",
+        explanationZh: "正确项是 IDEF3；其他选项属于 BSC、ArchiMate 或 COBIT/ITIL。"
+      },
+      {
+        id: 99, lecture: "L4", topic: "UML categories", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["UML"],
+        question: "UML diagrams in the course are grouped into:",
+        options: ["Service, support, delivery", "Structure, behaviour, implementation", "Enablers, results, measures", "Drivers, assessments, outcomes"],
+        answer: 1,
+        explanation: "The course groups UML diagrams as structure, behaviour, and implementation diagrams.",
+        questionZh: "课程中 UML 图被分成哪几类？",
+        answerZh: "Structure、behaviour、implementation。",
+        memory: "UML 三类：结构、行为、实现。",
+        clue: "UML diagram categories。",
+        explanationZh: "正确项是 UML 分类；其他选项来自 ITIL、EFQM 或 ArchiMate。"
+      },
+      {
+        id: 100, lecture: "L4", topic: "BPMN scope", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["BPMN"],
+        question: "BPMN is most suitable when the modelling task is to describe:",
+        options: ["Business process flow, events, tasks, gateways, and hand-offs", "Platform-specific software deployment only", "Quality-management enablers and results", "A classification matrix of enterprise artefacts"],
+        answer: 0,
+        explanation: "BPMN is a notation for business process modelling.",
+        questionZh: "BPMN 最适合用来描述什么？",
+        answerZh: "业务流程、事件、任务、网关和交接。",
+        memory: "BPMN = business process flow。",
+        clue: "events/tasks/gateways。",
+        explanationZh: "正确项是 BPMN；其他选项属于部署、EFQM 或 Zachman。"
+      },
+      {
+        id: 101, lecture: "L5", topic: "Design support", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["architecture language"],
+        question: "Design support in an architecture language mainly means the language helps architects:",
+        options: ["Create and structure architecture models for intended purposes", "Guarantee every business goal has already been achieved", "Replace all stakeholder discussions with email attachments", "Limit modelling to financial results only"],
+        answer: 0,
+        explanation: "Design support concerns the ability to create useful architecture descriptions.",
+        questionZh: "architecture language 的 design support 主要是什么意思？",
+        answerZh: "帮助架构师创建和组织适合目的的架构模型。",
+        memory: "Design support = 帮你建模。",
+        clue: "create and structure models。",
+        explanationZh: "正确项是设计建模支持；其他选项夸大或偏离。"
+      },
+      {
+        id: 102, lecture: "L5", topic: "Communication support", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["architecture language"],
+        question: "Communication support in an architecture language is strongest when it:",
+        options: ["Provides understandable views for different stakeholders", "Forces everyone to inspect the same technical database schema", "Removes symbols so no one can discuss the model", "Turns business strategy directly into compiled code"],
+        answer: 0,
+        explanation: "Communication support helps different stakeholders understand relevant architecture views.",
+        questionZh: "architecture language 的 communication support 什么时候最强？",
+        answerZh: "能为不同 stakeholder 提供可理解的 view。",
+        memory: "Communication support = 不同人看得懂。",
+        clue: "understandable views。",
+        explanationZh: "正确项体现沟通支持；其他选项造成信息过载或误解。"
+      },
+      {
+        id: 103, lecture: "L5", topic: "Realization support", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["architecture language"],
+        question: "Realization support is most concerned with:",
+        options: ["Connecting architecture descriptions to implementation and execution", "Counting EFQM people results only", "Choosing customer segments for a value proposition", "Auditing only service-desk incidents"],
+        answer: 0,
+        explanation: "Realization support helps move from architecture models toward implementation.",
+        questionZh: "Realization support 主要关注什么？",
+        answerZh: "把架构描述连接到实施和执行。",
+        memory: "Realization support = 从模型走向实现。",
+        clue: "implementation/execution。",
+        explanationZh: "正确项体现落地；其他选项属于 EFQM、BMC 或 ITIL。"
+      },
+      {
+        id: 104, lecture: "L5", topic: "Change support", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["architecture language"],
+        question: "Change support matters in EA because it helps architects:",
+        options: ["Assess how changing one element may affect related elements", "Assume every architecture element is isolated", "Avoid documenting any relationship between models", "Replace impact analysis with a customer survey only"],
+        answer: 0,
+        explanation: "Change support enables impact analysis across related architecture elements.",
+        questionZh: "EA 中 change support 为什么重要？",
+        answerZh: "帮助评估一个元素变化会如何影响相关元素。",
+        memory: "Change support = impact analysis。",
+        clue: "changing one element affects others。",
+        explanationZh: "正确项是影响分析；其他选项否认架构关系。"
+      },
+      {
+        id: 105, lecture: "L5", topic: "Language dimensions", questionType: "definition", sourceType: "core", discussion: false, difficulty: "medium", tags: ["architecture language"],
+        question: "A modelling language's way of modelling is mainly about:",
+        options: ["The concepts and relationships the language makes available", "The legal identity of the enterprise", "The salary structure of system developers", "The number of emails sent after a presentation"],
+        answer: 0,
+        explanation: "The way of modelling concerns the modelling concepts and relations provided by a language.",
+        questionZh: "建模语言的 way of modelling 主要关注什么？",
+        answerZh: "该语言提供哪些概念和关系来建模。",
+        memory: "Way of modelling = 概念和关系。",
+        clue: "concepts and relationships。",
+        explanationZh: "正确项是建模语言本身提供的概念结构；其他选项无关。"
+      },
+      {
+        id: 106, lecture: "L2", topic: "BSC vs BMC application", questionType: "application", sourceType: "application", discussion: false, difficulty: "hard", tags: ["BSC", "BMC"],
+        question: "A manager wants to track whether a strategy is working using indicators across finance, customers, internal processes, and learning. Which tool fits best?",
+        options: ["Business Model Canvas", "Balanced Scorecard", "IDEF3 object-state diagram", "TOGAF Enterprise Continuum"],
+        answer: 1,
+        explanation: "BSC is for strategy measurement across four perspectives; BMC describes a business model.",
+        questionZh: "经理想用财务、客户、内部流程、学习等指标追踪战略是否有效，最适合哪个工具？",
+        answerZh: "Balanced Scorecard。",
+        memory: "测战略执行 = BSC；讲商业模式 = BMC。",
+        clue: "indicators across finance/customer/process/learning。",
+        explanationZh: "正确项是 BSC；BMC 更适合描述价值主张、客户、渠道、成本和收入。"
+      },
+      {
+        id: 107, lecture: "L3", topic: "COBIT domain vs maturity", questionType: "comparison", sourceType: "application", discussion: false, difficulty: "hard", tags: ["COBIT"],
+        question: "Which statement correctly separates a COBIT domain from a COBIT maturity level?",
+        options: ["DSS is a process domain; Defined is a maturity level", "Defined is a process domain; DSS is a maturity level", "Both DSS and Defined are BMC revenue elements", "Both DSS and Defined are UML diagram categories"],
+        answer: 0,
+        explanation: "DSS is one of the COBIT domains; Defined is a maturity level label.",
+        questionZh: "哪项正确区分 COBIT domain 和 COBIT maturity level？",
+        answerZh: "DSS 是流程域；Defined 是成熟度等级。",
+        memory: "COBIT 五域和成熟度等级不要混。",
+        clue: "DSS vs Defined。",
+        explanationZh: "正确项区分两套 COBIT 结构；其他选项颠倒或混入其他框架。"
+      },
+      {
+        id: 108, lecture: "L3", topic: "CMMI and EA", questionType: "application", sourceType: "application", discussion: false, difficulty: "hard", tags: ["CMMI", "EA"],
+        question: "A software organization now requires projects to follow organization-wide standard processes. Why does EA become more useful at this point?",
+        options: ["EA helps align projects with shared organizational standards and structures", "EA becomes unnecessary because every project is now completely isolated", "EA only records customer revenue after software release", "EA replaces all process guidance with one database schema"],
+        answer: 0,
+        explanation: "At CMMI Level 3 and beyond, organization-wide standards make architecture alignment more important.",
+        questionZh: "软件组织要求项目遵循组织级标准流程时，为什么 EA 更有用？",
+        answerZh: "EA 帮助项目对齐组织级标准和结构。",
+        memory: "CMMI Level 3+ 强调组织标准，EA 帮助对齐。",
+        clue: "organization-wide standard processes。",
+        explanationZh: "正确项说明 EA 对跨项目标准化的支持；其他选项否认对齐价值。"
+      },
+      {
+        id: 109, lecture: "L3", topic: "View vs viewpoint application", questionType: "comparison", sourceType: "application", discussion: false, difficulty: "hard", tags: ["ISO 42010", "viewpoint"],
+        question: "An architect defines rules for what a security view should contain and how it should be interpreted. This definition is a:",
+        options: ["Viewpoint", "View", "Revenue stream", "Technology node"],
+        answer: 0,
+        explanation: "A viewpoint defines conventions for constructing and interpreting views.",
+        questionZh: "架构师定义 security view 应包含什么以及如何解释，这个定义是什么？",
+        answerZh: "Viewpoint。",
+        memory: "Viewpoint 是规则；view 是具体图。",
+        clue: "defines rules/conventions。",
+        explanationZh: "正确项是 viewpoint；view 是按这些规则产生的具体表示。"
+      },
+      {
+        id: 110, lecture: "L3", topic: "TOGAF vs MDA application", questionType: "comparison", sourceType: "application", discussion: false, difficulty: "hard", tags: ["TOGAF", "MDA"],
+        question: "A team needs a cyclic method for developing enterprise architecture, not a software abstraction mapping from CIM to PIM to PSM. Which choice fits better?",
+        options: ["TOGAF ADM", "MDA transformation levels", "IDEF1X data model", "ITIL incident management"],
+        answer: 0,
+        explanation: "TOGAF ADM is an iterative architecture development method; MDA is about model abstraction levels.",
+        questionZh: "团队需要企业架构开发循环方法，而不是 CIM/PIM/PSM 的软件抽象映射，选什么？",
+        answerZh: "TOGAF ADM。",
+        memory: "TOGAF ADM = 架构开发方法；MDA = 抽象层映射。",
+        clue: "cyclic method for EA development。",
+        explanationZh: "正确项是 TOGAF ADM；MDA、IDEF1X 和 ITIL 解决的问题不同。"
+      },
+      {
+        id: 111, lecture: "L4", topic: "IDEF0 vs BPMN application", questionType: "comparison", sourceType: "application", discussion: false, difficulty: "hard", tags: ["IDEF0", "BPMN"],
+        question: "A model must show what controls and mechanisms constrain a function, not mainly the hand-off sequence between tasks. Which notation fits better?",
+        options: ["IDEF0", "BPMN", "Balanced Scorecard", "Business Model Canvas"],
+        answer: 0,
+        explanation: "IDEF0 is built around functions with inputs, outputs, controls, and mechanisms.",
+        questionZh: "模型要显示一个功能受哪些 control 和 mechanism 约束，而不是任务交接顺序，哪种更合适？",
+        answerZh: "IDEF0。",
+        memory: "Control/mechanism 出现就想 IDEF0。",
+        clue: "controls and mechanisms。",
+        explanationZh: "正确项是 IDEF0；BPMN 更偏流程顺序，BSC/BMC 不是功能建模语言。"
+      },
+      {
+        id: 112, lecture: "L4", topic: "UML vs BPMN application", questionType: "comparison", sourceType: "application", discussion: false, difficulty: "hard", tags: ["UML", "BPMN"],
+        question: "A team wants to model software component interactions after a business process has already been identified. Which language is more suitable?",
+        options: ["UML", "BPMN", "EFQM", "COBIT maturity scale"],
+        answer: 0,
+        explanation: "UML is more suitable for software system structures and interactions; BPMN is for business process flow.",
+        questionZh: "业务流程已确定后，团队想建模软件组件交互，更适合哪种语言？",
+        answerZh: "UML。",
+        memory: "业务流程 BPMN；软件系统 UML。",
+        clue: "software component interactions。",
+        explanationZh: "正确项是 UML；BPMN 更偏业务流程，EFQM/COBIT 不是软件交互建模语言。"
+      },
+      {
+        id: 113, lecture: "L4", topic: "IDEF1X vs IDEF3 application", questionType: "comparison", sourceType: "application", discussion: false, difficulty: "hard", tags: ["IDEF1X", "IDEF3"],
+        question: "A modeller needs logical data entities and relationships, not a process-flow description. Which IDEF method fits best?",
+        options: ["IDEF1X", "IDEF3", "IDEF0", "BPMN"],
+        answer: 0,
+        explanation: "IDEF1X is for data modelling; IDEF3 is for process description.",
+        questionZh: "建模者需要逻辑数据实体和关系，而不是流程流描述，哪种 IDEF 方法更合适？",
+        answerZh: "IDEF1X。",
+        memory: "IDEF1X = data；IDEF3 = process。",
+        clue: "logical data entities and relationships。",
+        explanationZh: "正确项是 IDEF1X；IDEF3/BPMN 偏流程，IDEF0 偏功能。"
+      },
+      {
+        id: 114, lecture: "L5", topic: "Semantic issue application", questionType: "application", sourceType: "application", discussion: false, difficulty: "hard", tags: ["semantic model"],
+        question: "Two departments both use the term account, but one means customer account and the other means accounting ledger. What is the main modelling problem?",
+        options: ["A semantic inconsistency", "A lack of service-desk staffing", "An EFQM society result", "A CMMI Level 5 requirement"],
+        answer: 0,
+        explanation: "The same symbol or term can have different meanings, creating a semantic problem.",
+        questionZh: "两个部门都用 account，但一个指客户账户，一个指会计账簿，主要是什么建模问题？",
+        answerZh: "语义不一致。",
+        memory: "同词不同义 = semantic issue。",
+        clue: "same term, different meanings。",
+        explanationZh: "正确项是语义问题；其他选项与模型含义不一致无关。"
+      },
+      {
+        id: 115, lecture: "L5", topic: "Architecture language application", questionType: "application", sourceType: "application", discussion: false, difficulty: "hard", tags: ["architecture language"],
+        question: "An organization chooses a modelling language because it supports analysis, storage, versioning, and update of models in tools. Which support need is emphasized?",
+        options: ["Way of supporting", "Way of financing", "Way of hiring", "Way of legal registration"],
+        answer: 0,
+        explanation: "Tooling for creating, analysing, storing, and updating models is part of the way of supporting.",
+        questionZh: "组织选择建模语言，因为工具能分析、存储、版本管理和更新模型，这强调哪种 support need？",
+        answerZh: "Way of supporting。",
+        memory: "工具支持 = way of supporting。",
+        clue: "tools、analysis、storage、versioning。",
+        explanationZh: "正确项是建模语言的支持方式；其他选项不是课程中的 language support 维度。"
+      },
+      {
+        id: 116, lecture: "L6", topic: "Knowledge states", questionType: "comparison", sourceType: "application", discussion: false, difficulty: "hard", tags: ["communication"],
+        question: "A stakeholder says, 'I understand the architecture option and I agree it is acceptable, but I am not yet ready to allocate resources to it.' Which state is closest?",
+        options: ["Agreed, but not committed", "Aware, but not agreed", "Committed, but not aware", "Mailed, but not validated"],
+        answer: 0,
+        explanation: "Agreement means acceptance of knowledge; commitment implies willingness to act or allocate resources.",
+        questionZh: "stakeholder 说理解并同意方案，但还不准备投入资源，最接近什么状态？",
+        answerZh: "Agreed, but not committed。",
+        memory: "同意不等于承诺行动。",
+        clue: "agree acceptable but not allocate resources。",
+        explanationZh: "正确项区分 agreement 和 commitment；commitment 需要行动承诺。"
+      },
+      {
+        id: 117, lecture: "L6", topic: "Conversation techniques", questionType: "application", sourceType: "application", discussion: false, difficulty: "hard", tags: ["communication"],
+        question: "An architect already has a draft model and wants one expert to check whether it accurately represents their work. Which technique fits best?",
+        options: ["Validation interview", "Elicitation interview", "Mass presentation", "Business Model Canvas workshop"],
+        answer: 0,
+        explanation: "Validation interviews check whether an existing model or view is accurate.",
+        questionZh: "架构师已有草稿模型，想让一位专家检查是否准确表达其工作，哪种技术最适合？",
+        answerZh: "Validation interview。",
+        memory: "已有模型去核对 = validation interview。",
+        clue: "already has a draft model + check accurately。",
+        explanationZh: "正确项是验证访谈；elicitation 更偏从零收集知识。"
+      },
+      {
+        id: 118, lecture: "L6", topic: "ArchiMate layers", questionType: "application", sourceType: "application", discussion: false, difficulty: "hard", tags: ["ArchiMate"],
+        question: "Which mapping best fits ArchiMate's main layers?",
+        options: ["Customer journey - business; CRM system - application; server cluster - technology", "CRM system - business; server cluster - motivation; customer journey - technology", "Revenue stream - application; customer segment - technology; router - business", "IDEF0 control - business; CMMI level - application; BSC measure - technology"],
+        answer: 0,
+        explanation: "Business activities/processes, applications, and infrastructure belong to business, application, and technology layers respectively.",
+        questionZh: "哪组映射最符合 ArchiMate 主要层次？",
+        answerZh: "客户旅程-业务层；CRM 系统-应用层；服务器集群-技术层。",
+        memory: "Business 做业务；Application 是系统；Technology 是基础设施。",
+        clue: "business/application/technology layers。",
+        explanationZh: "正确项准确对应三层；其他选项故意把层次混乱。"
+      },
+      {
+        id: 119, lecture: "L6", topic: "Plateau and gap", questionType: "comparison", sourceType: "application", discussion: false, difficulty: "hard", tags: ["ArchiMate", "migration"],
+        question: "A current architecture and a target architecture are both stable states, while the missing capabilities between them are analysed separately. Which terms fit?",
+        options: ["The stable states are plateaus; the differences are gaps", "The stable states are incidents; the differences are service requests", "The stable states are BSC perspectives; the differences are measures", "The stable states are UML classes; the differences are gateways"],
+        answer: 0,
+        explanation: "In migration planning, plateaus are relatively stable architecture states and gaps are differences between them.",
+        questionZh: "当前架构和目标架构都是稳定状态，中间缺失能力另行分析，分别对应什么？",
+        answerZh: "稳定状态是 plateau，差异是 gap。",
+        memory: "Plateau = state；Gap = difference。",
+        clue: "current/target stable states + differences。",
+        explanationZh: "正确项是 ArchiMate migration 概念；其他选项来自 ITIL、BSC 或 UML/BPMN。"
+      },
+      {
+        id: 120, lecture: "L6", topic: "Motivation concepts", questionType: "comparison", sourceType: "application", discussion: false, difficulty: "hard", tags: ["ArchiMate", "motivation"],
+        question: "Which option best separates ArchiMate motivation concepts?",
+        options: ["Driver creates pressure; assessment analyses it; goal states desired intent; requirement states what must be satisfied", "Driver hosts software; assessment stores data; goal routes traffic; requirement powers a device", "Driver is a customer segment; assessment is a channel; goal is a cost structure; requirement is a partner", "Driver is a UML class; assessment is a BPMN event; goal is an IDEF0 mechanism; requirement is a CMMI level"],
+        answer: 0,
+        explanation: "Motivation concepts explain why change is needed and what conditions or intentions guide it.",
+        questionZh: "哪项最能区分 ArchiMate motivation concepts？",
+        answerZh: "Driver 产生压力；assessment 分析；goal 表达期望意图；requirement 表达必须满足的条件。",
+        memory: "Driver 推动，Assessment 分析，Goal 目标，Requirement 需求。",
+        clue: "pressure/analyse/intent/must satisfy。",
+        explanationZh: "正确项是 motivation 概念；其他选项混入技术层、BMC 或其他建模语言。"
+      }
+    ];
+
+    QUESTIONS.push(...CORE_PPT_QUESTIONS);
+
+    const CORE_LENGTH_BALANCED_OPTIONS = {
+      76: ["Key structures, relationships, and principles", "Detailed source code, variables, and commits", "Service queues, incidents, and support shifts", "Invoices, purchase orders, and payment dates"],
+      77: ["Routers, servers, networks, hosting, and storage zones", "Organization, processes, systems, and infrastructure", "Database tables, indexes, keys, and records only", "Financial ratios, budgets, and audit notes only"],
+      78: ["One software application and its database", "Unrelated departments with no shared purpose", "Organizations or units with shared goals", "One temporary programming task"],
+      79: ["A code module implementing one feature", "A process diagram with events and gateways", "A performance result in EFQM reporting", "A stakeholder interest or issue"],
+      80: ["Designing, realizing, operating, and changing architecture", "Drawing one diagram and never revisiting it", "Removing stakeholder concerns after implementation and operational review", "Choosing one notation and forbidding views"],
+      81: ["A diagram shape in a deployment model", "A condition that motivates architecture change", "A final package delivered to end users with support documentation", "A database key identifying one record"],
+      82: ["Vertical links suppliers to revenue; horizontal links servers to devices too", "Vertical links code to data; horizontal links strategy to employees", "Vertical links strategy to people; horizontal links processes to customers", "Vertical means compliance; horizontal means visualization"],
+      83: ["Business, data, application, and technology", "Driver, assessment, goal, and requirement", "Input, output, control, and mechanism", "Financial, customer, process, and learning"],
+      84: ["Goal, node, and device concepts", "Mission, objectives, and measures", "Actor, role, and service concepts", "CIM, PIM, and PSM abstraction levels"],
+      86: ["Describing router placement and cable layouts", "Listing source-code classes inside applications and service planning", "Linking strategic objectives with business demands", "Replacing every quality-management framework"],
+      91: ["Financial, customer, process, learning, business value, and growth", "Initial, managed, defined, quantitatively managed, optimizing", "Input, control, output, mechanism, and activity", "Driver, assessment, goal, requirement, and outcome"],
+      92: ["Architecture descriptions, stakeholders, concerns, views, and viewpoints", "Service-desk incident queues, escalation paths, and support records only", "Customer segments, channels, and revenue streams only", "Object-oriented inheritance and software classes only"],
+      93: ["Establishing and governing architecture capability", "Distinguishing inputs from mechanisms in IDEF0", "Calculating revenue streams in a business model", "Separating UML behaviour from implementation diagrams"],
+      94: ["Classifying architecture assets from generic to specific", "Sorting ITIL incidents by urgency and service queue for reusable governance", "Tracking EFQM society-result indicators only", "Naming classes in object-oriented software diagrams"],
+      95: ["CIM hides computation; PIM hides platform; PSM adds platform details", "CIM is a COBIT domain; PIM is ITIL; PSM is an EFQM result", "CIM models incidents; PIM models service desks; PSM models revenue also", "CIM is a stakeholder; PIM is a concern; PSM is a viewpoint"],
+      98: ["Process-flow and object-state transition descriptions", "Financial and learning scorecard perspectives with customer measures", "Application components and technology nodes", "Maturity domains and support processes"],
+      99: ["Service, support, delivery, and lifecycle practice groups", "Structure, behaviour, and implementation", "Enablers, results, and measures", "Drivers, assessments, and outcomes"],
+      100: ["Business process flow with events, tasks, and gateways", "Platform-specific deployment with server nodes and infrastructure placement", "Quality-management enablers and performance results", "Classification of enterprise artefacts in a matrix"],
+      101: ["Create and structure architecture models for intended purposes", "Guarantee every business goal has already been achieved in every context", "Replace stakeholder discussions with email attachments", "Limit architecture modelling to financial results only"],
+      103: ["Connecting architecture descriptions to implementation", "Counting EFQM people results and society results", "Choosing customer segments for value propositions", "Auditing service-desk incidents, support records, and availability management"],
+      104: ["Assess how changing one element affects related elements", "Assume architecture elements are isolated units with no downstream impacts", "Avoid documenting relationships between models", "Replace impact analysis with customer surveys"],
+      105: ["Concepts and relationships made available by the language", "The legal identity and registration form of the enterprise", "The salary structure and hiring plan of system developers", "The number of emails sent after an architecture meeting"],
+      108: ["EA aligns projects with shared standards and structures", "EA is unnecessary because projects become isolated", "EA records customer revenue after software release", "EA replaces process guidance with a database schema and platform model"],
+      113: ["IDEF1X", "IDEF3 process-flow description", "IDEF0 functional decomposition", "BPMN business-process notation"],
+      118: ["Customer journey-business; CRM system-application; server cluster-technology", "CRM system-business; server cluster-motivation; customer journey-technology state", "Revenue stream-application; customer segment-technology; router-business", "IDEF0 control-business; CMMI level-application; BSC measure-technology"],
+      120: ["Driver creates pressure; assessment analyses; goal states intent; requirement states need", "Driver hosts software; assessment stores data; goal routes traffic; requirement powers devices", "Driver is a customer segment; assessment is a channel; goal is cost; requirement is partner", "Driver is a UML class; assessment is a BPMN event; goal is IDEF0; requirement is CMMI"]
+    };
+
+    Object.entries(CORE_LENGTH_BALANCED_OPTIONS).forEach(([id, options]) => {
+      const question = getQuestionById(Number(id));
+      if (question) question.options = options;
+    });
+
+    const DISCUSSION_PREREQUISITE_IDS = new Set([
+      1, 2, 3, 5, 6, 7, 11, 12, 13, 17, 18, 21,
+      22, 24, 25, 33, 34, 35, 43, 44, 45, 51, 52, 56
+    ]);
+
+    STRICT_DISCUSSION_MAP.forEach((entry) => {
+      entry.ids.forEach((id) => {
+        const question = getQuestionById(id);
+        if (!question) return;
+        question.discussion = true;
+        question.discussionLecture = entry.lecture;
+        question.discussionPage = entry.page;
+        question.discussionTopic = entry.topic;
+        question.discussionRole = DISCUSSION_PREREQUISITE_IDS.has(id) ? "prerequisite" : "direct";
+        question.sourceType = question.discussionRole === "prerequisite" ? "discussion-prerequisite" : "discussion";
+        question.questionType = question.questionType || (question.discussionRole === "prerequisite" ? "definition" : "comparison");
+        question.difficulty = question.difficulty || "medium";
+      });
+    });
+
+    LECTURES.forEach((lecture) => {
+      lecture.discussions.forEach((discussion) => {
+        const strict = STRICT_DISCUSSION_MAP.find((item) => item.lecture === lecture.id && item.topic === discussion.title);
+        discussion.page = strict?.page || discussion.page;
+        discussion.questionIds = strict ? [...strict.ids] : [];
+        discussion.crossRefIds = [];
+      });
+    });
     Object.keys(TRANSLATIONS).forEach((key) => delete TRANSLATIONS[key]);
     Object.keys(MEMORY_TIPS).forEach((key) => delete MEMORY_TIPS[key]);
     Object.keys(HUMAN_EXPLANATIONS).forEach((key) => delete HUMAN_EXPLANATIONS[key]);
-    LECTURES.forEach((lecture) => lecture.discussions.forEach((discussion) => {
-      discussion.questionIds = [];
-    }));
-    QUESTIONS.forEach((question) => {
-      if (!question.discussion) return;
-      const lecture = getLectureById(question.lecture);
-      const discussion = lecture?.discussions.find((item) => item.title === question.discussion);
-      if (discussion) discussion.questionIds.push(question.id);
-    });
+    state.order = QUESTIONS.map((question) => question.id);
+    state.current = 0;
 
     loadState();
     render();
