@@ -3039,7 +3039,7 @@
       }
     };
 
-    const STORAGE_KEY = "ea-final-quiz-state-v1";
+    const STORAGE_KEY = "ea-final-quiz-state-v2";
     const letters = ["A", "B", "C", "D"];
 
     const state = {
@@ -3558,11 +3558,12 @@
       const q = currentQuestion();
       if (!q) return;
       const key = event.key.toLowerCase();
+      const optionOrder = getOptionOrder(q.id);
       if (["1", "2", "3", "4"].includes(key)) {
-        answerQuestion(q.id, Number(key) - 1);
+        answerQuestion(q.id, optionOrder[Number(key) - 1]);
       }
       if (["a", "b", "c", "d"].includes(key)) {
-        answerQuestion(q.id, letters.indexOf(key.toUpperCase()));
+        answerQuestion(q.id, optionOrder[letters.indexOf(key.toUpperCase())]);
       }
       if (key === "arrowleft" && !els.prevBtn.disabled) {
         state.current -= 1;
@@ -3574,6 +3575,222 @@
         saveState();
         render();
       }
+    });
+
+    const QUALITY_REWRITES = {
+      44: {
+        topic: "EA as change process",
+        question: "EA can be understood as a process that translates business vision and strategy into:",
+        options: ["Effective enterprise change", "A list of employee birthdays", "A single database table", "A network cable diagram"],
+        answer: 0,
+        explanation: "EA connects business vision and strategy to coordinated enterprise change.",
+        questionZh: "EA 可以被理解为把业务愿景和战略转化为什么的过程？",
+        answerZh: "有效的企业变革。",
+        memory: "EA 不只是画图，是把 strategy 变成 enterprise change。",
+        clue: "关键词 business vision、strategy、enterprise change。",
+        explanationZh: "选 A。EA 的价值在于把战略落到组织、流程、系统和技术的变化上。",
+        avoid: "B/C/D 都是局部信息或技术细节，不是 EA 的战略作用。"
+      },
+      45: {
+        topic: "Operating logic",
+        question: "The organizing logic of EA mainly connects business processes with:",
+        options: ["IT infrastructure", "Only office furniture", "Only advertising slogans", "Only individual employee preferences"],
+        answer: 0,
+        explanation: "EA organizes business processes and IT infrastructure so that integration and standardization choices are clear.",
+        questionZh: "EA 的 organizing logic 主要把业务流程和什么连接起来？",
+        answerZh: "IT infrastructure（IT 基础设施）。",
+        memory: "EA organizing logic = business processes + IT infrastructure。",
+        clue: "关键词 organizing logic、business processes、IT infrastructure。",
+        explanationZh: "选 A。EA 要让业务流程和 IT 基础设施配合，而不是只描述某个孤立系统。",
+        avoid: "B/C/D 都不是 EA 的核心连接对象。"
+      },
+      46: {
+        topic: "Mission and information",
+        question: "A useful EA description should connect an organization's mission with:",
+        options: ["The information and technology needed to perform that mission", "The color of the company logo", "The lunch schedule of one team", "A list of unrelated software vendors"],
+        answer: 0,
+        explanation: "EA descriptions link mission and objectives to the information and technology required to achieve them.",
+        questionZh: "有用的 EA 描述应该把组织使命和什么连接起来？",
+        answerZh: "完成使命所需的信息和技术。",
+        memory: "Mission 要落到 information + technology。",
+        clue: "关键词 mission、information、technology、perform。",
+        explanationZh: "选 A。EA 不是空谈使命，而是说明实现使命需要哪些信息、系统和技术支撑。",
+        avoid: "B/C/D 都不能支撑使命实现。"
+      },
+      63: {
+        topic: "EFQM purpose",
+        question: "The EFQM model is mainly used to support:",
+        options: ["Performance excellence and continuous improvement across the organization", "Only database normalization", "Only network deployment", "Only source-code compilation"],
+        answer: 0,
+        explanation: "EFQM is a broad excellence model for assessing and improving organizational performance.",
+        questionZh: "EFQM 模型主要用于支持什么？",
+        answerZh: "组织层面的绩效卓越和持续改进。",
+        memory: "EFQM = excellence + improvement，不是 IT 小工具。",
+        clue: "关键词 EFQM、performance、excellence、continuous improvement。",
+        explanationZh: "选 A。EFQM 关注组织整体表现，通过评估促成因素和结果来推动持续改进。",
+        avoid: "B/C/D 都是局部技术活动，范围太窄。"
+      },
+      66: {
+        topic: "COBIT governance",
+        question: "COBIT is most useful when an organization wants to establish:",
+        options: ["IT governance and control objectives linked to business goals", "A notation for drawing business process flows only", "A matrix of architectural viewpoints only", "A method for choosing office locations"],
+        answer: 0,
+        explanation: "COBIT provides governance and control objectives for information and related technology.",
+        questionZh: "当组织想建立什么时，COBIT 最有用？",
+        answerZh: "与业务目标相连的 IT 治理和控制目标。",
+        memory: "COBIT = IT governance + control objectives。",
+        clue: "关键词 COBIT、governance、control objectives、business goals。",
+        explanationZh: "选 A。COBIT 的重点是治理 IT、控制风险，并让 IT 控制目标服务业务目标。",
+        avoid: "B 是 BPMN，C 更像 Zachman/viewpoint，D 与 EA 无关。"
+      },
+      73: {
+        topic: "CMMI purpose",
+        question: "CMMI is mainly used to assess and improve:",
+        options: ["Process maturity and capability", "Customer revenue streams", "ArchiMate visual icons", "The physical size of servers"],
+        answer: 0,
+        explanation: "CMMI focuses on organizational process maturity and capability improvement.",
+        questionZh: "CMMI 主要用于评估和改进什么？",
+        answerZh: "过程成熟度和过程能力。",
+        memory: "CMMI = maturity/capability of processes。",
+        clue: "关键词 CMMI、maturity、capability、process。",
+        explanationZh: "选 A。CMMI 不是商业模式或画图语言，而是看组织过程是否成熟、可管理、可持续改进。",
+        avoid: "B/C/D 分别属于 BMC、建模符号或硬件，不是 CMMI。"
+      },
+      81: {
+        topic: "TOGAF ADM iteration",
+        question: "Why is the TOGAF ADM treated as an iterative method?",
+        options: ["Architecture scope, detail, time horizon, and reusable assets may need to be revisited", "It only runs once and then cannot change", "It is a database query optimizer", "It removes the need for stakeholder decisions"],
+        answer: 0,
+        explanation: "ADM iterations require renewed decisions about scope, detail, time horizon, and architecture assets.",
+        questionZh: "为什么 TOGAF ADM 被看作迭代方法？",
+        answerZh: "因为架构范围、细节、时间跨度和可复用资产可能需要反复调整。",
+        memory: "ADM = iterative；每轮都重新看 scope/detail/time/assets。",
+        clue: "关键词 TOGAF ADM、iterative、scope、detail、assets。",
+        explanationZh: "选 A。架构开发不是一次完成，随着目标和约束变化，需要多轮迭代。",
+        avoid: "B 与 iterative 相反；C/D 与 ADM 无关。"
+      },
+      83: {
+        topic: "MDA abstraction",
+        question: "A Platform-Independent Model (PIM) in MDA describes a system while hiding:",
+        options: ["Details needed for a particular platform", "All business requirements", "All system behaviour", "The existence of models"],
+        answer: 0,
+        explanation: "PIM describes system operation without committing to a specific platform.",
+        questionZh: "MDA 中的 PIM 在描述系统时隐藏什么？",
+        answerZh: "特定平台所需的细节。",
+        memory: "PIM = platform-independent，先不绑定具体平台。",
+        clue: "关键词 PIM、platform-independent、hiding platform details。",
+        explanationZh: "选 A。PIM 保留系统功能/行为的核心描述，但不写死某个技术平台的实现细节。",
+        avoid: "B/C/D 都把模型内容删得过头，不符合 PIM。"
+      },
+      86: {
+        topic: "IDEF0 vs IDEF3",
+        question: "Compared with IDEF0, IDEF3 focuses more directly on:",
+        options: ["Capturing the workflow of a business process", "Defining control mechanisms around a single function", "Creating physical database tables only", "Selecting ArchiMate motivation concepts"],
+        answer: 0,
+        explanation: "IDEF3 captures process workflow, while IDEF0 models functional inputs, outputs, controls, and mechanisms.",
+        questionZh: "与 IDEF0 相比，IDEF3 更直接关注什么？",
+        answerZh: "捕捉业务流程的工作流。",
+        memory: "IDEF0 = function；IDEF3 = process workflow。",
+        clue: "关键词 IDEF3、workflow、business process。",
+        explanationZh: "选 A。IDEF0 重点是一个功能如何被输入、控制和机制影响；IDEF3 重点是流程如何展开。",
+        avoid: "B 是 IDEF0，C 是 IDEF1X/数据建模，D 是 ArchiMate。"
+      },
+      87: {
+        topic: "Process state changes",
+        question: "In process modelling, object state transitions are used to describe:",
+        options: ["How an object may change state during a process", "The four BSC perspectives", "The five COBIT domains", "The TOGAF content framework"],
+        answer: 0,
+        explanation: "State-transition views describe allowable changes an object undergoes during a process.",
+        questionZh: "在流程建模中，object state transitions 用来描述什么？",
+        answerZh: "对象在流程中可能如何改变状态。",
+        memory: "state transition = 状态怎么变。",
+        clue: "关键词 object、state、transition、process。",
+        explanationZh: "选 A。它不是背某个图名，而是理解流程中对象状态变化的表达方式。",
+        avoid: "B/C/D 分别属于 BSC、COBIT、TOGAF。"
+      },
+      89: {
+        topic: "BPMN scope",
+        question: "Which aspect is outside the primary scope of BPMN?",
+        options: ["Technology infrastructure deployment", "Business process flow", "Process activities", "Relationships between process activities"],
+        answer: 0,
+        explanation: "BPMN primarily models business processes, not application or infrastructure deployment.",
+        questionZh: "哪一项超出了 BPMN 的主要范围？",
+        answerZh: "技术基础设施部署。",
+        memory: "BPMN 只抓 business process，不抓 infrastructure。",
+        clue: "关键词 outside scope、BPMN、technology infrastructure。",
+        explanationZh: "选 A。BPMN 的主业是业务流程，不是技术部署或应用基础设施。",
+        avoid: "B/C/D 都属于流程建模相关内容。"
+      },
+      108: {
+        topic: "System development community",
+        question: "In EA communication, a system development community mainly consists of:",
+        options: ["Actors and representations involved in developing a system", "Only hardware devices", "Only end customers", "Only revenue streams"],
+        answer: 0,
+        explanation: "The community includes actors and representations used during system development.",
+        questionZh: "在 EA 沟通中，system development community 主要由什么组成？",
+        answerZh: "参与系统开发的行为者和表示物/表达物。",
+        memory: "development community = actors + representations。",
+        clue: "关键词 system development community、actors、representations。",
+        explanationZh: "选 A。系统开发不是只有机器或客户，还包括参与者以及他们用来沟通知识的模型、文档和图。",
+        avoid: "B/C/D 都只取了很窄的一部分。"
+      },
+      110: {
+        topic: "Conversation strategy",
+        question: "A conversation strategy in EA communication is chosen based on a knowledge goal, an initial state, and:",
+        options: ["The conversation situation", "The color of the presentation slides", "The number of database rows", "The brand of the modelling tool only"],
+        answer: 0,
+        explanation: "A strategy depends on the knowledge goal, initial state, and conversation situation.",
+        questionZh: "EA 沟通中的 conversation strategy 取决于知识目标、初始状态以及什么？",
+        answerZh: "沟通情境。",
+        memory: "conversation strategy = goal + initial state + situation。",
+        clue: "关键词 knowledge goal、initial state、conversation situation。",
+        explanationZh: "选 A。沟通方式要看你想达到什么知识目标、现在处于什么状态，以及参与者和资源等情境。",
+        avoid: "B/C/D 都不是决定沟通策略的核心因素。"
+      },
+      114: {
+        topic: "Conversation techniques",
+        question: "Which technique best fits interactive modelling with a small group of stakeholders?",
+        options: ["Workshop or joint modelling session", "Mass mailing only", "A physical database export", "A revenue-stream calculation"],
+        answer: 0,
+        explanation: "Workshops and joint modelling sessions involve stakeholders working interactively on a model or view.",
+        questionZh: "哪种技术最适合让一小组利益相关者互动式地一起建模？",
+        answerZh: "workshop 或 joint modelling session。",
+        memory: "小组一起改模型 = workshop / joint modelling。",
+        clue: "关键词 interactive、small group、model/view。",
+        explanationZh: "选 A。互动式建模需要参与者一起讨论、修改和确认模型。",
+        avoid: "B 是单向大范围发送，C/D 与 EA 沟通技术无关。"
+      },
+      117: {
+        topic: "Presentation",
+        question: "A presentation is most suitable when architects need to:",
+        options: ["Communicate a model or view to a larger stakeholder group", "Collect detailed confidential knowledge from one informant", "Transform a conceptual model into database tables", "Define every COBIT maturity level"],
+        answer: 0,
+        explanation: "Presentation is used to communicate a model or view to a group of stakeholders.",
+        questionZh: "presentation 最适合在架构师需要做什么时使用？",
+        answerZh: "向较大的利益相关者群体传达模型或视图。",
+        memory: "presentation = 对一群人展示 model/view。",
+        clue: "关键词 presentation、communicate、model/view、group。",
+        explanationZh: "选 A。presentation 的目标是展示和解释模型，而不是一对一挖掘知识或做数据建模。",
+        avoid: "B 更像 elicitation interview；C 是数据建模任务；D 是 COBIT 知识点。"
+      },
+      118: {
+        topic: "Mass communication",
+        question: "Mailing is appropriate when the goal is to:",
+        options: ["Distribute a model or view to many stakeholders with limited interaction", "Run a small interactive modelling workshop", "Select a database normalization form", "Draw IDEF0 controls and mechanisms"],
+        answer: 0,
+        explanation: "Mailing is a mass communication technique for handing over a model or view to many people.",
+        questionZh: "mailing 适合在目标是什么时使用？",
+        answerZh: "把模型或视图分发给很多利益相关者，互动较少。",
+        memory: "mailing = mass communication，不是互动建模。",
+        clue: "关键词 mailing、mass communication、many stakeholders。",
+        explanationZh: "选 A。mailing 是大范围传达，不适合需要现场共同建模的场景。",
+        avoid: "B 是 workshop；C/D 分别属于数据库和 IDEF0。"
+      }
+    };
+
+    Object.entries(QUALITY_REWRITES).forEach(([id, rewrite]) => {
+      const question = getQuestionById(Number(id));
+      if (question) Object.assign(question, rewrite);
     });
 
     loadState();
