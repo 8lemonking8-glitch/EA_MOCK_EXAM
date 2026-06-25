@@ -622,7 +622,7 @@
     <header class="topbar">
       <div class="title">
         <h1>EA 期末刷题</h1>
-        <p>130 道单选，覆盖 Lecture 1-6，可按 Lecture + Discussion 考点逐讲刷题。</p>
+        <p>60 道正式考试风格单选，按 Lecture 1-6 覆盖核心概念、易混点和 Discussion 考点。</p>
       </div>
       <div class="toolbar">
         <button class="btn" id="shuffleBtn" type="button">随机顺序</button>
@@ -634,7 +634,7 @@
     <section class="layout">
       <aside class="side">
         <div class="stats" aria-live="polite">
-          <div class="stat"><span>已答</span><strong id="answeredStat">0/130</strong></div>
+          <div class="stat"><span>已答</span><strong id="answeredStat">0/60</strong></div>
           <div class="stat"><span>正确率</span><strong id="accuracyStat">0%</strong></div>
           <div class="stat"><span>正确</span><strong id="correctStat">0</strong></div>
           <div class="stat"><span>错题</span><strong id="wrongStat">0</strong></div>
@@ -665,7 +665,7 @@
         <article id="questionCard">
           <div class="question-head">
             <span class="tag" id="topicTag">Topic</span>
-            <span class="question-index" id="questionIndex">Question 1 of 130</span>
+            <span class="question-index" id="questionIndex">Question 1 of 60</span>
           </div>
           <h2 class="question" id="questionText"></h2>
           <div class="memory-card" id="memoryCard"></div>
@@ -3039,7 +3039,7 @@
       }
     };
 
-    const STORAGE_KEY = "ea-final-quiz-state-v2";
+    const STORAGE_KEY = "ea-final-quiz-state-v4";
     const letters = ["A", "B", "C", "D"];
 
     const state = {
@@ -3791,6 +3791,1400 @@
     Object.entries(QUALITY_REWRITES).forEach(([id, rewrite]) => {
       const question = getQuestionById(Number(id));
       if (question) Object.assign(question, rewrite);
+    });
+
+    const EXAM_QUALITY_QUESTIONS = [
+      {
+        id: 1, lecture: "L1", topic: "Architecture definition",
+        question: "Which statement best captures the meaning of architecture in this course?",
+        options: ["A complete inventory of every technical detail", "The fundamental structure, elements, relationships, and principles of a system", "A programming language used to build databases", "A financial plan for an IT project"],
+        answer: 1,
+        explanation: "Architecture is an abstraction of key elements, relationships, and principles, not a full technical inventory.",
+        questionZh: "哪一项最准确表达本课程中 architecture 的含义？",
+        answerZh: "系统的基本结构、元素、关系和原则。",
+        memory: "Architecture = structure + elements + relationships + principles。",
+        clue: "题干问 architecture 的本质，不是项目计划或技术清单。",
+        explanationZh: "选 B。架构强调抽象层面的结构和关系，帮助理解复杂系统。"
+      },
+      {
+        id: 2, lecture: "L1", topic: "Enterprise scope", discussion: "Stakeholder / Enterprise",
+        question: "A university with departments, IT services, administration, and external partners can be treated as an enterprise because it:",
+        options: ["Uses one database product", "Has a shared mission and coordinated goals across several units", "Only contains one legal company", "Is managed only by the IT department"],
+        answer: 1,
+        explanation: "An enterprise can be a collection of organizations or units sharing goals or a bottom line.",
+        questionZh: "为什么大学这种由多个部门和合作方组成的组织可以被看作 enterprise？",
+        answerZh: "因为多个单位围绕共同使命和目标协同运作。",
+        memory: "Enterprise 不等于 IT 部门，也不一定只是单一公司。",
+        clue: "关键词 shared mission、coordinated goals、several units。",
+        explanationZh: "选 B。enterprise 范围可以很大，只要有共同目标和协同关系。"
+      },
+      {
+        id: 3, lecture: "L1", topic: "Stakeholder and concern", discussion: "Stakeholder / Enterprise",
+        question: "A store employee worries that a new membership system will slow down checkout. In EA terms, this worry is best called a:",
+        options: ["Concern", "Platform-specific model", "Revenue stream", "Technology node"],
+        answer: 0,
+        explanation: "A concern is an interest or issue a stakeholder has regarding the system or architecture.",
+        questionZh: "门店员工担心会员系统拖慢结账速度，这种担心在 EA 中叫什么？",
+        answerZh: "Concern（关注点）。",
+        memory: "Stakeholder 有 concern；EA 要回应 concern。",
+        clue: "题干出现某个角色担心某个问题。",
+        explanationZh: "选 A。员工是 stakeholder，结账变慢是他的 concern。"
+      },
+      {
+        id: 4, lecture: "L1", topic: "Why EA", discussion: "Why Enterprise Architecture",
+        question: "A company has many disconnected systems, duplicated data, and business units that cannot agree on process changes. What is the strongest reason for using EA?",
+        options: ["To replace all managers with software", "To manage complexity and improve business-IT alignment", "To remove the need for stakeholder communication", "To choose a single programming language"],
+        answer: 1,
+        explanation: "EA is used to handle enterprise complexity and align business, processes, systems, and technology.",
+        questionZh: "公司系统割裂、数据重复、业务和 IT 对不上时，使用 EA 的最主要原因是什么？",
+        answerZh: "管理复杂性并改善业务与 IT 对齐。",
+        memory: "EA 两大痛点：complexity + poor business-IT alignment。",
+        clue: "disconnected systems、duplicated data、cannot agree 都指向复杂性和对齐问题。",
+        explanationZh: "选 B。EA 的价值就是把复杂企业讲清楚，让业务和 IT 能配合。"
+      },
+      {
+        id: 5, lecture: "L1", topic: "EA boundary",
+        question: "Before describing an enterprise architecture, why is it important to define the boundary of the enterprise?",
+        options: ["It decides which organization parts, systems, and processes are included in the architecture work", "It guarantees that no stakeholder will disagree", "It replaces the need for models", "It proves that the enterprise is only an IT system"],
+        answer: 0,
+        explanation: "Boundary definition clarifies the scope of the enterprise to be described.",
+        questionZh: "为什么做 EA 前要先定义 enterprise 的边界？",
+        answerZh: "因为它决定哪些组织部分、系统和流程被纳入架构工作。",
+        memory: "先定 scope/boundary，再谈架构。",
+        clue: "boundary 题考 scope。",
+        explanationZh: "选 A。不先定范围，后面模型会无限扩大或漏掉关键部分。"
+      },
+      {
+        id: 6, lecture: "L1", topic: "EA vs IT architecture",
+        question: "Which option best shows that EA is broader than IT architecture?",
+        options: ["EA includes only servers and networks", "EA connects organization structure, business processes, information systems, and infrastructure", "EA avoids business processes", "EA is only a database schema"],
+        answer: 1,
+        explanation: "EA covers organizational, business, information-system, and infrastructure aspects.",
+        questionZh: "哪一项最能说明 EA 比 IT architecture 范围更广？",
+        answerZh: "EA 连接组织结构、业务流程、信息系统和基础设施。",
+        memory: "EA = organization + process + IS + infrastructure。",
+        clue: "题干问 EA 为什么 broader。",
+        explanationZh: "选 B。EA 不只是技术图，而是业务和技术的整体视角。"
+      },
+      {
+        id: 7, lecture: "L1", topic: "Views for stakeholders",
+        question: "Why might the same architecture need different views for managers, users, and system developers?",
+        options: ["They have different concerns and need different levels of detail", "They must all see the same database table", "Views are used to hide all architecture decisions", "Developers are the only stakeholders in EA"],
+        answer: 0,
+        explanation: "Different stakeholders have different concerns, so architecture descriptions use different views.",
+        questionZh: "为什么同一个架构要给经理、用户和开发人员不同 view？",
+        answerZh: "因为他们有不同关注点，需要不同细节层次。",
+        memory: "不同 stakeholder -> 不同 concern -> 不同 view。",
+        clue: "题干有 managers/users/developers。",
+        explanationZh: "选 A。不同角色看同一系统时关心的问题不一样。"
+      },
+      {
+        id: 8, lecture: "L1", topic: "EA as change support", discussion: "Why Enterprise Architecture",
+        question: "A firm wants to turn a digital strategy into changes in processes, applications, and infrastructure. EA mainly helps by:",
+        options: ["Making strategy visible as models and principles that guide coordinated change", "Writing every line of application code", "Eliminating all organizational roles", "Replacing customer analysis"],
+        answer: 0,
+        explanation: "EA translates strategy into coordinated changes across business and IT structures.",
+        questionZh: "企业想把数字战略转成流程、应用和基础设施变化时，EA 如何帮助？",
+        answerZh: "用模型和原则把战略变成可协调的企业变革。",
+        memory: "EA 把 strategy 变成 coordinated enterprise change。",
+        clue: "strategy -> process/application/infrastructure change。",
+        explanationZh: "选 A。EA 不是写代码，而是指导多方面变革。"
+      },
+      {
+        id: 9, lecture: "L1", topic: "Architecture model",
+        question: "Why is an architectural model usually abstract rather than fully detailed?",
+        options: ["Because it focuses on major structures and relationships needed for understanding and decision-making", "Because detail is always illegal", "Because stakeholders cannot use models", "Because models only describe financial accounts"],
+        answer: 0,
+        explanation: "Architecture models abstract away unnecessary detail to show important structures and relationships.",
+        questionZh: "为什么 architectural model 通常是抽象的，而不是包含所有细节？",
+        answerZh: "因为它关注帮助理解和决策的主要结构与关系。",
+        memory: "Model = 抽象，不是复制现实所有细节。",
+        clue: "abstract、major structures、decision-making。",
+        explanationZh: "选 A。模型的价值是抓重点，不是列所有细节。"
+      },
+      {
+        id: 10, lecture: "L1", topic: "EA communication",
+        question: "A useful EA description should reduce the communication gap mainly between:",
+        options: ["Business stakeholders and IT stakeholders", "Two unrelated programming languages", "Only customers and competitors", "Printers and scanners"],
+        answer: 0,
+        explanation: "EA descriptions help bridge communication gaps between business and technical stakeholders.",
+        questionZh: "有用的 EA 描述主要应该减少哪两类人之间的沟通鸿沟？",
+        answerZh: "业务利益相关者和 IT 利益相关者。",
+        memory: "EA 是 business 和 IT 的共同语言。",
+        clue: "communication gap in EA。",
+        explanationZh: "选 A。EA 常用于让业务和技术能围绕同一架构对话。"
+      },
+
+      {
+        id: 11, lecture: "L2", topic: "Architecture process",
+        question: "In the architecture process, why is stakeholder communication needed throughout design, implementation, operation, and change?",
+        options: ["Because architecture decisions affect many roles over time", "Because communication replaces implementation", "Because only users make technical designs", "Because architecture ends before implementation"],
+        answer: 0,
+        explanation: "Architecture evolves from idea to implementation, operation, and change; stakeholders are affected throughout.",
+        questionZh: "为什么架构过程从设计到实施、运行和变更都需要 stakeholder 沟通？",
+        answerZh: "因为架构决策会持续影响很多角色。",
+        memory: "Architecture process 是闭环，沟通贯穿始终。",
+        clue: "throughout design, implementation, operation, change。",
+        explanationZh: "选 A。架构不是一次性画图，后续变化也会影响多方。"
+      },
+      {
+        id: 12, lecture: "L2", topic: "Internal driver", discussion: "Internal / External Drivers",
+        question: "A retailer starts an EA initiative because its internal order process is slow and inconsistent across branches. This is mainly a:",
+        options: ["Internal driver", "External regulatory driver", "Technology-layer node", "Customer result in EFQM"],
+        answer: 0,
+        explanation: "Process inefficiency inside the organization is an internal driver.",
+        questionZh: "零售商因为内部订单流程慢且各分店不一致而启动 EA，这主要是什么驱动？",
+        answerZh: "Internal driver（内部驱动）。",
+        memory: "内部流程低效 = internal driver。",
+        clue: "internal order process、slow、inconsistent。",
+        explanationZh: "选 A。问题来自组织内部流程。"
+      },
+      {
+        id: 13, lecture: "L2", topic: "External driver", discussion: "Internal / External Drivers",
+        question: "A new data-protection regulation forces a company to redesign customer-data handling. This is mainly a:",
+        options: ["External driver", "Business process output", "CMMI level", "UML structure diagram"],
+        answer: 0,
+        explanation: "Regulation is an external pressure that can drive architecture change.",
+        questionZh: "新的数据保护法规迫使公司重设计客户数据处理方式，这主要是什么驱动？",
+        answerZh: "External driver（外部驱动）。",
+        memory: "law/regulation = external driver。",
+        clue: "new regulation、forces change。",
+        explanationZh: "选 A。法规来自组织外部。"
+      },
+      {
+        id: 14, lecture: "L2", topic: "Vertical alignment",
+        question: "A strategy to improve customer service fails because front-line employees are not trained or measured accordingly. This is mainly a failure of:",
+        options: ["Vertical alignment", "IDEF1X data modelling", "BMC cost structure", "Technology deployment"],
+        answer: 0,
+        explanation: "Vertical alignment links top strategy to people and execution at lower levels.",
+        questionZh: "改善客户服务的战略失败，因为一线员工没有相应培训和指标，这主要是哪种对齐失败？",
+        answerZh: "Vertical alignment。",
+        memory: "Vertical = top strategy 到 bottom people。",
+        clue: "strategy fails because front-line employees。",
+        explanationZh: "选 A。高层战略没有落实到基层执行。"
+      },
+      {
+        id: 15, lecture: "L2", topic: "Horizontal alignment",
+        question: "Customers complain because an internal refund process is slow and inconsistent. This problem most directly concerns:",
+        options: ["Horizontal alignment between internal processes and external customers", "MDA platform mapping", "COBIT maturity scoring only", "UML implementation diagrams"],
+        answer: 0,
+        explanation: "Horizontal alignment concerns how internal processes relate to external customers.",
+        questionZh: "客户抱怨退款流程慢且不一致，这最直接涉及什么？",
+        answerZh: "内部流程与外部客户之间的 horizontal alignment。",
+        memory: "Horizontal = internal process 到 external customer。",
+        clue: "customers complain + internal process。",
+        explanationZh: "选 A。内部流程没有很好服务外部客户。"
+      },
+      {
+        id: 16, lecture: "L2", topic: "Operating model",
+        question: "An operating model mainly asks how much a company's business processes should be:",
+        options: ["Integrated and standardized", "Drawn in UML and stored as code", "Owned only by suppliers", "Hidden from customers"],
+        answer: 0,
+        explanation: "Operating models are based on choices about business process integration and standardization.",
+        questionZh: "Operating model 主要问企业业务流程应该在多大程度上怎样？",
+        answerZh: "整合和标准化。",
+        memory: "Operating model = integration + standardization。",
+        clue: "operating model、business processes。",
+        explanationZh: "选 A。这是 Ross operating model 的核心。"
+      },
+      {
+        id: 17, lecture: "L2", topic: "BSC",
+        question: "A company uses financial, customer, internal process, and learning indicators to track whether strategy is working. Which tool is this?",
+        options: ["Balanced Scorecard", "Business Model Canvas", "IDEF0", "ArchiMate technology layer"],
+        answer: 0,
+        explanation: "The Balanced Scorecard uses financial, customer, internal process, and learning/growth perspectives.",
+        questionZh: "公司用财务、客户、内部流程、学习成长指标追踪战略执行，这是哪个工具？",
+        answerZh: "Balanced Scorecard。",
+        memory: "BSC = 财客内学。",
+        clue: "financial/customer/internal/learning。",
+        explanationZh: "选 A。这四个视角直接指向 BSC。"
+      },
+      {
+        id: 18, lecture: "L2", topic: "BMC",
+        question: "A startup describes its customer segments, value proposition, channels, partners, costs, and revenue streams. Which tool is it using?",
+        options: ["Business Model Canvas", "COBIT", "CMMI", "ISO 42010"],
+        answer: 0,
+        explanation: "These elements are core parts of the Business Model Canvas.",
+        questionZh: "创业公司描述客户群、价值主张、渠道、伙伴、成本和收入流，它在用什么？",
+        answerZh: "Business Model Canvas。",
+        memory: "BMC = value proposition + customers + costs/revenues。",
+        clue: "customer segments、value proposition、revenue streams。",
+        explanationZh: "选 A。这些都是 BMC 九宫格元素。"
+      },
+      {
+        id: 19, lecture: "L2", topic: "Business architecture",
+        question: "Business architecture is most useful when an organization needs to:",
+        options: ["Translate strategy into a shared understanding of business structure and action", "Choose the color of an application interface", "Calculate a single database index", "Replace all governance instruments"],
+        answer: 0,
+        explanation: "Business architecture provides a business-oriented abstraction that helps translate strategy into action.",
+        questionZh: "Business architecture 在组织需要做什么时最有用？",
+        answerZh: "把战略转化为对业务结构和行动的共同理解。",
+        memory: "Business architecture = strategy -> action 的业务蓝图。",
+        clue: "translate strategy、shared understanding、business structure。",
+        explanationZh: "选 A。业务架构让战略能被业务和 IT 理解并执行。"
+      },
+      {
+        id: 20, lecture: "L2", topic: "Good EA", discussion: "Good Enterprise Architecture",
+        question: "Which characteristic would make an enterprise architecture more useful in practice?",
+        options: ["It is understandable to stakeholders and aligned with business goals", "It is only readable by one technical specialist", "It avoids all business processes", "It contains unrelated diagrams with no consistency"],
+        answer: 0,
+        explanation: "Good EA should be understandable, consistent, communicable, and aligned with business goals.",
+        questionZh: "什么特征会让 EA 在实践中更有用？",
+        answerZh: "利益相关者能理解，并且与业务目标对齐。",
+        memory: "Good EA = clear + consistent + business-aligned。",
+        clue: "useful in practice。",
+        explanationZh: "选 A。EA 的价值来自共同理解和业务对齐。"
+      },
+
+      {
+        id: 21, lecture: "L3", topic: "EFQM vs ISO", discussion: "ISO 9001 vs EFQM",
+        question: "Compared with ISO 9001, EFQM is better described as:",
+        options: ["A broader excellence model for organizational performance and improvement", "A notation for business process flows", "A platform-specific software model", "A database normalization rule"],
+        answer: 0,
+        explanation: "EFQM is broader than ISO 9001 and focuses on performance excellence and improvement.",
+        questionZh: "与 ISO 9001 相比，EFQM 更适合怎样描述？",
+        answerZh: "更宽的组织绩效卓越和改进模型。",
+        memory: "ISO 偏质量体系；EFQM 偏整体卓越。",
+        clue: "Compared with ISO 9001。",
+        explanationZh: "选 A。EFQM 不只看质量管理，还看组织整体表现。"
+      },
+      {
+        id: 22, lecture: "L3", topic: "EFQM criteria", discussion: "ISO 9001 vs EFQM",
+        question: "In EFQM, enablers and results differ mainly because enablers describe what an organization does, while results describe:",
+        options: ["What the organization achieves", "Which UML diagrams are used", "Which servers are deployed", "Which programming language is selected"],
+        answer: 0,
+        explanation: "EFQM has five enablers covering what an organization does and four results covering what it achieves.",
+        questionZh: "EFQM 中 enablers 和 results 的区别是什么？",
+        answerZh: "enablers 描述组织做什么，results 描述组织取得什么。",
+        memory: "Enablers = 做了什么；Results = 得到什么。",
+        clue: "enablers vs results。",
+        explanationZh: "选 A。这是 EFQM 九项结构的核心逻辑。"
+      },
+      {
+        id: 23, lecture: "L3", topic: "BSC vs EFQM",
+        question: "Which comparison between BSC and EFQM is most accurate?",
+        options: ["BSC supports strategic management; EFQM supports measurement, benchmarking, and continuous improvement", "BSC is a database model; EFQM is a programming language", "BSC replaces all quality improvement", "EFQM is only about IT service incidents"],
+        answer: 0,
+        explanation: "BSC helps strategic choices; EFQM supports performance measurement and continuous improvement.",
+        questionZh: "BSC 和 EFQM 哪种比较最准确？",
+        answerZh: "BSC 支持战略管理；EFQM 支持测量、标杆比较和持续改进。",
+        memory: "BSC 管战略；EFQM 管卓越改进。",
+        clue: "comparison between BSC and EFQM。",
+        explanationZh: "选 A。两者互补，不是互相替代。"
+      },
+      {
+        id: 24, lecture: "L3", topic: "COBIT purpose", discussion: "ITIL vs COBIT",
+        question: "A CIO wants a framework to link IT control objectives with business risks and governance needs. Which framework best fits?",
+        options: ["COBIT", "BPMN", "IDEF1X", "Business Model Canvas"],
+        answer: 0,
+        explanation: "COBIT bridges business risks, control needs, and technical issues.",
+        questionZh: "CIO 想把 IT 控制目标与业务风险和治理需求连接起来，最适合哪个框架？",
+        answerZh: "COBIT。",
+        memory: "COBIT = governance + control objectives + risk。",
+        clue: "control objectives、business risks、governance。",
+        explanationZh: "选 A。这些关键词直接指向 COBIT。"
+      },
+      {
+        id: 25, lecture: "L3", topic: "COBIT domains",
+        question: "Which phrase is a COBIT process domain?",
+        options: ["Build, Acquire and Implement", "Customer Segments and Channels", "Activity, Input and Output", "CIM, PIM and PSM"],
+        answer: 0,
+        explanation: "Build, Acquire and Implement is the BAI domain in COBIT.",
+        questionZh: "哪一项是 COBIT 的流程域？",
+        answerZh: "Build, Acquire and Implement。",
+        memory: "COBIT 五域：EDM, APO, BAI, DSS, MEA。",
+        clue: "Build/Acquire/Implement。",
+        explanationZh: "选 A。B 是 BMC，C 是 IDEF0，D 是 MDA。"
+      },
+      {
+        id: 26, lecture: "L3", topic: "COBIT vs ITIL", discussion: "ITIL vs COBIT",
+        question: "An organization already knows what IT controls are needed but wants best practices for running incidents and service support. It should mainly look at:",
+        options: ["ITIL", "Zachman", "MDA", "EFQM results"],
+        answer: 0,
+        explanation: "ITIL provides IT service management best practices such as incident and support processes.",
+        questionZh: "组织已知道需要哪些 IT 控制，但想要运行 incident 和 service support 的最佳实践，应主要看什么？",
+        answerZh: "ITIL。",
+        memory: "COBIT = what to control；ITIL = how to run service。",
+        clue: "incidents、service support、best practices。",
+        explanationZh: "选 A。ITIL 关注 IT 服务如何具体运行。"
+      },
+      {
+        id: 27, lecture: "L3", topic: "CMMI",
+        question: "A software organization introduces organization-wide standard processes that all projects must follow. This most closely relates to which maturity idea?",
+        options: ["CMMI Level 3 Defined", "BMC value proposition", "BPMN gateway", "COBIT DSS only"],
+        answer: 0,
+        explanation: "CMMI Level 3 Defined emphasizes organization-wide standard processes.",
+        questionZh: "软件组织建立所有项目都要遵守的组织级标准流程，这最接近哪个成熟度概念？",
+        answerZh: "CMMI Level 3 Defined。",
+        memory: "Level 3 = Defined = 组织级标准流程。",
+        clue: "organization-wide standard processes。",
+        explanationZh: "选 A。Level 3 的关键是定义好的组织级流程。"
+      },
+      {
+        id: 28, lecture: "L3", topic: "ISO 42010",
+        question: "A standard that focuses on stakeholders, concerns, views, viewpoints, and architecture descriptions is most closely related to:",
+        options: ["ISO/IEC 42010", "Business Model Canvas", "ITIL incident management", "IDEF1X"],
+        answer: 0,
+        explanation: "ISO/IEC 42010 defines key terms and practices for architecture descriptions.",
+        questionZh: "关注 stakeholders、concerns、views、viewpoints 和 architecture descriptions 的标准最接近什么？",
+        answerZh: "ISO/IEC 42010。",
+        memory: "42010 = architecture description 术语体系。",
+        clue: "stakeholder、concern、view、viewpoint。",
+        explanationZh: "选 A。这些都是 architecture description 的核心术语。"
+      },
+      {
+        id: 29, lecture: "L3", topic: "Zachman",
+        question: "A team uses a matrix of What, How, Where, Who, When, and Why to classify architecture descriptions. Which framework is this?",
+        options: ["Zachman Framework", "TOGAF ADM", "ITIL", "CMMI"],
+        answer: 0,
+        explanation: "Zachman is a classification framework organized around interrogatives such as What, How, Where, Who, When, and Why.",
+        questionZh: "团队用 What/How/Where/Who/When/Why 的矩阵分类架构描述，这是哪个框架？",
+        answerZh: "Zachman Framework。",
+        memory: "Zachman = 六问矩阵。",
+        clue: "What, How, Where, Who, When, Why。",
+        explanationZh: "选 A。Zachman 的本质是分类矩阵。"
+      },
+      {
+        id: 30, lecture: "L3", topic: "TOGAF and MDA",
+        question: "Which pairing is correct?",
+        options: ["TOGAF: ADM; MDA: CIM/PIM/PSM", "TOGAF: value proposition; MDA: customer segments", "TOGAF: incident management; MDA: service support", "TOGAF: IDEF0; MDA: COBIT domains"],
+        answer: 0,
+        explanation: "TOGAF's core is ADM, while MDA uses CIM, PIM, and PSM abstraction levels.",
+        questionZh: "哪组配对是正确的？",
+        answerZh: "TOGAF 对应 ADM；MDA 对应 CIM/PIM/PSM。",
+        memory: "TOGAF-ADM；MDA-CIM/PIM/PSM。",
+        clue: "pairing is correct。",
+        explanationZh: "选 A。其他选项把 BMC、ITIL、IDEF/COBIT 混进来了。"
+      },
+
+      {
+        id: 31, lecture: "L4", topic: "Zachman vs TOGAF", discussion: "TOGAF vs Zachman",
+        question: "A consultant says, 'This framework helps us classify architecture artifacts, but it does not tell us a step-by-step development method.' Which framework is most likely meant?",
+        options: ["Zachman", "TOGAF ADM", "ITIL", "BPMN"],
+        answer: 0,
+        explanation: "Zachman is a classification framework rather than a step-by-step method.",
+        questionZh: "某框架帮助分类架构产物，但不提供逐步开发方法，这最可能是什么？",
+        answerZh: "Zachman。",
+        memory: "Zachman 分类；TOGAF 做流程。",
+        clue: "classify artifacts, not step-by-step method。",
+        explanationZh: "选 A。TOGAF ADM 才是开发方法。"
+      },
+      {
+        id: 32, lecture: "L4", topic: "TOGAF vs Zachman", discussion: "TOGAF vs Zachman",
+        question: "A company asks for an iterative process to develop and govern enterprise architecture over time. Which approach is most suitable?",
+        options: ["TOGAF ADM", "Zachman cell classification only", "IDEF1X", "BSC customer perspective"],
+        answer: 0,
+        explanation: "TOGAF ADM is an iterative architecture development method.",
+        questionZh: "公司需要一个随时间迭代开发和治理企业架构的过程，最适合什么？",
+        answerZh: "TOGAF ADM。",
+        memory: "ADM = iterative development process。",
+        clue: "iterative process、develop and govern architecture。",
+        explanationZh: "选 A。Zachman 更像分类矩阵，不是开发流程。"
+      },
+      {
+        id: 33, lecture: "L4", topic: "IDEF0",
+        question: "A model shows an activity with inputs, outputs, controls, and mechanisms. Which modelling method does this indicate?",
+        options: ["IDEF0", "BPMN", "UML sequence diagram", "MDA"],
+        answer: 0,
+        explanation: "IDEF0 represents functions using activity, input, output, control, and mechanism.",
+        questionZh: "一个模型显示 activity 及其 inputs、outputs、controls、mechanisms，这是什么建模方法？",
+        answerZh: "IDEF0。",
+        memory: "IDEF0 五件套：AICOM。",
+        clue: "inputs、outputs、controls、mechanisms。",
+        explanationZh: "选 A。这是 IDEF0 的典型结构。"
+      },
+      {
+        id: 34, lecture: "L4", topic: "IDEF family",
+        question: "Which mapping of IDEF methods to modelling purposes is correct?",
+        options: ["IDEF0: functional; IDEF3: process; IDEF1X: data", "IDEF0: data; IDEF3: technology; IDEF1X: strategy", "IDEF0: service support; IDEF3: governance; IDEF1X: maturity", "IDEF0: BSC; IDEF3: EFQM; IDEF1X: BMC"],
+        answer: 0,
+        explanation: "IDEF0 is functional modelling, IDEF3 is process modelling, and IDEF1X is data modelling.",
+        questionZh: "IDEF 方法和建模用途哪组对应正确？",
+        answerZh: "IDEF0 功能；IDEF3 流程；IDEF1X 数据。",
+        memory: "0 功能，3 流程，1X 数据。",
+        clue: "mapping of IDEF methods。",
+        explanationZh: "选 A。这是 IDEF 家族最常考的区别。"
+      },
+      {
+        id: 35, lecture: "L4", topic: "BPMN", discussion: "BPMN vs UML vs IDEF",
+        question: "A diagram focuses on the order of business activities, decisions, and hand-offs in a customer refund process. Which notation is most appropriate?",
+        options: ["BPMN", "CMMI", "COBIT EDM", "MDA PSM"],
+        answer: 0,
+        explanation: "BPMN is used to model business process flows.",
+        questionZh: "一个图关注客户退款流程中的业务活动顺序、决策和交接，最适合什么符号？",
+        answerZh: "BPMN。",
+        memory: "BPMN = business process flow。",
+        clue: "order of business activities、process。",
+        explanationZh: "选 A。BPMN 的主业就是业务流程建模。"
+      },
+      {
+        id: 36, lecture: "L4", topic: "BPMN limitation",
+        question: "Which question is least suitable for BPMN to answer directly?",
+        options: ["Which physical servers host the application components?", "What activity follows customer payment?", "Which decision splits the process?", "Where does the process hand over between roles?"],
+        answer: 0,
+        explanation: "BPMN models business process flow, not technology infrastructure deployment.",
+        questionZh: "哪类问题最不适合 BPMN 直接回答？",
+        answerZh: "哪些物理服务器承载应用组件。",
+        memory: "BPMN 不管 technology deployment。",
+        clue: "least suitable、physical servers。",
+        explanationZh: "选 A。服务器部署属于技术架构，不是 BPMN 的主要范围。"
+      },
+      {
+        id: 37, lecture: "L4", topic: "UML", discussion: "BPMN vs UML vs IDEF",
+        question: "UML is most suitable when the main concern is to model:",
+        options: ["Software system structures and behaviours", "Only customer revenue streams", "Only EFQM society results", "Only COBIT maturity levels"],
+        answer: 0,
+        explanation: "UML is an industry-standard language for software/system modelling.",
+        questionZh: "当主要关注建模什么时，UML 最适合？",
+        answerZh: "软件系统结构和行为。",
+        memory: "UML = software/system modelling。",
+        clue: "software system structures and behaviours。",
+        explanationZh: "选 A。UML 更偏系统设计人员使用。"
+      },
+      {
+        id: 38, lecture: "L4", topic: "UML audience",
+        question: "Why can UML be less suitable for communicating with non-technical business stakeholders?",
+        options: ["It often assumes software/system design background", "It is only a financial accounting standard", "It cannot describe any system structure", "It is the same as Business Model Canvas"],
+        answer: 0,
+        explanation: "UML diagrams are often clearer to system designers than to business-oriented stakeholders.",
+        questionZh: "为什么 UML 可能不太适合和非技术业务 stakeholder 沟通？",
+        answerZh: "因为它通常假设读者有软件/系统设计背景。",
+        memory: "UML 给技术人清楚，业务人未必直观。",
+        clue: "non-technical business stakeholders。",
+        explanationZh: "选 A。UML 语义和图形对业务人员可能不够直观。"
+      },
+      {
+        id: 39, lecture: "L4", topic: "Description language weakness", discussion: "BPMN vs UML vs IDEF",
+        question: "A common weakness of IDEF, BPMN, and UML for full EA work is that they:",
+        options: ["Do not fully integrate business, application, and technology domains", "Cannot model anything at all", "Are only financial reporting tools", "Always replace stakeholder communication"],
+        answer: 0,
+        explanation: "These languages are useful but often have weak cross-domain integration for EA.",
+        questionZh: "IDEF、BPMN、UML 用于完整 EA 时的共同弱点是什么？",
+        answerZh: "不能充分整合业务、应用和技术领域。",
+        memory: "这些语言各管一块，跨域弱。",
+        clue: "common weakness、full EA work。",
+        explanationZh: "选 A。这也是为什么需要更统一的 EA 建模语言。"
+      },
+      {
+        id: 40, lecture: "L4", topic: "Language choice",
+        question: "A team wants to show both a business process and the application service supporting it. Which language is more suitable than BPMN alone?",
+        options: ["ArchiMate", "IDEF1X only", "BSC", "EFQM"],
+        answer: 0,
+        explanation: "ArchiMate can connect business and application layers, while BPMN mainly focuses on process flow.",
+        questionZh: "团队想同时展示业务流程及支撑它的应用服务，什么语言比单独 BPMN 更适合？",
+        answerZh: "ArchiMate。",
+        memory: "跨 business/application/technology 用 ArchiMate。",
+        clue: "business process + application service。",
+        explanationZh: "选 A。ArchiMate 适合跨层表达。"
+      },
+
+      {
+        id: 41, lecture: "L5", topic: "Domain integration", discussion: "Integrating EA Domains",
+        question: "A business process model changes, but no one knows which applications and databases are affected. This is mainly a problem of:",
+        options: ["Integration between architecture domains", "Customer segmentation", "BSC financial perspective", "IDEF0 control only"],
+        answer: 0,
+        explanation: "EA domains must be integrated so changes in one domain can be traced to others.",
+        questionZh: "业务流程模型变化后没人知道影响哪些应用和数据库，这主要是什么问题？",
+        answerZh: "架构领域之间没有很好集成。",
+        memory: "Domain integration = 变化能跨业务/应用/数据/技术追踪。",
+        clue: "process changes affect applications/databases。",
+        explanationZh: "选 A。模型孤立会导致业务-IT 对齐问题。"
+      },
+      {
+        id: 42, lecture: "L5", topic: "Business-IT alignment problem", discussion: "Integrating EA Domains",
+        question: "The UML-BPMN integration issue is best understood as a business-IT alignment problem because:",
+        options: ["Business processes and IT system models may not be connected", "BPMN and UML are both financial standards", "It only concerns customer pricing", "It removes all need for architecture descriptions"],
+        answer: 0,
+        explanation: "The issue is about connecting business process models with software/system models.",
+        questionZh: "UML-BPMN 整合问题为什么可理解为 business-IT alignment problem？",
+        answerZh: "因为业务流程模型和 IT 系统模型可能没有连接。",
+        memory: "BPMN 业务流程；UML 系统设计；连不上就是 business-IT 问题。",
+        clue: "UML-BPMN integration。",
+        explanationZh: "选 A。业务图和系统图不能互相追踪，就会脱节。"
+      },
+      {
+        id: 43, lecture: "L5", topic: "Compositionality",
+        question: "Compositionality helps manage complexity by:",
+        options: ["Separating a system into parts and understanding their relationships", "Ignoring all relationships", "Replacing models with slogans", "Using only one stakeholder concern"],
+        answer: 0,
+        explanation: "Compositionality handles complexity by distinguishing parts and their relationships.",
+        questionZh: "Compositionality 如何帮助处理复杂性？",
+        answerZh: "把系统分成部分，并理解这些部分之间的关系。",
+        memory: "先拆部件，再看关系。",
+        clue: "manage complexity、parts、relationships。",
+        explanationZh: "选 A。复杂系统不能只看整体，也不能只看孤立零件。"
+      },
+      {
+        id: 44, lecture: "L5", topic: "View vs viewpoint",
+        question: "Which statement correctly distinguishes a view from a viewpoint?",
+        options: ["A view is a concrete representation; a viewpoint defines conventions for creating and interpreting such views", "A viewpoint is always a database table", "A view replaces stakeholder concerns", "They mean exactly the same thing"],
+        answer: 0,
+        explanation: "A view is what is shown; a viewpoint defines how that kind of view is constructed and interpreted.",
+        questionZh: "view 和 viewpoint 的区别是什么？",
+        answerZh: "view 是具体表达；viewpoint 定义如何创建和解释这类 view。",
+        memory: "View 是图；Viewpoint 是画图和读图规则。",
+        clue: "distinguishes view from viewpoint。",
+        explanationZh: "选 A。这是 architecture description 的核心区别。"
+      },
+      {
+        id: 45, lecture: "L5", topic: "Symbolic vs semantic", discussion: "Symbolic / Semantic Integration",
+        question: "Two departments use the same symbol 'Customer' but define it differently. What kind of problem does this reveal?",
+        options: ["A semantic problem in model interpretation", "A COBIT domain problem", "A BSC learning perspective", "A hardware capacity issue"],
+        answer: 0,
+        explanation: "Semantic models clarify the meaning of symbols used in symbolic models.",
+        questionZh: "两个部门都用 Customer 这个符号，但定义不同，这暴露了什么问题？",
+        answerZh: "模型解释中的语义问题。",
+        memory: "Symbolic 是符号；Semantic 是符号含义。",
+        clue: "same symbol, define differently。",
+        explanationZh: "选 A。符号一样不代表含义一样。"
+      },
+      {
+        id: 46, lecture: "L5", topic: "Architecture language needs",
+        question: "Why does EA need a common architectural language?",
+        options: ["To reduce ambiguity and connect models across stakeholder groups and domains", "To ensure every model is a source-code file", "To remove all business concerns", "To avoid communication completely"],
+        answer: 0,
+        explanation: "A common language supports consistent modelling, communication, and integration.",
+        questionZh: "为什么 EA 需要共同的 architecture language？",
+        answerZh: "为了减少歧义，并连接不同 stakeholder 和领域的模型。",
+        memory: "Common language = less ambiguity + integration。",
+        clue: "common architectural language。",
+        explanationZh: "选 A。共同语言能让不同模型和不同人对上话。"
+      },
+      {
+        id: 47, lecture: "L5", topic: "Way of communicating",
+        question: "In an architecture language, the 'way of communicating' mainly concerns:",
+        options: ["How modelling concepts are represented to human beings", "How revenue streams are priced", "How servers are physically installed", "How EFQM results are audited only"],
+        answer: 0,
+        explanation: "The way of communicating describes how abstract modelling concepts are communicated, such as through notation.",
+        questionZh: "architecture language 中的 way of communicating 主要关注什么？",
+        answerZh: "建模概念如何被表示给人理解。",
+        memory: "Communicating = 怎么把模型讲给人看。",
+        clue: "way of communicating。",
+        explanationZh: "选 A。它关注符号、图形、文本等表达方式。"
+      },
+      {
+        id: 48, lecture: "L5", topic: "Way of supporting",
+        question: "Tool support for creating, modifying, storing, and analysing models belongs mainly to which part of an architecture language approach?",
+        options: ["A way of supporting", "A way of pricing", "A way of selling", "A way of outsourcing only"],
+        answer: 0,
+        explanation: "A way of supporting is often supplied through tools that support model creation, analysis, and management.",
+        questionZh: "支持创建、修改、存储和分析模型的工具主要属于 architecture language 的哪一部分？",
+        answerZh: "A way of supporting。",
+        memory: "Supporting = 工具支持。",
+        clue: "tool support、creating/modifying/storing models。",
+        explanationZh: "选 A。这里考的是语言方法中的支持方式。"
+      },
+      {
+        id: 49, lecture: "L5", topic: "Communication support",
+        question: "Architecture communication support should primarily help stakeholders:",
+        options: ["See relevant aspects of the architecture for their concerns", "See every technical detail regardless of role", "Avoid all architecture views", "Use only financial statements"],
+        answer: 0,
+        explanation: "Communication support should provide relevant views for stakeholder groups and concerns.",
+        questionZh: "架构沟通支持主要应帮助 stakeholder 做什么？",
+        answerZh: "看到与其关注点相关的架构方面。",
+        memory: "Communication support = 给对的人看相关 view。",
+        clue: "stakeholders、relevant aspects、concerns。",
+        explanationZh: "选 A。不是所有人都需要看所有细节。"
+      },
+      {
+        id: 50, lecture: "L5", topic: "Change support",
+        question: "Why is change support important in EA?",
+        options: ["Because changing one architecture element may affect processes, applications, data, and technology elsewhere", "Because architecture never changes", "Because change support is only about marketing", "Because it eliminates the need for impact assessment"],
+        answer: 0,
+        explanation: "EA changes can have broad impact across related architectures and should be assessed and planned.",
+        questionZh: "为什么 EA 中 change support 很重要？",
+        answerZh: "因为一个架构元素变化可能影响其他流程、应用、数据和技术。",
+        memory: "EA 变化有连锁影响，要 impact assessment。",
+        clue: "changing one element may affect elsewhere。",
+        explanationZh: "选 A。企业架构元素之间相互依赖。"
+      },
+
+      {
+        id: 51, lecture: "L6", topic: "EA communication", discussion: "Communication-focused EA Theories",
+        question: "The main purpose of EA communication is not just to show diagrams, but to help stakeholders:",
+        options: ["Develop shared understanding and commitment about architecture knowledge", "Memorize every software class name", "Avoid decisions", "Use only one technical notation"],
+        answer: 0,
+        explanation: "EA communication aims to improve, validate, and commit stakeholders to architecture knowledge.",
+        questionZh: "EA 沟通的主要目的不只是展示图，而是帮助 stakeholder 做什么？",
+        answerZh: "形成共同理解，并对架构知识达成承诺。",
+        memory: "Communication = understanding -> agreement -> commitment。",
+        clue: "not just show diagrams。",
+        explanationZh: "选 A。图只是媒介，目标是让人理解并行动。"
+      },
+      {
+        id: 52, lecture: "L6", topic: "Knowledge states", discussion: "Communication-focused EA Theories",
+        question: "Which sequence best describes increasing commitment to architecture knowledge?",
+        options: ["Aware -> Agreed -> Committed", "Committed -> Unaware -> Hidden", "Input -> Output -> Control", "CIM -> DSS -> EFQM"],
+        answer: 0,
+        explanation: "Knowledge sharing can progress from awareness to agreement to commitment.",
+        questionZh: "哪一组最能描述对架构知识承诺程度逐渐增强？",
+        answerZh: "Aware -> Agreed -> Committed。",
+        memory: "知道 -> 同意 -> 承诺行动。",
+        clue: "increasing commitment。",
+        explanationZh: "选 A。这是 Lecture 6 沟通知识状态的核心。"
+      },
+      {
+        id: 53, lecture: "L6", topic: "Conversation technique",
+        question: "If an architect wants to collect knowledge from an experienced employee about how work is really done, the best technique is usually:",
+        options: ["Elicitation interview", "Mass mailing", "MDA transformation", "COBIT maturity scoring"],
+        answer: 0,
+        explanation: "An elicitation interview gathers knowledge from informants.",
+        questionZh: "架构师想从有经验员工那里收集实际工作知识，通常最适合什么技术？",
+        answerZh: "Elicitation interview。",
+        memory: "Elicitation = 从人那里挖知识。",
+        clue: "collect knowledge from experienced employee。",
+        explanationZh: "选 A。访谈适合获取隐性流程知识。"
+      },
+      {
+        id: 54, lecture: "L6", topic: "Validation interview",
+        question: "An architect shows a process view to a store manager and asks whether it matches how the store works. This is mainly a:",
+        options: ["Validation interview", "Business Model Canvas", "Technology deployment", "CMMI assessment"],
+        answer: 0,
+        explanation: "A validation interview checks whether a view or model matches an informant's expectations.",
+        questionZh: "架构师给店长看流程视图并确认是否符合实际工作，这主要是什么？",
+        answerZh: "Validation interview。",
+        memory: "Validation = 检查模型对不对。",
+        clue: "asks whether it matches how work is done。",
+        explanationZh: "选 A。这里不是收集新知识，而是验证模型。"
+      },
+      {
+        id: 55, lecture: "L6", topic: "Committing review",
+        question: "Senior stakeholders compare three future architecture alternatives and choose one to support. This is best described as:",
+        options: ["Committing review", "IDEF1X modelling", "Incident management", "A data object"],
+        answer: 0,
+        explanation: "A committing review asks stakeholders to choose and commit to one alternative.",
+        questionZh: "高层比较三个未来架构方案并选择支持其中一个，这最好称为什么？",
+        answerZh: "Committing review。",
+        memory: "Committing review = 选方案并承诺。",
+        clue: "alternatives、choose、support/commit。",
+        explanationZh: "选 A。目标是让 stakeholder 对方案做决定。"
+      },
+      {
+        id: 56, lecture: "L6", topic: "ArchiMate need", discussion: "BMC to ArchiMate / ArchiMate Concepts",
+        question: "Why is ArchiMate useful for EA compared with isolated BPMN or UML diagrams?",
+        options: ["It can express relations across business, application, and technology layers", "It only draws financial tables", "It replaces all stakeholder concerns", "It is only a service desk process"],
+        answer: 0,
+        explanation: "ArchiMate provides an integrated language for modelling layers and relations between domains.",
+        questionZh: "与孤立的 BPMN 或 UML 图相比，ArchiMate 为什么对 EA 有用？",
+        answerZh: "它能表达业务、应用和技术层之间的关系。",
+        memory: "ArchiMate = 跨层集成语言。",
+        clue: "relations across layers。",
+        explanationZh: "选 A。EA 需要跨域关系，不只是单独流程图或系统图。"
+      },
+      {
+        id: 57, lecture: "L6", topic: "ArchiMate layers",
+        question: "A model connects customer ordering processes, the order-management application, and cloud infrastructure. Which ArchiMate layers are involved?",
+        options: ["Business, Application, and Technology", "Financial, Customer, and Learning", "CIM, PIM, and PSM", "EDM, APO, and BAI only"],
+        answer: 0,
+        explanation: "Processes are business layer, applications are application layer, and infrastructure is technology layer.",
+        questionZh: "模型连接客户下单流程、订单管理应用和云基础设施，涉及哪些 ArchiMate 层？",
+        answerZh: "Business、Application 和 Technology。",
+        memory: "流程=Business；应用=Application；基础设施=Technology。",
+        clue: "processes + application + infrastructure。",
+        explanationZh: "选 A。这是 ArchiMate 三层对齐。"
+      },
+      {
+        id: 58, lecture: "L6", topic: "Motivation concepts",
+        question: "A regulatory pressure causes a company to set a goal of improving data privacy. In ArchiMate motivation concepts, the pressure is closest to a:",
+        options: ["Driver", "Node", "Data object", "Business actor"],
+        answer: 0,
+        explanation: "A driver is an external or internal condition that motivates change.",
+        questionZh: "监管压力促使公司设定改进数据隐私的目标，在 ArchiMate motivation concepts 中这个压力最接近什么？",
+        answerZh: "Driver。",
+        memory: "Driver 推动 goal/change。",
+        clue: "pressure causes goal。",
+        explanationZh: "选 A。driver 是推动变化的因素。"
+      },
+      {
+        id: 59, lecture: "L6", topic: "Application and technology",
+        question: "An application component is best understood as:",
+        options: ["An encapsulated, modular, replaceable unit of application functionality", "A human business role", "A physical office location", "A BSC financial measure"],
+        answer: 0,
+        explanation: "ArchiMate defines an application component as modular and replaceable application functionality.",
+        questionZh: "application component 最准确应理解为什么？",
+        answerZh: "封装的、模块化的、可替换的应用功能单元。",
+        memory: "Application component = 模块化应用功能。",
+        clue: "application component。",
+        explanationZh: "选 A。它属于 application layer，不是人或办公室。"
+      },
+      {
+        id: 60, lecture: "L6", topic: "Migration planning",
+        question: "A current architecture uses spreadsheets, a future architecture uses an integrated CRM, and the missing migration work is documented. The missing work is best represented as a:",
+        options: ["Gap between plateaus", "Customer segment", "BPMN event only", "UML behaviour category"],
+        answer: 0,
+        explanation: "A gap represents the difference between two plateaus in migration planning.",
+        questionZh: "当前架构用表格，未来架构用集成 CRM，中间缺少的迁移工作最好表示为什么？",
+        answerZh: "两个 plateau 之间的 gap。",
+        memory: "Plateau 是状态；Gap 是状态之间差距。",
+        clue: "current architecture、future architecture、missing migration work。",
+        explanationZh: "选 A。Gap 描述从当前状态到未来状态的差距。"
+      }
+    ];
+
+    QUESTIONS.splice(0, QUESTIONS.length, ...EXAM_QUALITY_QUESTIONS);
+    const HARDENED_QUESTION_REWRITES = {
+      1: {
+        question: "Which statement best separates an architecture description from a detailed system inventory?",
+        options: ["It explains key structures, relationships, and principles at an abstract level", "It records all software versions, devices, tables, and configuration items", "It lists implementation tasks, deadlines, owners, and resource allocations", "It captures service tickets, incidents, workarounds, and support history"],
+        answer: 0,
+        explanation: "Architecture abstracts the fundamental structures and principles; inventories, project plans, and support records are different artefacts.",
+        questionZh: "哪一项最能区分 architecture description 和详细系统清单？",
+        answerZh: "它在抽象层面说明关键结构、关系和原则。",
+        clue: "不要把 architecture 和 inventory / project plan / support log 混淆。",
+        explanationZh: "正确项强调抽象结构和关系；其他选项分别是资产清单、项目计划或运维记录。"
+      },
+      2: {
+        question: "Which situation best fits the EA meaning of an enterprise?",
+        options: ["A set of business units and partners coordinated around shared goals", "A single application selected by an IT department for internal reporting", "A database schema maintained by one team for one operational process", "A software module owned by one developer within a larger solution"],
+        answer: 0,
+        explanation: "An enterprise can include multiple units or organizations if they share goals or a bottom line.",
+        questionZh: "哪种情况最符合 EA 中 enterprise 的含义？",
+        answerZh: "多个业务单元和合作方围绕共同目标协同运作。",
+        clue: "enterprise 的范围比 application、database、module 大。",
+        explanationZh: "正确项体现共同目标和跨单位协同；其他选项范围太窄。"
+      },
+      3: {
+        question: "A store employee says a new checkout system may slow customer service. In architecture work, this statement is best treated as:",
+        options: ["A stakeholder concern to be addressed by an appropriate view", "A platform-specific model that defines the software deployment", "A business model element describing how revenue is generated", "A technology service that realizes an application component"],
+        answer: 0,
+        explanation: "A stakeholder concern is an issue or interest that architecture work should address.",
+        questionZh: "员工担心新结账系统拖慢服务，在架构工作中这最好被看作什么？",
+        answerZh: "需要用合适 view 回应的 stakeholder concern。",
+        clue: "某个角色提出担心 = stakeholder concern。",
+        explanationZh: "正确项把员工视为 stakeholder，把担心视为 concern；其他选项属于 MDA、BMC 或 ArchiMate 技术概念。"
+      },
+      4: {
+        question: "A firm has duplicated customer data, inconsistent processes, and applications that do not support business change. Which EA rationale is most directly involved?",
+        options: ["Managing complexity and improving business-IT alignment", "Replacing process analysis with financial benchmarking", "Restricting architecture work to software implementation", "Documenting service incidents without changing architecture"],
+        answer: 0,
+        explanation: "EA is used to manage complexity and align business needs with IT capabilities.",
+        questionZh: "企业客户数据重复、流程不一致、应用不支持业务变化，最直接体现 EA 的哪个理由？",
+        answerZh: "管理复杂性并改善 business-IT alignment。",
+        clue: "duplicated data、inconsistent process、applications not supporting business 都指向 EA。", 
+        explanationZh: "正确项对应 EA 的核心痛点；其他选项只涉及局部管理或运维活动。"
+      },
+      5: {
+        question: "Why should an EA initiative define its enterprise boundary before modelling?",
+        options: ["To decide which actors, processes, systems, and relationships are in scope", "To choose the final notation before stakeholder concerns are known", "To guarantee that every system detail will be modelled exhaustively", "To turn the enterprise architecture into an IT asset register"],
+        answer: 0,
+        explanation: "Boundary definition clarifies what is included in the architecture scope.",
+        questionZh: "为什么 EA 建模前要先定义 enterprise boundary？",
+        answerZh: "为了确定哪些参与者、流程、系统和关系在范围内。",
+        clue: "boundary = scope。",
+        explanationZh: "正确项强调范围界定；其他选项把边界误解成符号选择、穷尽细节或资产清单。"
+      },
+      6: {
+        question: "Which statement best shows that EA is broader than IT architecture?",
+        options: ["It connects organizational structure, business processes, information systems, and infrastructure", "It replaces business analysis with a complete network and server topology", "It limits architecture decisions to application code and database tables", "It excludes stakeholder concerns to keep the description technically neutral"],
+        answer: 0,
+        explanation: "EA covers organization, business processes, information systems, and infrastructure.",
+        questionZh: "哪一项最能说明 EA 比 IT architecture 范围更广？",
+        answerZh: "它连接组织结构、业务流程、信息系统和基础设施。",
+        clue: "broader than IT architecture = business + organization + IT。",
+        explanationZh: "正确项包含业务和组织维度；其他选项把 EA 缩小成技术视角。"
+      },
+      7: {
+        question: "Why can one architecture require several different views?",
+        options: ["Different stakeholders need views that address different concerns", "Each architecture view must use a different database product", "A viewpoint is valid only when it hides stakeholder interests", "Architecture views are used only after implementation is complete"],
+        answer: 0,
+        explanation: "Views are tailored to stakeholder concerns using viewpoint conventions.",
+        questionZh: "为什么同一个 architecture 可能需要多个不同 view？",
+        answerZh: "因为不同 stakeholders 需要回应不同 concerns 的 views。",
+        clue: "view 和 stakeholder concern 绑定。",
+        explanationZh: "正确项解释了 view 的目的；其他选项混淆数据库、viewpoint 或架构生命周期。"
+      },
+      8: {
+        question: "A digital strategy must be reflected in redesigned processes, updated applications, and new data responsibilities. EA mainly contributes by:",
+        options: ["Translating strategic intent into coordinated enterprise change", "Selecting one software vendor independently of business goals", "Producing incident records for the service desk only", "Creating a business model without considering implementation"],
+        answer: 0,
+        explanation: "EA translates vision and strategy into coordinated change across enterprise structures.",
+        questionZh: "数字战略要落实到流程、应用和数据责任变化时，EA 主要贡献是什么？",
+        answerZh: "把战略意图转化为协调一致的企业变革。",
+        clue: "strategy -> process/application/data change。",
+        explanationZh: "正确项强调战略到变革；其他选项分别偏采购、ITIL 运维或单纯 BMC。"
+      },
+      9: {
+        question: "Why is an architectural model usually selective rather than exhaustive?",
+        options: ["It keeps the structures and relationships needed for understanding and decisions", "It must avoid all relations so that every domain remains independent", "It is intended to replace the detailed models used by implementation teams", "It records every operational event so that no abstraction is required"],
+        answer: 0,
+        explanation: "Architectural models abstract from reality to support understanding and decision-making.",
+        questionZh: "为什么 architectural model 通常是选择性抽象，而不是穷尽所有细节？",
+        answerZh: "因为它保留理解和决策所需的结构与关系。",
+        clue: "model = purposeful abstraction。",
+        explanationZh: "正确项体现模型的抽象目的；其他选项否定关系、替代详细模型或取消抽象。"
+      },
+      10: {
+        question: "An EA description is most likely to reduce a communication gap when it helps:",
+        options: ["Business and IT stakeholders discuss the same change using shared concepts", "Two programming languages compile the same application module", "Customers and competitors agree on a common market strategy", "Printers and scanners share the same physical network segment"],
+        answer: 0,
+        explanation: "EA helps bridge communication gaps between business and IT stakeholders.",
+        questionZh: "EA description 在什么情况下最可能减少沟通鸿沟？",
+        answerZh: "帮助业务和 IT stakeholders 用共同概念讨论同一变化。",
+        clue: "communication gap in EA = business 和 IT 对话。",
+        explanationZh: "正确项是 EA 沟通目标；其他选项不是架构沟通问题。"
+      },
+      11: {
+        question: "Why is communication needed throughout the architecture process?",
+        options: ["Architecture decisions evolve and affect stakeholders during design, realization, operation, and change", "Architecture communication is needed only after all implementation decisions are frozen", "The architecture process ends once the first high-level diagram is drawn", "Stakeholder communication is optional if the technical model is sufficiently detailed"],
+        answer: 0,
+        explanation: "Architecture work spans idea, design, implementation, operation, and change, all involving stakeholders.",
+        questionZh: "为什么 architecture process 全程都需要沟通？",
+        answerZh: "因为架构决策会在设计、实现、运行和变更中持续影响 stakeholders。",
+        clue: "throughout process = design + implementation + operation + change。",
+        explanationZh: "正确项体现架构过程的闭环；其他选项把沟通放得太晚或取消 stakeholder。"
+      },
+      12: {
+        question: "A company starts EA because each branch performs the same order process differently, creating inconsistent costs and data. This is best classified as:",
+        options: ["An internal driver related to operational optimization", "An external driver caused by regulatory compliance", "An ArchiMate motivation assessment result", "A technology-layer implementation event"],
+        answer: 0,
+        explanation: "Internal process inefficiency and inconsistency are internal drivers for EA.",
+        questionZh: "各分店同一订单流程做法不同，导致成本和数据不一致，因此启动 EA，这是什么？",
+        answerZh: "与运营优化相关的 internal driver。",
+        clue: "branch process inconsistency 是内部运营问题。",
+        explanationZh: "正确项是内部驱动；其他选项分别是外部法规、ArchiMate motivation 或实施事件。"
+      },
+      13: {
+        question: "A new regulation requires auditable handling of personal data. As an EA driver, this is best understood as:",
+        options: ["An external pressure that may force architecture change", "An internal optimization issue caused by duplicate processes", "A business function in the ArchiMate business layer", "A CMMI level indicating quantitative process control"],
+        answer: 0,
+        explanation: "Regulation is an external pressure that can require architecture changes.",
+        questionZh: "新法规要求个人数据处理可审计，作为 EA driver 应如何理解？",
+        answerZh: "可能迫使架构变化的外部压力。",
+        clue: "regulation = external pressure。",
+        explanationZh: "正确项是外部驱动；其他选项混淆内部优化、ArchiMate 或 CMMI。"
+      },
+      14: {
+        question: "A customer-service strategy is announced, but employee training, incentives, and daily work instructions remain unchanged. This is mainly a weakness in:",
+        options: ["Vertical alignment", "Horizontal alignment", "Application-technology alignment", "Platform-specific modelling"],
+        answer: 0,
+        explanation: "Vertical alignment concerns the relation between top strategy and people at the bottom.",
+        questionZh: "客户服务战略发布后，培训、激励和日常工作没有变化，这主要是哪方面弱？",
+        answerZh: "Vertical alignment。",
+        clue: "top strategy 没有落实到 people。",
+        explanationZh: "正确项是纵向对齐；horizontal 更偏内部流程和外部客户。"
+      },
+      15: {
+        question: "A refund process is internally convenient for the company but creates long waiting times for customers. This is mainly a weakness in:",
+        options: ["Horizontal alignment", "Vertical alignment", "MDA abstraction mapping", "COBIT maturity assessment"],
+        answer: 0,
+        explanation: "Horizontal alignment concerns internal processes and external customers.",
+        questionZh: "退款流程对公司内部方便，但客户等待时间很长，这主要是哪方面弱？",
+        answerZh: "Horizontal alignment。",
+        clue: "internal process vs external customers。",
+        explanationZh: "正确项是横向对齐；vertical 才是战略到人员执行。"
+      },
+      16: {
+        question: "The operating model concept is mainly about deciding the required level of:",
+        options: ["Business process integration and standardization", "Service incidents and support escalation", "Model abstraction and platform-specific transformation", "Stakeholder awareness and commitment"],
+        answer: 0,
+        explanation: "Operating models are based on integration and standardization of business processes.",
+        questionZh: "Operating model 主要是在决定什么水平？",
+        answerZh: "业务流程整合和标准化的水平。",
+        clue: "operating model = integration + standardization。",
+        explanationZh: "正确项是 operating model；其他选项分别对应 ITIL、MDA 和 EA communication。"
+      },
+      17: {
+        question: "Which situation most directly calls for a Balanced Scorecard rather than a Business Model Canvas?",
+        options: ["Tracking strategy through financial, customer, process, and learning measures", "Describing customer segments, channels, partners, costs, and revenue streams", "Classifying architecture artefacts by what, how, where, who, when, and why", "Modelling activity inputs, outputs, controls, and mechanisms"],
+        answer: 0,
+        explanation: "BSC translates strategy into measures across four perspectives; BMC describes a business model.",
+        questionZh: "哪种情况最直接需要 BSC，而不是 BMC？",
+        answerZh: "用财务、客户、流程和学习指标追踪战略。",
+        clue: "BSC = strategy measures；BMC = business model elements。",
+        explanationZh: "正确项是 BSC；其他选项分别是 BMC、Zachman 和 IDEF0。"
+      },
+      18: {
+        question: "Which situation most directly calls for a Business Model Canvas rather than a Balanced Scorecard?",
+        options: ["Explaining how customer segments, value propositions, channels, and revenue streams fit together", "Measuring strategic performance using financial and learning indicators", "Assessing IT control objectives against business risks", "Checking whether architectural views are consistent"],
+        answer: 0,
+        explanation: "BMC describes how a business creates and captures value.",
+        questionZh: "哪种情况最直接需要 BMC，而不是 BSC？",
+        answerZh: "解释客户群、价值主张、渠道和收入流如何配合。",
+        clue: "BMC = value creation and capture。",
+        explanationZh: "正确项是 BMC；其他选项分别对应 BSC、COBIT 和 ISO 42010。"
+      },
+      19: {
+        question: "Business architecture is most useful when strategic objectives must be connected to:",
+        options: ["Business capabilities, processes, roles, and tactical demands", "Only physical network devices and server locations", "Only incident categories and service desk queues", "Only source-code classes and database indexes"],
+        answer: 0,
+        explanation: "Business architecture translates strategy into a shared understanding of business structure and action.",
+        questionZh: "Business architecture 最适合把战略目标连接到什么？",
+        answerZh: "业务能力、流程、角色和战术需求。",
+        clue: "business architecture connects strategy to business action。",
+        explanationZh: "正确项体现业务架构；其他选项分别偏技术、ITIL 运维或软件实现。"
+      },
+      20: {
+        question: "Which feature would make an EA description least useful for decision-making?",
+        options: ["Different diagrams use conflicting meanings for the same business concept", "The description links business processes to supporting applications", "Stakeholder concerns are represented by suitable views", "The architecture principles are clear enough to guide change"],
+        answer: 0,
+        explanation: "Inconsistent meanings undermine communication and decision-making.",
+        questionZh: "哪种特征会让 EA description 对决策最没用？",
+        answerZh: "不同图对同一业务概念使用冲突含义。",
+        clue: "least useful = inconsistency / ambiguity。",
+        explanationZh: "正确项指出语义不一致；其他选项都是好 EA 的特征。"
+      }
+    };
+    Object.assign(HARDENED_QUESTION_REWRITES, {
+      21: {
+        question: "Which comparison best distinguishes EFQM from ISO 9001 in this course?",
+        options: ["EFQM is broader and focuses on organizational excellence and improvement", "EFQM is narrower and only certifies documented quality procedures", "EFQM is mainly a notation for modelling business process flows", "EFQM is a maturity model for software development capability"],
+        answer: 0,
+        explanation: "EFQM is broader than ISO 9001 and supports performance excellence and continuous improvement.",
+        questionZh: "哪一项最能区分 EFQM 和 ISO 9001？",
+        answerZh: "EFQM 范围更广，关注组织卓越和持续改进。",
+        clue: "EFQM = excellence；ISO 9001 = quality management standard。",
+        explanationZh: "正确项强调 EFQM 的整体绩效卓越；其他选项把 EFQM 误当成 ISO、BPMN 或 CMMI。"
+      },
+      22: {
+        question: "In EFQM, which distinction is most accurate?",
+        options: ["Enablers describe organizational practices; results describe achieved outcomes", "Enablers describe customer revenue; results describe platform deployment", "Enablers describe software classes; results describe UML relationships", "Enablers describe IT incidents; results describe service-desk categories"],
+        answer: 0,
+        explanation: "EFQM enablers cover what an organization does; results cover what it achieves.",
+        questionZh: "EFQM 中哪种区分最准确？",
+        answerZh: "Enablers 描述组织做什么；results 描述组织取得什么。",
+        clue: "Enablers = do；Results = achieve。",
+        explanationZh: "正确项体现 EFQM 九项逻辑；其他选项混入 BMC、UML 或 ITIL。"
+      },
+      23: {
+        question: "A firm uses one tool to select strategic objectives and another to benchmark organizational performance against best practices. Which pairing is most accurate?",
+        options: ["BSC for strategic objectives; EFQM for benchmarking and improvement", "EFQM for customer segments; BSC for data modelling", "COBIT for value propositions; ITIL for society results", "BPMN for strategic objectives; UML for financial measures"],
+        answer: 0,
+        explanation: "BSC supports strategic management, while EFQM supports benchmarking and continuous improvement.",
+        questionZh: "企业用一个工具选择战略目标，用另一个按最佳实践标杆比较绩效，哪组最准确？",
+        answerZh: "BSC 用于战略目标；EFQM 用于标杆比较和改进。",
+        clue: "BSC = strategic management；EFQM = improvement benchmarking。",
+        explanationZh: "正确项区分 BSC 和 EFQM；其他选项把不同框架乱配。"
+      },
+      24: {
+        question: "Which need most clearly points to COBIT rather than ITIL?",
+        options: ["Defining IT control objectives linked to business risks and governance", "Designing the detailed workflow for incident resolution and service support", "Drawing a customer refund process with gateways and activities", "Mapping value propositions to customer channels and revenue streams"],
+        answer: 0,
+        explanation: "COBIT is an IT governance and control framework; ITIL focuses on service management practices.",
+        questionZh: "哪种需求最清楚指向 COBIT，而不是 ITIL？",
+        answerZh: "定义与业务风险和治理相关的 IT 控制目标。",
+        clue: "COBIT = governance/control；ITIL = service practice。",
+        explanationZh: "正确项是 COBIT；其他选项分别更像 ITIL、BPMN 和 BMC。"
+      },
+      25: {
+        question: "Which option is a COBIT process domain rather than a BMC element, IDEF0 element, or MDA level?",
+        options: ["Build, Acquire and Implement", "Customer Segments and Channels", "Activity, Control and Mechanism", "Computation-Independent Model"],
+        answer: 0,
+        explanation: "Build, Acquire and Implement is COBIT's BAI domain.",
+        questionZh: "哪一项是 COBIT 流程域，而不是 BMC、IDEF0 或 MDA 概念？",
+        answerZh: "Build, Acquire and Implement。",
+        clue: "BAI 是 COBIT 域；其他选项分别属于 BMC、IDEF0、MDA。",
+        explanationZh: "正确项是 COBIT 五域之一；干扰项都来自相近课程概念。"
+      },
+      26: {
+        question: "Which statement best captures the COBIT-ITIL relationship?",
+        options: ["COBIT frames governance and control objectives; ITIL provides service-management practices", "COBIT models process flows; ITIL classifies architecture artefacts", "COBIT defines customer segments; ITIL defines value propositions", "COBIT gives platform-independent models; ITIL gives platform-specific models"],
+        answer: 0,
+        explanation: "COBIT tells what should be governed or controlled; ITIL gives practices for running IT services.",
+        questionZh: "哪一项最准确概括 COBIT 与 ITIL 的关系？",
+        answerZh: "COBIT 给治理和控制目标；ITIL 给服务管理实践。",
+        clue: "COBIT what/control；ITIL how/service。",
+        explanationZh: "正确项区分治理框架和服务管理实践；其他选项混入 BPMN/Zachman/BMC/MDA。"
+      },
+      27: {
+        question: "Which situation best illustrates the CMMI 'Defined' maturity idea?",
+        options: ["Projects follow organization-wide standard processes and guidelines", "Each project invents its own process without documented standards", "The organization defines customer segments and revenue streams", "The service desk handles incidents but no process maturity is assessed"],
+        answer: 0,
+        explanation: "CMMI Level 3 Defined involves organization-wide standard processes.",
+        questionZh: "哪种情况最能体现 CMMI 的 Defined 成熟度思想？",
+        answerZh: "项目遵循组织级标准流程和指南。",
+        clue: "Defined = organization-wide standard process。",
+        explanationZh: "正确项对应 CMMI Level 3；其他选项分别是低成熟度、BMC 或 ITIL 场景。"
+      },
+      28: {
+        question: "A team checks whether architecture views address stakeholder concerns and remain mutually consistent. Which standard area is most relevant?",
+        options: ["Architecture description practices in ISO/IEC 42010", "Business model design in BMC", "Service support practice in ITIL", "Platform transformation in MDA"],
+        answer: 0,
+        explanation: "ISO/IEC 42010 concerns architecture descriptions, stakeholders, concerns, views, and viewpoints.",
+        questionZh: "团队检查架构 views 是否回应 stakeholder concerns 且相互一致，最相关的是哪个标准领域？",
+        answerZh: "ISO/IEC 42010 的 architecture description practices。",
+        clue: "stakeholder、concern、view、viewpoint、consistency。",
+        explanationZh: "正确项对应 architecture description；其他选项属于 BMC、ITIL 或 MDA。"
+      },
+      29: {
+        question: "Which statement most accurately contrasts Zachman with TOGAF?",
+        options: ["Zachman classifies architecture descriptions; TOGAF provides an iterative development method", "Zachman manages incidents; TOGAF models customer value propositions", "Zachman defines CIM/PIM/PSM; TOGAF defines IDEF0 controls", "Zachman is a BPMN notation; TOGAF is a UML behaviour diagram"],
+        answer: 0,
+        explanation: "Zachman is a classification framework, while TOGAF's ADM is an iterative method.",
+        questionZh: "哪一项最准确对比 Zachman 和 TOGAF？",
+        answerZh: "Zachman 分类架构描述；TOGAF 提供迭代开发方法。",
+        clue: "Zachman = classification；TOGAF = ADM method。",
+        explanationZh: "正确项抓住本质区别；其他选项混入 ITIL、BMC、MDA、IDEF、BPMN 和 UML。"
+      },
+      30: {
+        question: "Which pairing correctly matches the framework with its central idea?",
+        options: ["TOGAF - ADM; MDA - CIM/PIM/PSM; Zachman - classification matrix", "TOGAF - customer segments; MDA - service support; Zachman - incident records", "TOGAF - IDEF0 controls; MDA - COBIT domains; Zachman - BSC measures", "TOGAF - data object; MDA - business actor; Zachman - technology node"],
+        answer: 0,
+        explanation: "TOGAF centers on ADM, MDA on abstraction levels, and Zachman on classification.",
+        questionZh: "哪组正确匹配框架及其核心思想？",
+        answerZh: "TOGAF-ADM；MDA-CIM/PIM/PSM；Zachman-classification matrix。",
+        clue: "三组高频配对题。",
+        explanationZh: "正确项把三个框架的核心抓准；其他选项把不同章节概念交叉混淆。"
+      },
+      31: {
+        question: "A framework is useful for asking what, how, where, who, when, and why, but it gives little guidance on execution sequence. Which is it?",
+        options: ["Zachman Framework", "TOGAF ADM", "ITIL Service Support", "ArchiMate implementation concepts"],
+        answer: 0,
+        explanation: "Zachman classifies artefacts using interrogatives but is not a step-by-step method.",
+        questionZh: "某框架适合问 what/how/where/who/when/why，但很少指导执行顺序，这是哪个？",
+        answerZh: "Zachman Framework。",
+        clue: "六问 + 不是步骤方法 = Zachman。",
+        explanationZh: "正确项是 Zachman；TOGAF ADM 才强调执行过程。"
+      },
+      32: {
+        question: "Which description best fits TOGAF ADM?",
+        options: ["An iterative method for developing and governing enterprise architecture", "A matrix for classifying artefacts without a development cycle", "A notation for detailed business process flow diagrams", "A maturity scale for software process capability"],
+        answer: 0,
+        explanation: "TOGAF ADM is an iterative method for architecture development.",
+        questionZh: "哪种描述最符合 TOGAF ADM？",
+        answerZh: "用于开发和治理企业架构的迭代方法。",
+        clue: "TOGAF ADM = iterative architecture development。",
+        explanationZh: "正确项是 TOGAF；其他选项分别是 Zachman、BPMN 和 CMMI。"
+      },
+      33: {
+        question: "A diagram represents a function with incoming information, outgoing results, governing rules, and resources used to perform it. Which method is most likely?",
+        options: ["IDEF0", "BPMN", "IDEF1X", "Zachman"],
+        answer: 0,
+        explanation: "IDEF0 models functions using input, output, control, and mechanism around an activity.",
+        questionZh: "图中一个功能有输入信息、输出结果、规则约束和执行资源，最可能是什么方法？",
+        answerZh: "IDEF0。",
+        clue: "function + input/output/control/mechanism。",
+        explanationZh: "正确项是 IDEF0；BPMN 偏流程，IDEF1X 偏数据，Zachman 是分类框架。"
+      },
+      34: {
+        question: "Which mapping is accurate for the core IDEF methods?",
+        options: ["IDEF0 for functions, IDEF3 for process workflows, IDEF1X for data models", "IDEF0 for data models, IDEF3 for control objectives, IDEF1X for service support", "IDEF0 for strategy maps, IDEF3 for customer segments, IDEF1X for value propositions", "IDEF0 for platform models, IDEF3 for application components, IDEF1X for business actors"],
+        answer: 0,
+        explanation: "IDEF0 is functional, IDEF3 is process-oriented, and IDEF1X is data-oriented.",
+        questionZh: "IDEF 核心方法哪组映射准确？",
+        answerZh: "IDEF0 功能；IDEF3 流程工作流；IDEF1X 数据模型。",
+        clue: "0-function，3-process，1X-data。",
+        explanationZh: "正确项区分 IDEF 家族；其他选项把 COBIT、ITIL、BMC、ArchiMate 混进来。"
+      },
+      35: {
+        question: "Which modelling need points most directly to BPMN?",
+        options: ["Showing the sequence, decisions, and hand-offs in a business process", "Showing physical hosting of application artefacts on devices", "Showing the meaning of customer and order symbols across departments", "Showing enterprise artefacts in a what-how-where matrix"],
+        answer: 0,
+        explanation: "BPMN is designed for business process modelling.",
+        questionZh: "哪种建模需求最直接指向 BPMN？",
+        answerZh: "展示业务流程中的顺序、决策和交接。",
+        clue: "sequence + decisions + hand-offs = process flow。",
+        explanationZh: "正确项是 BPMN；其他选项对应技术层、语义模型或 Zachman。"
+      },
+      36: {
+        question: "Which question is least appropriate for BPMN as the primary modelling language?",
+        options: ["Which technology nodes host the application services?", "Which task follows customer payment?", "Where does a process split into alternative paths?", "Which role receives the next activity in the workflow?"],
+        answer: 0,
+        explanation: "BPMN models business processes, not technology infrastructure hosting.",
+        questionZh: "哪类问题最不适合用 BPMN 作为主要建模语言？",
+        answerZh: "哪些技术节点承载应用服务。",
+        clue: "BPMN 不负责 technology hosting。",
+        explanationZh: "正确项属于 ArchiMate 技术/应用层关系；其他选项都是流程问题。"
+      },
+      37: {
+        question: "Which need points most directly to UML rather than BPMN or BMC?",
+        options: ["Modelling software structures and interactions among system components", "Describing customer segments and revenue streams", "Benchmarking organizational excellence results", "Defining IT governance control objectives"],
+        answer: 0,
+        explanation: "UML is primarily used for modelling software/system structures and behaviours.",
+        questionZh: "哪种需求最直接指向 UML，而不是 BPMN 或 BMC？",
+        answerZh: "建模软件结构和系统组件之间的交互。",
+        clue: "software structures/interactions = UML。",
+        explanationZh: "正确项是 UML；其他选项分别是 BMC、EFQM 和 COBIT。"
+      },
+      38: {
+        question: "Why may UML be less effective for some business stakeholders?",
+        options: ["It often assumes familiarity with software and object-oriented system design", "It cannot express any structural relationship between system elements", "It is designed only for financial performance measurement", "It is identical to a high-level business model canvas"],
+        answer: 0,
+        explanation: "UML can be difficult for business stakeholders because it is oriented toward system designers.",
+        questionZh: "为什么 UML 对一些业务 stakeholder 可能不够有效？",
+        answerZh: "它通常假设读者熟悉软件和面向对象系统设计。",
+        clue: "UML 面向 system designers。",
+        explanationZh: "正确项说明 UML 的受众问题；其他选项不是 UML 的真实特点。"
+      },
+      39: {
+        question: "What is the main EA limitation shared by IDEF, BPMN, and UML?",
+        options: ["They are useful in domains but weak at integrated cross-domain architecture views", "They cannot describe any process, system, function, or data structure", "They are governance frameworks for IT control objectives", "They are designed only for performance excellence benchmarking"],
+        answer: 0,
+        explanation: "These languages are useful but do not fully integrate domains for enterprise architecture.",
+        questionZh: "IDEF、BPMN、UML 在 EA 中的共同主要限制是什么？",
+        answerZh: "它们在各自领域有用，但跨领域集成视图较弱。",
+        clue: "EA 需要 cross-domain integration。",
+        explanationZh: "正确项解释为什么需要更统一的 EA language；其他选项夸大或混淆 COBIT/EFQM。"
+      },
+      40: {
+        question: "A model must show a customer-facing business process, the application service supporting it, and the infrastructure hosting the application. Which language best fits?",
+        options: ["ArchiMate", "BPMN alone", "IDEF1X alone", "Balanced Scorecard"],
+        answer: 0,
+        explanation: "ArchiMate can connect business, application, and technology layers.",
+        questionZh: "模型要同时展示客户业务流程、支撑应用服务和承载基础设施，最适合什么？",
+        answerZh: "ArchiMate。",
+        clue: "business + application + technology 三层。",
+        explanationZh: "正确项是 ArchiMate；BPMN/IDEF1X/BSC 都覆盖不了跨层关系。"
+      },
+      41: {
+        question: "A process model, application model, and data model exist separately, but changes cannot be traced between them. What is the core EA problem?",
+        options: ["Weak integration between architecture domains", "A missing customer segment in BMC", "A lack of financial measures in BSC", "A missing service-desk incident category"],
+        answer: 0,
+        explanation: "EA needs integration across business, application, data, and technology domains.",
+        questionZh: "流程、应用、数据模型各自存在，但变化不能相互追踪，核心 EA 问题是什么？",
+        answerZh: "架构领域之间集成薄弱。",
+        clue: "separate models + cannot trace changes = domain integration problem。",
+        explanationZh: "正确项是领域集成问题；其他选项属于 BMC、BSC 或 ITIL。"
+      },
+      42: {
+        question: "Why is the UML-BPMN integration issue a business-IT alignment issue?",
+        options: ["It concerns whether business process views connect to system design views", "It concerns whether financial and customer measures balance each other", "It concerns whether value propositions connect to revenue streams", "It concerns whether incidents are assigned to service support roles"],
+        answer: 0,
+        explanation: "BPMN often represents business processes, while UML often represents software/system design.",
+        questionZh: "为什么 UML-BPMN 集成问题是 business-IT alignment 问题？",
+        answerZh: "因为它关系到业务流程视图能否连接系统设计视图。",
+        clue: "BPMN = business process；UML = IT/system design。",
+        explanationZh: "正确项连接业务与 IT；其他选项分别是 BSC、BMC 或 ITIL。"
+      },
+      43: {
+        question: "Compositionality is most useful in EA because it helps architects:",
+        options: ["Understand complex systems through parts and relationships", "Ignore relationships so that each model remains independent", "Convert all models into service-desk tickets", "Replace stakeholder concerns with financial measures"],
+        answer: 0,
+        explanation: "Compositionality manages complexity by identifying parts and their relations.",
+        questionZh: "Compositionality 在 EA 中为什么有用？",
+        answerZh: "帮助通过组成部分和关系理解复杂系统。",
+        clue: "parts + relationships。",
+        explanationZh: "正确项强调分解和关系；其他选项破坏 EA 集成目标。"
+      },
+      44: {
+        question: "Which statement best distinguishes a view from a viewpoint?",
+        options: ["A view is a concrete representation; a viewpoint defines how such views are constructed and interpreted", "A view defines modelling rules; a viewpoint is the final diagram shown to one stakeholder", "A view is a database object; a viewpoint is an application component", "A view is only technical; a viewpoint is only financial"],
+        answer: 0,
+        explanation: "A view is a representation; a viewpoint defines conventions for creating and interpreting that kind of representation.",
+        questionZh: "哪一项最能区分 view 和 viewpoint？",
+        answerZh: "view 是具体表达；viewpoint 定义这类 view 如何构建和解释。",
+        clue: "view = output；viewpoint = convention/rule。",
+        explanationZh: "正确项区分结果和规则；其他选项反了或混入无关概念。"
+      },
+      45: {
+        question: "Two models use the term 'customer', but one means registered users and the other means paying buyers. What is missing?",
+        options: ["A shared semantic interpretation of the symbolic model", "A COBIT service-delivery domain", "A Balanced Scorecard financial measure", "A physical device in the technology layer"],
+        answer: 0,
+        explanation: "Semantic models clarify the meaning of symbols used in symbolic models.",
+        questionZh: "两个模型都用 customer，但一个指注册用户，一个指付款买家，缺少什么？",
+        answerZh: "对符号模型的共享语义解释。",
+        clue: "same symbol, different meaning = semantic issue。",
+        explanationZh: "正确项是 semantic interpretation；其他选项与语义歧义无关。"
+      },
+      46: {
+        question: "A common architectural language is valuable mainly because it:",
+        options: ["Reduces ambiguity and supports relations between models from different domains", "Forces every stakeholder to read the same low-level technical diagram", "Eliminates the need to define viewpoints for different concerns", "Turns business models into software code without design decisions"],
+        answer: 0,
+        explanation: "A common language supports consistent modelling, communication, and integration.",
+        questionZh: "共同 architecture language 的主要价值是什么？",
+        answerZh: "减少歧义，并支持不同领域模型之间的关系。",
+        clue: "common vocabulary + cross-domain relations。",
+        explanationZh: "正确项体现共同语言价值；其他选项误解为单一低层图、取消 viewpoint 或自动代码生成。"
+      },
+      47: {
+        question: "In a modelling language, the way of communicating is mainly about:",
+        options: ["How concepts are represented so people can understand them", "How IT controls are audited against business risks", "How customer segments are priced in a revenue model", "How software processes reach maturity level three"],
+        answer: 0,
+        explanation: "The way of communicating concerns the notation and representation of modelling concepts.",
+        questionZh: "建模语言中的 way of communicating 主要关注什么？",
+        answerZh: "概念如何被表示出来以便人理解。",
+        clue: "communicating = representation to humans。",
+        explanationZh: "正确项对应表示和沟通；其他选项属于 COBIT、BMC 或 CMMI。"
+      },
+      48: {
+        question: "Which need best fits the way of supporting in an architecture language?",
+        options: ["Tool support for creating, analysing, storing, and updating models", "A definition of customer relationships and channels", "A maturity level for quantitative process control", "A classification of artefacts by interrogative questions"],
+        answer: 0,
+        explanation: "A way of supporting often comes through tools supporting model work.",
+        questionZh: "哪种需求最符合 architecture language 中的 way of supporting？",
+        answerZh: "支持创建、分析、存储和更新模型的工具。",
+        clue: "supporting = tooling for model work。",
+        explanationZh: "正确项是工具支持；其他选项属于 BMC、CMMI 或 Zachman。"
+      },
+      49: {
+        question: "Architecture communication support is successful when it:",
+        options: ["Shows each stakeholder group the architecture aspects relevant to its concerns", "Shows all stakeholders every model element at maximum technical detail", "Prevents stakeholders from challenging assumptions in architecture views", "Replaces architecture rationale with unrelated performance indicators"],
+        answer: 0,
+        explanation: "Communication support should provide relevant views for stakeholder concerns.",
+        questionZh: "架构沟通支持什么时候算成功？",
+        answerZh: "让每类 stakeholder 看到与其 concern 相关的架构方面。",
+        clue: "communication support = relevant view for concern。",
+        explanationZh: "正确项体现按关注点沟通；其他选项信息过载或取消沟通。"
+      },
+      50: {
+        question: "Change support matters in EA mainly because:",
+        options: ["Changes in one domain can create impacts in related processes, applications, data, and technology", "Architecture elements are independent and never affect each other", "Change support is only another name for customer segmentation", "Impact assessment is unnecessary once the first model is approved"],
+        answer: 0,
+        explanation: "Architecture changes can propagate across domains and should be assessed.",
+        questionZh: "为什么 EA 中 change support 很重要？",
+        answerZh: "因为一个领域的变化可能影响相关流程、应用、数据和技术。",
+        clue: "change impact across domains。",
+        explanationZh: "正确项强调连锁影响；其他选项否认 EA 的关联性。"
+      },
+      51: {
+        question: "EA communication is most successful when stakeholders move from merely seeing a model to:",
+        options: ["Shared understanding, agreement, and commitment to act on architecture knowledge", "Ignoring architecture concerns because the diagram is complete", "Replacing all models with service incident reports", "Treating business and technology views as unrelated"],
+        answer: 0,
+        explanation: "EA communication aims at awareness, agreement, and commitment around architecture knowledge.",
+        questionZh: "EA 沟通什么时候最成功？",
+        answerZh: "stakeholders 从看到模型走向共同理解、同意并承诺行动。",
+        clue: "communication goal = knowledge commitment。",
+        explanationZh: "正确项体现 EA 沟通目标；其他选项不支持架构理解。"
+      },
+      52: {
+        question: "Which sequence best represents increasing commitment to architecture knowledge?",
+        options: ["Aware -> Agreed -> Committed", "Committed -> Aware -> Agreed", "Input -> Control -> Mechanism", "CIM -> DSS -> BAI"],
+        answer: 0,
+        explanation: "Knowledge states progress from awareness to agreement to commitment.",
+        questionZh: "哪一序列最能表示对架构知识承诺程度逐步增强？",
+        answerZh: "Aware -> Agreed -> Committed。",
+        clue: "先知道，再同意，再承诺行动。",
+        explanationZh: "正确项是知识状态顺序；其他选项顺序错误或混入 IDEF0/COBIT。"
+      },
+      53: {
+        question: "Which technique is best when an architect needs to discover how an experienced employee actually performs a task?",
+        options: ["Elicitation interview", "Committing review", "Mass mailing", "Platform-specific modelling"],
+        answer: 0,
+        explanation: "Elicitation interviews gather knowledge from informants.",
+        questionZh: "架构师想发现有经验员工实际如何完成任务，最适合什么？",
+        answerZh: "Elicitation interview。",
+        clue: "discover knowledge from informant = elicitation。",
+        explanationZh: "正确项是知识收集；committing review 是选方案，mailing 是大范围发送。"
+      },
+      54: {
+        question: "Which technique is best when a model already exists and the architect wants to check whether it matches an informant's understanding?",
+        options: ["Validation interview", "Elicitation interview", "Business Model Canvas", "COBIT maturity assessment"],
+        answer: 0,
+        explanation: "Validation interviews check whether a view or model matches expectations.",
+        questionZh: "已有模型后，架构师想检查它是否符合 informant 的理解，最适合什么？",
+        answerZh: "Validation interview。",
+        clue: "check model matches understanding = validation。",
+        explanationZh: "正确项是验证访谈；elicitation 更偏从零收集知识。"
+      },
+      55: {
+        question: "Which situation best calls for a committing review?",
+        options: ["Stakeholders compare alternative architecture views and commit to one option", "One employee explains undocumented task details to an analyst", "A model is mailed to a large audience for information only", "A process flow is transformed into a relational data model"],
+        answer: 0,
+        explanation: "Committing reviews ask stakeholders to select and commit to an alternative.",
+        questionZh: "哪种情况最需要 committing review？",
+        answerZh: "stakeholders 比较多个架构方案并承诺其中一个。",
+        clue: "alternative + choose + commit。",
+        explanationZh: "正确项体现承诺评审；其他选项是访谈、mailing 或数据建模。"
+      },
+      56: {
+        question: "Why is ArchiMate better suited than isolated BPMN or UML diagrams for EA integration?",
+        options: ["It can represent relations across business, application, and technology layers", "It is limited to detailed workflow inside one business process", "It is only a notation for object-oriented software classes", "It is a scorecard for measuring strategic performance"],
+        answer: 0,
+        explanation: "ArchiMate integrates layers and relations across EA domains.",
+        questionZh: "为什么 ArchiMate 比孤立 BPMN 或 UML 图更适合 EA 集成？",
+        answerZh: "它能表示业务、应用和技术层之间的关系。",
+        clue: "ArchiMate = cross-layer EA integration。",
+        explanationZh: "正确项是跨层关系；其他选项分别描述 BPMN、UML 或 BSC。"
+      },
+      57: {
+        question: "Which mapping is most accurate in an ArchiMate layered model?",
+        options: ["Customer ordering process - business layer; order-management system - application layer; cloud server - technology layer", "Customer ordering process - technology layer; order-management system - business layer; cloud server - motivation layer", "Customer segment - application layer; value proposition - technology layer; revenue stream - data layer", "Incident ticket - business layer; service desk queue - MDA layer; PIM - technology layer"],
+        answer: 0,
+        explanation: "ArchiMate separates business processes, applications, and technology infrastructure into different layers.",
+        questionZh: "ArchiMate 分层模型中哪组映射最准确？",
+        answerZh: "客户下单流程-业务层；订单管理系统-应用层；云服务器-技术层。",
+        clue: "process/business，system/application，server/technology。",
+        explanationZh: "正确项准确对应三层；其他选项故意混淆 BMC、ITIL 和 MDA。"
+      },
+      58: {
+        question: "In ArchiMate motivation concepts, a regulation that pushes an organization to improve privacy controls is best modelled as:",
+        options: ["A driver", "A node", "An application component", "A business role"],
+        answer: 0,
+        explanation: "A driver is an internal or external condition that motivates change.",
+        questionZh: "在 ArchiMate motivation concepts 中，推动组织改善隐私控制的法规最好建模为什么？",
+        answerZh: "Driver。",
+        clue: "regulation pushes change = driver。",
+        explanationZh: "正确项是 driver；node 是技术层，application component 是应用层，business role 是业务结构。"
+      },
+      59: {
+        question: "Which option best describes an ArchiMate application component?",
+        options: ["A modular unit of application functionality that can be replaced or reused", "A person or organization assigned to perform business behaviour", "A physical resource that hosts software artefacts", "A high-level intent that motivates architecture change"],
+        answer: 0,
+        explanation: "An application component encapsulates application functionality and is modular and replaceable.",
+        questionZh: "哪一项最准确描述 ArchiMate application component？",
+        answerZh: "模块化、可替换或复用的应用功能单元。",
+        clue: "application component = modular application functionality。",
+        explanationZh: "正确项属于应用层；其他选项分别是 business actor/role、technology node 或 motivation goal/driver。"
+      },
+      60: {
+        question: "In migration planning, what is the difference between a plateau and a gap?",
+        options: ["A plateau is a relatively stable architecture state; a gap is the difference between such states", "A plateau is a process activity; a gap is the mechanism that performs it", "A plateau is a customer group; a gap is the revenue it produces", "A plateau is a UML diagram; a gap is a COBIT control objective"],
+        answer: 0,
+        explanation: "Plateaus represent architecture states; gaps represent differences between plateaus.",
+        questionZh: "migration planning 中 plateau 和 gap 的区别是什么？",
+        answerZh: "plateau 是相对稳定的架构状态；gap 是这些状态之间的差异。",
+        clue: "Plateau = state；Gap = difference。",
+        explanationZh: "正确项是 ArchiMate migration concepts；其他选项混入 IDEF0、BMC、UML/COBIT。"
+      }
+    });
+    const LENGTH_BALANCED_OPTIONS = {
+      1: ["Key structures, relations, and principles of the system", "All deployed assets, versions, owners, and configurations", "Implementation tasks, deadlines, roles, and milestones", "Service tickets, incidents, workarounds, and support logs"],
+      5: ["Actors, processes, systems, and relationships in scope", "Final notation, symbols, viewpoints, and diagram style", "All implementation details, data values, and configurations", "Hardware assets, software licences, and support tickets"],
+      6: ["Organization, processes, information systems, and infrastructure", "Networks, servers, devices, deployment locations, and hosting zones only", "Application code, database tables, interface classes, and packages only", "Technical assets without stakeholder, process, or business concerns"],
+      7: ["Stakeholders have different concerns and detail needs", "Architecture views must use different modelling tools", "Viewpoints should hide stakeholder interests from models", "Views are created only after implementation is complete"],
+      8: ["Turning strategy into coordinated enterprise change", "Selecting vendors without linking them to business goals", "Recording service incidents without redesigning architecture", "Describing a business model without implementation impact"],
+      9: ["It keeps decision-relevant structures and relationships", "It keeps domains separate by removing cross-domain relations", "It replaces implementation models with one high-level diagram", "It records operational events so no abstraction is needed"],
+      10: ["Business and IT discuss change with shared concepts", "Programming languages compile the same software module", "Customers and competitors agree on market positioning", "Devices share the same network and peripheral settings"],
+      11: ["Architecture decisions affect stakeholders across the lifecycle", "Communication starts only after implementation decisions are complete", "The process ends when the first high-level architecture view is approved", "Technical detail removes the need for stakeholder discussion"],
+      12: ["Internal driver for operational improvement", "External driver from regulatory compliance", "ArchiMate assessment of a motivation driver", "Technology implementation event in migration planning"],
+      17: ["Tracking strategy with financial, customer, process, and learning measures", "Describing segments, channels, partners, costs, and revenue streams", "Classifying artefacts by what, how, where, who, when, and why dimensions matrix", "Modelling activities through inputs, outputs, controls, and mechanisms"],
+      18: ["Explaining value proposition, customers, channels, costs, and revenues", "Measuring strategy through financial, customer, process, and learning indicators", "Assessing IT control objectives against business risks and control needs", "Checking architecture views for consistency against stakeholder concerns"],
+      19: ["Business capabilities, processes, roles, and tactical needs", "Physical network devices, server locations, and deployment nodes", "Incident categories, service queues, and support escalation paths", "Source-code classes, database indexes, and implementation packages"],
+      20: ["Conflicting meanings for the same business concept", "Traceable links from processes to supporting applications", "Stakeholder concerns represented by suitable views", "Clear principles that guide enterprise change decisions"],
+      21: ["Broad organizational excellence and continuous improvement", "Certification of documented quality procedures and audits", "Notation for modelling activity sequences and process flows", "Maturity assessment of software development capability"],
+      22: ["Enablers describe practices; results describe outcomes", "Enablers describe revenues; results describe deployments", "Enablers describe software classes; results describe UML links", "Enablers describe incidents; results describe support queues"],
+      23: ["BSC for strategy; EFQM for benchmarking and improvement", "EFQM for customer segments; BSC for enterprise data modelling", "COBIT for value propositions; ITIL for society-result measures", "BPMN for strategy maps; UML for financial performance indicators"],
+      26: ["COBIT frames governance; ITIL gives service practices", "COBIT models flows; ITIL classifies architecture artefacts", "COBIT defines customer segments; ITIL defines value propositions", "COBIT gives PIM models; ITIL gives platform-specific models"],
+      28: ["Architecture description practices in ISO/IEC 42010", "Business model structure and value capture in BMC", "Service support and incident handling practices in ITIL", "Platform-independent to platform-specific transformation in MDA"],
+      29: ["Zachman classifies descriptions; TOGAF provides ADM", "Zachman manages incidents; TOGAF models value propositions", "Zachman defines CIM/PIM/PSM; TOGAF defines IDEF0 controls", "Zachman is a BPMN notation; TOGAF is a UML diagram category"],
+      32: ["An iterative method for enterprise architecture development", "A classification matrix without an architecture development cycle", "A notation for detailed business process flow diagrams and hand-offs", "A maturity scale for software process capability assessment"],
+      35: ["Showing sequence, decisions, and hand-offs in a process", "Showing physical hosting of application artefacts on devices", "Showing semantic meanings of customer and order symbols", "Showing enterprise artefacts in a what-how-where matrix"],
+      37: ["Software structures and interactions among system components", "Customer segments, channels, partners, and revenue relationships", "Organizational excellence criteria and performance results", "IT governance controls, risk needs, and control objectives"],
+      38: ["It assumes software and object-oriented design knowledge", "It cannot express structural relationships between elements", "It is mainly for financial performance measurement", "It is identical to a high-level business model canvas"],
+      39: ["Useful in domains but weak for integrated EA views", "Unable to describe processes, systems, functions, or data", "Governance frameworks for IT control objectives", "Benchmarking models for organizational excellence"],
+      41: ["Weak integration between architecture domains", "Missing customer segments in the business model", "Missing financial measures in the strategy scorecard", "Missing incident categories in service support"],
+      42: ["Business process views may not connect to system design views", "Financial and customer measures may not balance in strategy maps", "Value propositions may not connect to channels and revenue streams", "Incidents may not be assigned to service support roles"],
+      44: ["A view is the representation; a viewpoint defines conventions", "A view defines rules; a viewpoint is the stakeholder diagram", "A view is a database object; a viewpoint is an application component", "A view is only technical; a viewpoint is only financial"],
+      45: ["Shared semantic interpretation of the symbolic model", "COBIT delivery and support domain for IT service management", "Balanced Scorecard measure for financial performance", "Physical device or deployment node in the technology layer"],
+      46: ["Reduces ambiguity and links models across domains", "Forces all stakeholders to read one low-level diagram", "Removes the need for viewpoints and stakeholder concerns", "Turns business models directly into executable code"],
+      47: ["How concepts are represented for human understanding", "How IT controls are audited against business risks and needs", "How customer segments are priced in business revenue models", "How software processes reach defined maturity level three"],
+      48: ["Tool support for creating, analysing, and updating models", "Definition of customer relationships, channels, and revenue", "Quantitative process-control maturity assessment", "Classification of artefacts by interrogative questions"],
+      49: ["Shows relevant architecture aspects for stakeholder concerns", "Shows every model element at maximum technical detail", "Prevents stakeholders from challenging architecture assumptions", "Replaces architecture rationale with performance indicators"],
+      50: ["Changes can affect processes, applications, data, and technology", "Architecture elements are independent and do not affect each other", "Change support means segmenting customers and pricing channels", "Impact assessment is unnecessary after initial model approval"],
+      51: ["Shared understanding, agreement, and commitment to act", "Ignoring concerns because the architecture diagram is complete", "Replacing architecture models with service incident reports", "Treating business and technology views as unrelated artefacts"],
+      55: ["Stakeholders compare alternatives and commit to one option", "One employee explains undocumented tasks to an analyst", "A model is mailed to a broad audience for information only", "A process flow is transformed into a relational data model"],
+      56: ["It relates business, application, and technology layers", "It is limited to workflow inside one business process", "It only models object-oriented software classes", "It measures strategic performance with scorecard indicators"],
+      57: ["Ordering process-business; order system-application; server-technology", "Ordering process-technology; order system-business; cloud server-motivation", "Customer segment-application; value proposition-technology; revenue-data", "Incident ticket-business; service queue-MDA; platform model-technology"],
+      59: ["Modular and replaceable application functionality", "Person or organization assigned to business behaviour", "Physical resource that hosts software artefacts", "High-level intent motivating architecture change"],
+      60: ["Plateau is a stable state; gap is the difference between states", "Plateau is an activity; gap is the mechanism that performs it", "Plateau is a customer group; gap is the revenue it produces later", "Plateau is a UML diagram; gap is a COBIT control objective"]
+    };
+    Object.entries(LENGTH_BALANCED_OPTIONS).forEach(([id, options]) => {
+      if (HARDENED_QUESTION_REWRITES[id]) HARDENED_QUESTION_REWRITES[id].options = options;
+    });
+    Object.entries(HARDENED_QUESTION_REWRITES).forEach(([id, rewrite]) => {
+      const question = getQuestionById(Number(id));
+      if (question) Object.assign(question, rewrite);
+    });
+    Object.keys(TRANSLATIONS).forEach((key) => delete TRANSLATIONS[key]);
+    Object.keys(MEMORY_TIPS).forEach((key) => delete MEMORY_TIPS[key]);
+    Object.keys(HUMAN_EXPLANATIONS).forEach((key) => delete HUMAN_EXPLANATIONS[key]);
+    LECTURES.forEach((lecture) => lecture.discussions.forEach((discussion) => {
+      discussion.questionIds = [];
+    }));
+    QUESTIONS.forEach((question) => {
+      if (!question.discussion) return;
+      const lecture = getLectureById(question.lecture);
+      const discussion = lecture?.discussions.find((item) => item.title === question.discussion);
+      if (discussion) discussion.questionIds.push(question.id);
     });
 
     loadState();

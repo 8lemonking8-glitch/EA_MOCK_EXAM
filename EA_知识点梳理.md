@@ -14,6 +14,41 @@
 
 下面每个知识点都用一个简单例子讲。
 
+## 缩写全称速查表
+
+| 缩写 | 全称 | 中文/人话 |
+|---|---|---|
+| EA | Enterprise Architecture | 企业架构 |
+| IT | Information Technology | 信息技术 |
+| IS | Information System | 信息系统 |
+| BSC | Balanced Scorecard | 平衡计分卡，用来把战略变成目标和指标 |
+| BMC | Business Model Canvas | 商业模式画布，用来描述企业如何创造价值和赚钱 |
+| EFQM | European Foundation for Quality Management | 欧洲质量管理基金会；课里通常指 EFQM Excellence Model |
+| ISO | International Organization for Standardization | 国际标准化组织 |
+| COBIT | Control Objectives for Information and Related Technology | 信息及相关技术控制目标，IT 治理/控制框架 |
+| ITIL | Information Technology Infrastructure Library | IT 基础设施库，IT 服务管理最佳实践 |
+| CMMI | Capability Maturity Model Integration | 能力成熟度模型集成，用来评估过程成熟度 |
+| TOGAF | The Open Group Architecture Framework | The Open Group 架构框架 |
+| ADM | Architecture Development Method | 架构开发方法，TOGAF 的核心 |
+| MDA | Model-Driven Architecture | 模型驱动架构 |
+| CIM | Computation-Independent Model | 计算无关模型 |
+| PIM | Platform-Independent Model | 平台无关模型 |
+| PSM | Platform-Specific Model | 平台特定模型 |
+| IDEF | Integration DEFinition | 集成定义方法族，用于企业建模和分析 |
+| IDEF0 | Integration DEFinition for Function Modeling | IDEF 的功能建模方法 |
+| IDEF1X | Integration DEFinition for Information Modeling | IDEF 的数据/信息建模方法 |
+| IDEF3 | Integration DEFinition for Process Description Capture | IDEF 的流程描述捕捉方法 |
+| BPMN | Business Process Model and Notation | 业务流程模型与符号 |
+| UML | Unified Modeling Language | 统一建模语言 |
+| POS | Point of Sale | 销售点系统，门店收银/交易系统 |
+| SaaS | Software as a Service | 软件即服务，云端订阅式软件 |
+| SLA | Service Level Agreement | 服务等级协议 |
+| EDM | Evaluate, Direct and Monitor | COBIT 域：评估、指导、监督 |
+| APO | Align, Plan and Organise | COBIT 域：对齐、计划、组织 |
+| BAI | Build, Acquire and Implement | COBIT 域：构建、获取、实施 |
+| DSS | Deliver, Service and Support | COBIT 域：交付、服务、支持 |
+| MEA | Monitor, Evaluate and Assess | COBIT 域：监控、评估、评价 |
+
 ## 0. 先用一个例子理解整门课
 
 假设你经营一家连锁奶茶店。
@@ -127,14 +162,14 @@ Concern 是：
 
 同一个会员系统，不同人关心不同事情：
 
-| Stakeholder | Concern |
-|---|---|
-| 老板 | 能不能提升复购率 |
-| 财务 | 积分抵扣怎么算账 |
-| 门店员工 | 操作是不是麻烦 |
-| IT 部门 | 系统能不能维护 |
-| 客户 | 隐私数据是否安全 |
-| 监管机构 | 是否符合法规 |
+| Stakeholder | Concern          |
+| ----------- | ---------------- |
+| 老板        | 能不能提升复购率 |
+| 财务        | 积分抵扣怎么算账 |
+| 门店员工    | 操作是不是麻烦   |
+| IT 部门     | 系统能不能维护   |
+| 客户        | 隐私数据是否安全 |
+| 监管机构    | 是否符合法规     |
 
 所以 EA 需要不同 views。
 
@@ -150,10 +185,10 @@ Alignment 就是“对齐”。
 
 这门课里最常见的是三种：
 
-| 类型 | 人话 | 例子 |
-|---|---|---|
-| Vertical alignment | 上下对齐 | 老板战略要落到门店员工操作 |
-| Horizontal alignment | 内外对齐 | 内部流程要服务外部客户 |
+| 类型                  | 人话           | 例子                                    |
+| --------------------- | -------------- | --------------------------------------- |
+| Vertical alignment    | 上下对齐       | 老板战略要落到门店员工操作              |
+| Horizontal alignment  | 内外对齐       | 内部流程要服务外部客户                  |
 | Business-IT alignment | 业务和 IT 对齐 | 业务想做会员营销，IT 系统要支持会员数据 |
 
 例子：
@@ -184,10 +219,10 @@ Alignment 就是“对齐”。
 
 Driver 是促使企业改变的压力或原因。
 
-| 类型 | 例子 |
-|---|---|
+| 类型             | 例子                                       |
+| ---------------- | ------------------------------------------ |
 | Internal drivers | 内部流程混乱、战略变化、系统重复、成本太高 |
-| External drivers | 新法律、竞争对手、市场变化、客户需求变化 |
+| External drivers | 新法律、竞争对手、市场变化、客户需求变化   |
 
 例子：
 
@@ -197,21 +232,21 @@ Driver 是促使企业改变的压力或原因。
 
 考试理解：
 
-看到 law、regulation、market、competition，一般是 external driver。  
+看到 law、regulation、market、competition，一般是 external driver。
 看到 process inefficiency、cost、strategy execution，一般是 internal driver。
 
 ## 2. 管理和治理工具
 
 这些工具容易混，因为它们都像是在“管理企业”。区别在于它们问的问题不同。
 
-| 工具 | 它问的问题 | 例子 |
-|---|---|---|
-| BSC | 战略怎么衡量？ | 会员战略是否提升复购率 |
-| BMC | 公司怎么赚钱？ | 奶茶店靠什么价值主张吸引客户 |
-| EFQM | 组织整体表现好不好？ | 门店、流程、领导力、结果是否优秀 |
-| COBIT | IT 应该控制什么？ | 会员数据权限、风险、控制目标 |
-| ITIL | IT 服务怎么运行？ | 系统故障如何处理 |
-| CMMI | 流程成熟不成熟？ | IT 项目是否有标准流程 |
+| 工具  | 它问的问题           | 例子                             |
+| ----- | -------------------- | -------------------------------- |
+| BSC   | 战略怎么衡量？       | 会员战略是否提升复购率           |
+| BMC   | 公司怎么赚钱？       | 奶茶店靠什么价值主张吸引客户     |
+| EFQM  | 组织整体表现好不好？ | 门店、流程、领导力、结果是否优秀 |
+| COBIT | IT 应该控制什么？    | 会员数据权限、风险、控制目标     |
+| ITIL  | IT 服务怎么运行？    | 系统故障如何处理                 |
+| CMMI  | 流程成熟不成熟？     | IT 项目是否有标准流程            |
 
 ### 2.1 BSC: Balanced Scorecard
 
@@ -225,12 +260,12 @@ BSC 是战略管理工具。
 
 用 BSC 可以这样拆：
 
-| Perspective | Mission/Objectives/Measures 例子 |
-|---|---|
-| Financial | 提高会员销售额，measure = 会员月销售额 |
-| Customer | 提高客户满意度，measure = 会员满意度评分 |
+| Perspective               | Mission/Objectives/Measures 例子           |
+| ------------------------- | ------------------------------------------ |
+| Financial                 | 提高会员销售额，measure = 会员月销售额     |
+| Customer                  | 提高客户满意度，measure = 会员满意度评分   |
 | Internal business process | 优化点单和积分流程，measure = 平均点单时间 |
-| Learning and growth | 培训员工使用会员系统，measure = 培训完成率 |
+| Learning and growth       | 培训员工使用会员系统，measure = 培训完成率 |
 
 考试理解：
 
@@ -246,17 +281,17 @@ BMC 是商业模式工具。
 
 例子：奶茶店 BMC
 
-| BMC 模块 | 奶茶店例子 |
-|---|---|
-| Customer segments | 学生、上班族、外卖用户 |
-| Value proposition | 快速、好喝、可定制、会员优惠 |
-| Channels | 门店、外卖平台、小程序 |
-| Customer relationships | 会员积分、优惠券、社群 |
-| Revenue streams | 奶茶销售、会员套餐 |
-| Key resources | 品牌、门店、供应链、系统 |
-| Key activities | 制作饮品、营销、配送 |
-| Key partners | 供应商、外卖平台 |
-| Cost structure | 房租、人工、原料、平台抽成 |
+| BMC 模块               | 奶茶店例子                   |
+| ---------------------- | ---------------------------- |
+| Customer segments      | 学生、上班族、外卖用户       |
+| Value proposition      | 快速、好喝、可定制、会员优惠 |
+| Channels               | 门店、外卖平台、小程序       |
+| Customer relationships | 会员积分、优惠券、社群       |
+| Revenue streams        | 奶茶销售、会员套餐           |
+| Key resources          | 品牌、门店、供应链、系统     |
+| Key activities         | 制作饮品、营销、配送         |
+| Key partners           | 供应商、外卖平台             |
+| Cost structure         | 房租、人工、原料、平台抽成   |
 
 考试理解：
 
@@ -283,6 +318,8 @@ EFQM 是组织卓越/绩效改进模型。
 
 EFQM = 9 criteria = 5 enablers + 4 results。
 
+领战人资流，客人社业果
+
 考试理解：
 
 EFQM 比 ISO 9001 更宽。ISO 9001 更偏质量管理体系，EFQM 更偏整体 performance excellence。
@@ -307,13 +344,13 @@ COBIT 是 IT governance / control framework。
 
 COBIT 五个域：
 
-| 缩写 | 全称 | 人话 |
-|---|---|---|
-| EDM | Evaluate, Direct and Monitor | 高层评估、指导、监督 |
-| APO | Align, Plan and Organise | 对齐、计划、组织 |
-| BAI | Build, Acquire and Implement | 构建、购买、实施 |
-| DSS | Deliver, Service and Support | 交付、服务、支持 |
-| MEA | Monitor, Evaluate and Assess | 监控、评估、评价 |
+| 缩写 | 全称                         | 人话                 |
+| ---- | ---------------------------- | -------------------- |
+| EDM  | Evaluate, Direct and Monitor | 高层评估、指导、监督 |
+| APO  | Align, Plan and Organise     | 对齐、计划、组织     |
+| BAI  | Build, Acquire and Implement | 构建、购买、实施     |
+| DSS  | Deliver, Service and Support | 交付、服务、支持     |
+| MEA  | Monitor, Evaluate and Assess | 监控、评估、评价     |
 
 考试理解：
 
@@ -341,7 +378,7 @@ ITIL 关注：
 
 考试理解：
 
-COBIT 是 what to control。  
+COBIT 是 what to control。
 ITIL 是 how to run IT service。
 
 ### 2.6 CMMI
@@ -382,14 +419,14 @@ Zachman 是分类矩阵。
 
 如果你要描述奶茶公司，可以问：
 
-| 问题 | 奶茶公司例子 |
-|---|---|
-| What | 有哪些数据：会员、订单、库存 |
-| How | 有哪些流程：点单、制作、配送 |
-| Where | 门店、仓库、云系统在哪里 |
-| Who | 员工、客户、供应商、IT |
-| When | 订单什么时候触发库存更新 |
-| Why | 为什么要做会员体系 |
+| 问题  | 奶茶公司例子                 |
+| ----- | ---------------------------- |
+| What  | 有哪些数据：会员、订单、库存 |
+| How   | 有哪些流程：点单、制作、配送 |
+| Where | 门店、仓库、云系统在哪里     |
+| Who   | 员工、客户、供应商、IT       |
+| When  | 订单什么时候触发库存更新     |
+| Why   | 为什么要做会员体系           |
 
 Zachman 的作用是帮你分类，不是告诉你一步步怎么实施。
 
@@ -429,15 +466,15 @@ MDA 是 Model-Driven Architecture。
 
 你要做会员系统。
 
-| 层次 | 奶茶店例子 |
-|---|---|
-| CIM | 业务需求：客户消费后获得积分 |
-| PIM | 系统逻辑：订单产生积分，积分可抵扣 |
-| PSM | 具体实现：用 Java + MySQL + 某云平台实现 |
+| 层次 | 奶茶店例子                               |
+| ---- | ---------------------------------------- |
+| CIM  | 业务需求：客户消费后获得积分             |
+| PIM  | 系统逻辑：订单产生积分，积分可抵扣       |
+| PSM  | 具体实现：用 Java + MySQL + 某云平台实现 |
 
 考试理解：
 
-CIM -> PIM -> PSM。  
+CIM -> PIM -> PSM。
 从业务抽象，到平台无关模型，再到平台特定实现。
 
 ## 4. 建模语言
@@ -450,23 +487,23 @@ CIM -> PIM -> PSM。
 
 IDEF 是一族建模语言。
 
-| 类型 | 用途 | 奶茶店例子 |
-|---|---|---|
-| IDEF0 | 功能建模 | 描述“制作奶茶”这个功能需要输入、控制、机制和输出 |
-| IDEF3 | 流程建模 | 描述客户点单到取餐的 workflow |
-| IDEF1X | 数据建模 | 描述会员、订单、商品表之间关系 |
+| 类型   | 用途     | 奶茶店例子                                         |
+| ------ | -------- | -------------------------------------------------- |
+| IDEF0  | 功能建模 | 描述“制作奶茶”这个功能需要输入、控制、机制和输出 |
+| IDEF3  | 流程建模 | 描述客户点单到取餐的 workflow                      |
+| IDEF1X | 数据建模 | 描述会员、订单、商品表之间关系                     |
 
 ### 4.2 IDEF0
 
 IDEF0 五件套：
 
-| 元素 | 奶茶店例子 |
-|---|---|
-| Activity | 制作奶茶 |
-| Input | 订单、茶底、珍珠 |
-| Output | 做好的奶茶 |
-| Control | 配方、卫生标准、折扣规则 |
-| Mechanism | 员工、机器、POS 系统 |
+| 元素      | 奶茶店例子               |
+| --------- | ------------------------ |
+| Activity  | 制作奶茶                 |
+| Input     | 订单、茶底、珍珠         |
+| Output    | 做好的奶茶               |
+| Control   | 配方、卫生标准、折扣规则 |
+| Mechanism | 员工、机器、POS 系统     |
 
 考试理解：
 
@@ -516,11 +553,11 @@ ArchiMate 是更适合 EA 的建模语言，因为它能连业务、应用、技
 
 例子：会员积分功能
 
-| 层 | 内容 |
-|---|---|
-| Business layer | 客户注册会员、消费、积分抵扣 |
-| Application layer | 会员系统、订单系统、支付系统 |
-| Technology layer | 云服务器、数据库、网络、安全设备 |
+| 层                | 内容                             |
+| ----------------- | -------------------------------- |
+| Business layer    | 客户注册会员、消费、积分抵扣     |
+| Application layer | 会员系统、订单系统、支付系统     |
+| Technology layer  | 云服务器、数据库、网络、安全设备 |
 
 这三层必须对齐：
 
@@ -538,13 +575,13 @@ ArchiMate 是更适合 EA 的建模语言，因为它能连业务、应用、技
 
 公司现在用 Excel 管会员，未来要统一会员平台。
 
-| 概念 | 例子 |
-|---|---|
-| Plateau | 当前状态：Excel + POS 分散管理 |
-| Plateau | 未来状态：统一会员平台 |
-| Gap | 两个状态之间缺少数据迁移、系统集成、员工培训 |
-| Work package | 数据迁移项目、系统集成项目、培训项目 |
-| Deliverable | 迁移后的会员数据库、接口文档、培训材料 |
+| 概念         | 例子                                         |
+| ------------ | -------------------------------------------- |
+| Plateau      | 当前状态：Excel + POS 分散管理               |
+| Plateau      | 未来状态：统一会员平台                       |
+| Gap          | 两个状态之间缺少数据迁移、系统集成、员工培训 |
+| Work package | 数据迁移项目、系统集成项目、培训项目         |
+| Deliverable  | 迁移后的会员数据库、接口文档、培训材料       |
 
 考试理解：
 
@@ -558,19 +595,19 @@ Plateau 是某个稳定状态。Gap 是两个状态之间的差距。
 
 同一个会员系统，不同人需要不同图：
 
-| 人 | 需要的 view |
-|---|---|
-| 老板 | 战略和收益视图 |
-| 门店员工 | 操作流程视图 |
-| IT | 系统集成视图 |
-| 财务 | 数据和规则视图 |
+| 人         | 需要的 view    |
+| ---------- | -------------- |
+| 老板       | 战略和收益视图 |
+| 门店员工   | 操作流程视图   |
+| IT         | 系统集成视图   |
+| 财务       | 数据和规则视图 |
 | 安全负责人 | 权限和风险视图 |
 
 Viewpoint 是规定这种图怎么画、怎么解释的规则。
 
 考试理解：
 
-View = 具体视图。  
+View = 具体视图。
 Viewpoint = 画这种视图的规则。
 
 ### 5.2 Symbolic model 和 Semantic model
@@ -593,7 +630,7 @@ Semantic model 就是解释这些符号到底代表什么。
 
 考试理解：
 
-Symbolic = 符号本身。  
+Symbolic = 符号本身。
 Semantic = 符号的含义。
 
 ### 5.3 Architecture communication
@@ -602,22 +639,22 @@ Semantic = 符号的含义。
 
 知识状态：
 
-| 状态 | 例子 |
-|---|---|
-| Aware | 门店知道要上新会员系统 |
-| Agreed | 门店同意这个系统能解决问题 |
-| Committed | 门店愿意按新流程使用系统 |
+| 状态      | 例子                       |
+| --------- | -------------------------- |
+| Aware     | 门店知道要上新会员系统     |
+| Agreed    | 门店同意这个系统能解决问题 |
+| Committed | 门店愿意按新流程使用系统   |
 
 沟通方式：
 
-| 技术 | 适合场景 |
-|---|---|
-| Workshop | 一小组人一起讨论和改模型 |
-| Elicitation interview | 从某个人那里收集知识 |
-| Validation interview | 检查模型是否符合对方理解 |
-| Committing review | 多个方案中选一个并承诺 |
-| Presentation | 给较大群体展示模型 |
-| Mailing | 大范围分发，互动较少 |
+| 技术                  | 适合场景                 |
+| --------------------- | ------------------------ |
+| Workshop              | 一小组人一起讨论和改模型 |
+| Elicitation interview | 从某个人那里收集知识     |
+| Validation interview  | 检查模型是否符合对方理解 |
+| Committing review     | 多个方案中选一个并承诺   |
+| Presentation          | 给较大群体展示模型       |
+| Mailing               | 大范围分发，互动较少     |
 
 ## 6. 每节 Lecture 的 Discussion 讲解
 
@@ -740,11 +777,11 @@ EFQM 更像：
 
 区别：
 
-| ISO 9001 | EFQM |
-|---|---|
-| 质量管理体系标准 | 组织卓越模型 |
+| ISO 9001         | EFQM                   |
+| ---------------- | ---------------------- |
+| 质量管理体系标准 | 组织卓越模型           |
 | 更偏合规和标准化 | 更偏整体绩效和持续改进 |
-| 范围较窄 | 范围更广 |
+| 范围较窄         | 范围更广               |
 
 #### ITIL vs COBIT
 
@@ -767,11 +804,11 @@ ITIL 问：
 
 区别：
 
-| COBIT | ITIL |
-|---|---|
+| COBIT                | ITIL               |
+| -------------------- | ------------------ |
 | governance / control | service management |
-| what to control | how to run service |
-| 高层治理框架 | 具体服务管理实践 |
+| what to control      | how to run service |
+| 高层治理框架         | 具体服务管理实践   |
 
 可能考法：
 
@@ -815,11 +852,11 @@ TOGAF 帮你做：
 
 区别：
 
-| Zachman | TOGAF |
-|---|---|
-| 分类矩阵 | 开发方法 |
+| Zachman          | TOGAF              |
+| ---------------- | ------------------ |
+| 分类矩阵         | 开发方法           |
 | 帮你组织架构内容 | 帮你一步步开发架构 |
-| 不强调实施过程 | ADM 是核心 |
+| 不强调实施过程   | ADM 是核心         |
 
 #### BPMN vs UML vs IDEF
 
@@ -834,13 +871,13 @@ TOGAF 帮你做：
 
 区别：
 
-| 语言 | 主要用途 |
-|---|---|
-| BPMN | 业务流程 |
-| UML | 软件/系统设计 |
-| IDEF0 | 功能建模 |
-| IDEF3 | 流程建模 |
-| IDEF1X | 数据建模 |
+| 语言   | 主要用途      |
+| ------ | ------------- |
+| BPMN   | 业务流程      |
+| UML    | 软件/系统设计 |
+| IDEF0  | 功能建模      |
+| IDEF3  | 流程建模      |
+| IDEF1X | 数据建模      |
 
 可能考法：
 
@@ -999,62 +1036,62 @@ BMC describes business-model elements, while ArchiMate can express these element
 
 ### BSC vs BMC
 
-| BSC | BMC |
-|---|---|
-| 战略管理 | 商业模式 |
-| 衡量战略执行 | 描述如何创造价值和赚钱 |
+| BSC                                  | BMC                                     |
+| ------------------------------------ | --------------------------------------- |
+| 战略管理                             | 商业模式                                |
+| 衡量战略执行                         | 描述如何创造价值和赚钱                  |
 | financial/customer/internal/learning | value proposition/customer/revenue/cost |
 
 ### COBIT vs ITIL
 
-| COBIT | ITIL |
-|---|---|
-| IT governance | IT service management |
-| what to control | how to run service |
-| 控制目标 | 最佳实践流程 |
+| COBIT           | ITIL                  |
+| --------------- | --------------------- |
+| IT governance   | IT service management |
+| what to control | how to run service    |
+| 控制目标        | 最佳实践流程          |
 
 ### Zachman vs TOGAF
 
-| Zachman | TOGAF |
-|---|---|
-| 分类矩阵 | 架构开发方法 |
-| 把内容放格子里 | 用 ADM 做架构 |
+| Zachman        | TOGAF                  |
+| -------------- | ---------------------- |
+| 分类矩阵       | 架构开发方法           |
+| 把内容放格子里 | 用 ADM 做架构          |
 | 不强调实施流程 | 强调 iterative process |
 
 ### BPMN vs UML vs ArchiMate
 
-| BPMN | UML | ArchiMate |
-|---|---|---|
-| 业务流程 | 软件/系统设计 | 企业架构跨层建模 |
+| BPMN         | UML                | ArchiMate                       |
+| ------------ | ------------------ | ------------------------------- |
+| 业务流程     | 软件/系统设计      | 企业架构跨层建模                |
 | process flow | software artifacts | Business/Application/Technology |
 
 ### IDEF0 vs IDEF3 vs IDEF1X
 
-| IDEF0 | IDEF3 | IDEF1X |
-|---|---|---|
-| 功能建模 | 流程建模 | 数据建模 |
+| IDEF0                                   | IDEF3    | IDEF1X                      |
+| --------------------------------------- | -------- | --------------------------- |
+| 功能建模                                | 流程建模 | 数据建模                    |
 | Activity/Input/Output/Control/Mechanism | workflow | logical/physical data model |
 
 ## 8. 选择题关键词判断表
 
-| 关键词 | 大概率答案 |
-|---|---|
-| financial / customer / internal process / learning | BSC |
-| value proposition / revenue streams / customer segments | BMC |
-| excellence / enablers / results | EFQM |
-| governance / control objectives | COBIT |
-| service delivery / service support / incident management | ITIL |
-| maturity / capability / defined / managed | CMMI |
-| What / How / Where / Who / When / Why / matrix | Zachman |
-| ADM / iterative / architecture development | TOGAF |
-| CIM / PIM / PSM | MDA |
-| Activity / Input / Output / Control / Mechanism | IDEF0 |
-| workflow / process flow | IDEF3 或 BPMN |
-| data modelling / logical data model | IDEF1X |
-| business process notation | BPMN |
-| software system / structure / behaviour | UML |
-| Business/Application/Technology layers | ArchiMate |
-| stakeholder / concern / view / viewpoint | Architecture description / communication |
+| 关键词                                                   | 大概率答案                               |
+| -------------------------------------------------------- | ---------------------------------------- |
+| financial / customer / internal process / learning       | BSC                                      |
+| value proposition / revenue streams / customer segments  | BMC                                      |
+| excellence / enablers / results                          | EFQM                                     |
+| governance / control objectives                          | COBIT                                    |
+| service delivery / service support / incident management | ITIL                                     |
+| maturity / capability / defined / managed                | CMMI                                     |
+| What / How / Where / Who / When / Why / matrix           | Zachman                                  |
+| ADM / iterative / architecture development               | TOGAF                                    |
+| CIM / PIM / PSM                                          | MDA                                      |
+| Activity / Input / Output / Control / Mechanism          | IDEF0                                    |
+| workflow / process flow                                  | IDEF3 或 BPMN                            |
+| data modelling / logical data model                      | IDEF1X                                   |
+| business process notation                                | BPMN                                     |
+| software system / structure / behaviour                  | UML                                      |
+| Business/Application/Technology layers                   | ArchiMate                                |
+| stakeholder / concern / view / viewpoint                 | Architecture description / communication |
 
 ## 9. 最后怎么背
 
@@ -1067,4 +1104,3 @@ BMC describes business-model elements, while ArchiMate can express these element
 最重要一句话：
 
 > 考试不是让你成为 TOGAF、COBIT 或 ArchiMate 专家，而是让你能判断一个概念属于哪个管理/治理/建模/沟通场景。
-
