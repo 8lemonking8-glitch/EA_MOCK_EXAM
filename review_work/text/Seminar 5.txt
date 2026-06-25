@@ -1,0 +1,40 @@
+Enterprise Architecture and Database Programming                        Azadeh Sarkheyli
+
+
+
+                                            Seminar 5
+
+
+Write a report based on the Zachman framework for your case study that includes:
+  I.   Title (name of a business)
+ II.   Names of the members, Group name
+III.   Try to fill in (describe) the first row of the Zachman framework (see Table 1)
+
+
+
+
+IV.    Try to transform the conceptual model like Figure 1as an example (that has been created in the
+       seminar 4) to a relational data model (see Figure 2 as an example)
+
+
+
+
+                                 Figure 1. Video renting example
+Enterprise Architecture and Database Programming (IK2015)
+
+
+
+
+                  Figure 2. Relational data model for the video renting example.
+Enterprise Architecture and Database Programming (IK2015)
+
+
+For more information see the below references:
+
+   •   Lecture 4 slides
+   •   Ylimäki, T., & Halttunen, V. (2005). Method engineering in practice: A case of applying the
+       Zachman framework in the context of small enterprise architecture oriented
+       projects. Information Knowledge Systems Management, 5(3), 189-209.
+
+   •   Sundgren, B. (2013). Methodological and technical perspectives on e-governance.
+

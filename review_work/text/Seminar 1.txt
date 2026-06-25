@@ -1,0 +1,23 @@
+Enterprise Architecture and Database Programming (IK2015)
+
+
+
+
+                                             Seminar 1
+
+
+
+Write a project proposal (2-3 pages) that includes:
+
+  I.   Title (name of a business)
+ II.   Names of the members, Group name
+III.   Background of a selected business (includes a description of the products, services, mission,
+       and vision)
+IV.    Business analysis based on the various perspectives (like Strategic Management as one of the
+       management areas relevant to enterprise architecture)
+           a. Stakeholders (key partners)
+           b. Customers (types, relationships, channels)
+           c. Financial (the way the organization makes/spends money)
+           d. Internal business process (main actions)
+           e. Learning and growth (the corporate and individual ability to change and improve)
+

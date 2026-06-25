@@ -1,0 +1,183 @@
+Enterprise Architecture and Database Programming                          Azadeh Sarkheyli
+
+
+
+                                             Seminar 4
+
+
+Write a report to create a conceptual model for your case study that includes:
+  I.   Title (name of a business)
+ II.   Names of the members, Group name
+III.   Try to create a conceptual model for your case study and describe it (see the below examples)
+
+
+
+
+        Example: A conceptual model of education statistics collected and produced by UNESCO.
+                                          CareProducerActivity                                               Organisation
+     CareProducer                                                                                                                                       BusinessActivity
+                                         (E.g. HospitalTreatment)                                           Establishment
+    - ClassVariables                                                                                                                                     - ClassVariables
+                                             - ClassVariables                                              - ClassVariables                                                           BusinessPlace
+     - SumVariables                                                                                                                                       - SumVariables
+                                              - SumVariables                                                - SumVariables
+      - AdjVariables                                                                                                                                       - AdjVariables
+                                               - AdjVariables                                                - AdjVariables
+    - EstParameters                                                                                                                                      - EstParameters
+                                             - EstParameters                                               - EstParameters
+                                                                                                                                                                                                        Locality
+                                                                                    Disease
+                                                                                   (Diagnosis)                                                                                                     - ClassVariables
+                                                                                                                                                                                                    - SumVariables
+                                                                                 - ClassVariables                                                                                                    - AdjVariables
+                                                                                  - SumVariables                                                         Employment                                - EstParameters
+                                              PatientActivity                                                                                      (A person's employment
+                                          (E.g. TreatmentHistory)                                               Person                               at an establishment)
+         Patient
+                                               PatientEvent                                                                                          EmploymentEvent
+                                                (E.g. Death)                                               - ClassVariables                            (E.g. Begin, End)
+    - ClassVariables                                                                                                                                                                  WorkPlace
+                                                                                                            - SumVariables
+     - SumVariables
+                                             - ClassVariables                                                - AdjVariables                              - ClassVariables
+      - AdjVariables
+                                              - SumVariables                                               - EstParameters                                - SumVariables
+    - EstParameters
+                                               - AdjVariables                                                                                              - AdjVariables
+                                             - EstParameters                                                                                             - EstParameters
+
+
+                                                                                                                                                                             Home
+
+
+Health statistics.
+                                                                                                         Labour market statistics.
+
+                                             ConstructionEvent                                                                                 VehicleRegistration
+                                                                                                                                                      Event
+                                                  (Permit,                                                                                                                                   Vehicle
+                                                                                                              Authority                         (NewRegistration,
+                                              NewConstruction,                                                                                     Annulation)
+                                               Reconstruction,                                                                                                                           - ClassVariables
+                                                                                                           - ClassVariables
+                                                Destruction)                                                                                                                              - SumVariables
+                                                                                                            - SumVariables                        - ClassVariables
+                                                                                                                                                                                           - AdjVariables
+                                                                                                             - AdjVariables                        - SumVariables
+                                                                                                                                                                                         - EstParameters
+                                               - ClassVariables                                                                                     - AdjVariables
+                                                - SumVariables                                                                                    - EstParameters
+                                                 - AdjVariables
+                                               - EstParameters                                                                  Owner
+
+
+
+    BusinessActor                                                                     Locality              BusinessActor
+  (Constructor, Seller,                       RealEstateSales                   (RealEstate, Building,     (Owner, Provider,                           Transport
+                                                                                                                                                                                             Product
+    Buyer, Owner)                                                                     Dwelling)               Customer)
+                                               - ClassVariables                                                                                   - ClassVariables
+                                                                                                                               Provider                                                  - ClassVariables
+    - ClassVariables                            - SumVariables                     - ClassVariables        - ClassVariables                        - SumVariables
+                                                                                                                                                                                          - SumVariables
+                                                                                                            - SumVariables                          - AdjVariables
+     - SumVariables                              - AdjVariables                     - SumVariables                             Customer                                                    - AdjVariables
+                                                                                                             - AdjVariables                       - EstParameters
+      - AdjVariables                           - EstParameters                       - AdjVariables        - EstParameters
+    - EstParameters                                                                - EstParameters
+
+
+
+                                           RealEstateOwnership
+                                                                                                                                                  RoadAccident                            RoadSegment
+                                               - ClassVariables
+                                                - SumVariables                                                                                    - ClassVariables                       - ClassVariables
+                                                                                                                                                   - SumVariables                         - SumVariables
+                                                 - AdjVariables                                                                                     - AdjVariables                         - AdjVariables
+                                               - EstParameters                                                                                    - EstParameters                        - EstParameters
+
+
+
+
+Housing and construction statistics.                                                                           Person
+                                                                                                                                      PersonIn
+                                                                                                                                    RoadAccident
+                                                                                                                                                                     VehicleIn
+                                                                                                                                                                   RoadAccident
+                                                                                                           - ClassVariables
+                                                                                                                                    - ClassVariables               - ClassVariables
+                                                                                                            - SumVariables
+                                                                                                                                     - SumVariables                 - SumVariables
+                                                                                                             - AdjVariables
+                                                                                                                                      - AdjVariables                 - AdjVariables
+                                                                                                           - EstParameters
+                                                                                                                                    - EstParameters                - EstParameters
+
+
+
+
+                                                                                                         Transport statistics.
+
+                                     BusinessTransaction
+                                             Real                                                                                                           ProductionTransaction
+                                                                         Product
+                                         (Production,
+                                                                    (Commodity, Service)
+                                     Sales,Order, Delivery,                                                                                                        - ClassVariables
+                                            Work)
+                                                                      - ClassVariables                                                                              - SumVariables
+                                                                       - SumVariables                                                                                - AdjVariables
+    BusinessActor                       - ClassVariables                                                     BusinessActor
+(Producer, Seller, Buyer,                - SumVariables
+                                                                        - AdjVariables
+                                                                                                                                                                   - EstParameters                                 EnergyResource
+                                                                      - EstParameters                       (Producer, User)
+  Provider, Customer,                     - AdjVariables
+        Subject,                        - EstParameters                                                                                                                                                            - ClassVariables
+CounterSubject, Owner,                                                                                      - ClassVariables
+                                                                                                                                                                                                                    - SumVariables
+ Possessor, Employer,                                                                                        - SumVariables
+      Employee)                                                                                                                                                                                                      - AdjVariables
+                                                                                                              - AdjVariables                                   UsageTransaction
+                                     BusinessTransaction                                                                                                                                                           - EstParameters
+    - ClassVariables                      Financial
+                                                                                                            - EstParameters
+     - SumVariables                    (OperationCost,                                                                                                             - ClassVariables
+      - AdjVariables                     Investment)                                                                                                                - SumVariables
+                                                                      AccountingItem
+    - EstParameters
+                                     AssetLiabilityBalance
+                                                                      (CashFlowItem,                                                                                 - AdjVariables
+                                                                        ResultItem,                                                                                - EstParameters
+                                                                       BalanceItem)
+                                        - ClassVariables
+                                         - SumVariables
+                                          - AdjVariables
+                                        - EstParameters
+
+                                                                                                         Energy statistics.
+Business statistics.
+
+                                                                                                                                              EconomyTransaction
+     BusinessActor
+                                              TradeTransaction                         Product
+     (Seller, Buyer)        Seller                                                                         BusinessActor                           (Production,
+                                                                                  (Commodity, Service)
+                                                                                                                                                  Consumption,
+                                               - ClassVariables                                            - ClassVariables                     Investment, Work)
+    - ClassVariables                                                                                                                                                                     AccountingItem
+                                                - SumVariables                       - ClassVariables       - SumVariables
+     - SumVariables
+                            Buyer                - AdjVariables                       - SumVariables         - AdjVariables                      - ClassVariables
+      - AdjVariables                                                                                       - EstParameters                        - SumVariables
+                                               - EstParameters                         - AdjVariables
+    - EstParameters                                                                                                                                - AdjVariables
+                                                                                                                                                 - EstParameters
+
+
+
+
+Trade statistics.                                         National accounts.
+Examples of schematic conceptual models for domains of official statistics.
+(Zoom in the electronic version of this figure to make it readable.)
+

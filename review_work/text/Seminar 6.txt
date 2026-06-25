@@ -1,0 +1,15 @@
+Enterprise Architecture and Database Programming                      Azadeh Sarkheyli
+
+
+
+                                             Seminar 6
+
+
+Write a report based on the ArchiMate language for your case study that includes:
+  I.   Title (name of a business)
+ II.   Names of the members, Group name
+III.   Try to create a business layer model (that is mandatory), an application layer model, and a
+       technology layer model (that are optional with a bonus point) for your business as the below
+       examples.
+Enterprise Architecture and Database Programming (IK2015)
+
