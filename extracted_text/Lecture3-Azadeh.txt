@@ -1,0 +1,517 @@
+  ENTERPRISE ARCHITECTURE (EA) AND
+  DATABASE PROGRAMMING
+  LECTURE 3
+
+
+
+
+Azadeh Sarkheyli
+(azadeh.sarkheyli@hh.se)
+             Enterprise Architecture and Other Governance Instruments
+
+CONTENTS:    Architecture Methods and Frameworks
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+
+     How does EA fit in with
+                                         How does EA position
+               other
+                                          within the context of
+    established management
+                                           corporate and IT
+          practices and
+                                              governance?
+          instruments?
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+
+There is a relationship between enterprise architecture with some well-known management practices in each of
+these areas, which can be shown as the position and role of enterprise architecture in a management context:
+    Strategic management: Balanced Scorecard
+    Business model development: Business Model Canvas
+    Business architecture: BIZBOK® Guide and O-BA
+    Quality management: EFQM and ISO 9001
+    IT governance: COBIT
+    IT delivery and support: ITIL
+    IT implementation: CMM and CMMI
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+Quality Management
+
+   EFQM (European Foundation for Quality Management) as an important management approach.
+
+   This model was first introduced in 1992 as the framework for assessing applications for The European Quality
+    Award.
+
+   The EFQM model has a much broader scope than ISO 9001.
+
+   It not only focuses on quality management but provides an overall management framework for performance
+    excellence of the entire organisation.
+
+   The EFQM model consists of nine criteria for excellence, five of which are ‘enablers’, covering what an
+    organisation does, and four are ‘results’, covering what that organisation achieves.
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+
+
+
+                       https://slideplayer.com/slide/14291904/
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+Quality Management
+
+   The EFQM model provides principles, measures, and indicators for assessing the performance of an enterprise
+    in all these aspects, and these measurements are the basis for continuous learning, innovation, and
+    improvement.
+
+   All this also points to the main difference between the EFQM model and the BSC: whereas the latter is focused
+    on developing effective strategic management, the former concentrates on measuring and benchmarking the
+    performance of an organisation with respect to a number of best practices. Both are complementary: the BSC
+    helps to make strategic choices, and the EFQM model assists in continuous improvement necessary to execute
+    this strategy.
+
+   Another important standard in the domain of quality management is the ISO 9001:2000 standard (ISO 2000) of
+    the International Organisation for Standardisation (ISO).
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+
+     Discussion
+     According to the below paper describe
+     1) What are the differences between ISO 9001 standard and
+        the EFQM model?
+     2) What is the impact of the ISO 9001 standard and the
+        EFQM model on the organisations’ performance?
+
+
+      Heras-Saizarbitoria, I., Casadesús, M., & Marimón, F. (2011). The
+        impact of ISO 9001 standard and the EFQM model: The view of
+        the assessors. Total Quality Management, 22(2), 197-218.
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+
+
+IT Governance
+
+   The COBIT (Control Objectives for Information and Related Technology) standard for IT governance was
+    initially published in 1996 by the Information Systems Audit and Control Association.
+
+   COBIT is an internationally accepted IT control framework that provides organisations with ‘good practices’ that
+    help in implementing an IT governance structure throughout the enterprise.
+
+   It aims to bridge the gaps between business risks, control needs, and technical issues.
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+
+IT Governance
+
+   The core of the COBIT framework is the control objectives and management guidelines for a set of IT
+    processes, which are grouped into five domains:
+    1)   Evaluate, direct and monitor
+
+    2)   Align, plan and organise
+
+    3)   Build, acquire and implement
+
+    4)   Deliver, service and support
+
+    5)   Monitor, evaluate and assess
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+
+IT Governance
+
+‘Control’ is defined by COBIT as the policies, procedures, practices, and organisational structures designed to
+provide reasonable assurance that business objectives will be achieved and that undesired events will be
+prevented or detected and corrected. The control objectives can help to support IT governance within an
+enterprise. For example, the control objectives of the ‘Assist and advise IT customers’ process consist of
+establishing a help desk, registration of the customer queries, customer query escalation, monitoring of clearance,
+and trend analysis and reporting.
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+IT Governance
+
+COBIT also offers a maturity model for IT governance, consisting of five maturity levels:
+
+   1. Ad Hoc: There are no standardised processes. Ad hoc approaches are applied on a case-by-case basis.
+
+   2. Repeatable: Management is aware of the issues. Performance indicators are being developed, and basic measurements
+   have been identified, as have assessment methods and techniques.
+
+   3. Defined: The need to act is understood and accepted. Procedures have been standardised, documented and implemented.
+   BSC ideas are being adopted by the organisation.
+
+   4. Managed: Full understanding of issues on all levels has been reached. Process excellence is built on a formal training
+   curriculum. IT is fully aligned with the business strategy.
+
+   5. Optimised: Continuous improvement is the defining characteristic. Processes have been refined to the level of external best
+   practices based on the results of continuous improvement with other organisations.
+ENTERPRISE ARCHITECTURE
+AND OTHER GOVERNANCE
+INSTRUMENTS
+
+IT Governance
+
+Goal Cascading in COBIT 2019
+
+
+
+
+                               https://www.bmc.com/blogs/cobit-vs-itil-understanding-governance-frameworks/
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+
+IT Service Delivery and Support
+
+ ITIL (IT Infrastructure Library) (Hanna et al. 2008) is the most widely accepted set of best practices in the IT
+   service delivery domain.
+ ITIL comprises a series of documents giving guidance on the provision of good IT services, and on the
+   facilities needed to support IT.
+ ITIL has a process-oriented approach to service management.
+ It provides codes of practice that help organisations to establish quality management of their IT services and
+   infrastructure, where ‘quality’ is defined as ‘matched to business needs and user requirements as these
+   evolve.’
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+IT Service Delivery and Support
+
+ The core of ITIL consists of two broad groups of processes:
+
+   o   Service Delivery, comprising service-level management, availability management, financial management for IT
+       services, IT service contingency management, and capacity management;
+
+   o   Service Support, covering problem management, incident management, service desk, change management, release
+       management, and configuration management.
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+
+     Discussion
+
+     According to the below paper (link) describe what are the
+     differences between ITIL and COBIT?
+      https://www.simplilearn.com/cobit-vs-itil-
+        article#what_are_the_differences_between_itil_and_cobit
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+
+IT Service Delivery and Support
+
+ ITIL is complementary to COBIT. The high-level control objectives of COBIT can be implemented through the
+   use of ITIL.
+
+ COBIT’s control objectives tell what to do and ITIL explains how to do it, i.e., what the best practice
+   processes are to realise these objectives.
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+IT Implementation
+
+ The Capability Maturity Model for Software (Paulk et al. 1993), also known as the CMM and SW-
+  CMM, is a model for judging the maturity of an organisation’s software engineering processes and
+  provides organisations with key practices required to help them increase the maturity of these
+  processes.
+
+ In 2000, the SW-CMM was upgraded to CMMI (Capability Maturity Model Integration), which
+  addresses the integration of software development with other engineering activities and expands
+  the scope to encompass the entire product life cycle, including systems engineering, integrated
+  product and process development, and supplier sourcing.
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+IT Implementation
+In the CMMI maturity models in their most common form, there are five maturity levels, each a layer in the foundation for
+ongoing process improvement, designated by the numbers 1–5 (CMMI Product Team 2002):
+1)   Initial: Processes are usually ad hoc and chaotic. The organisation does not provide a stable environment. Success in
+     these organisations depends on the competence and heroics of the people in the organisation and not on the use of
+     proven processes.
+2)   Managed: The projects of the organisation have ensured that requirements are managed and that processes are
+     planned, performed, measured, and controlled. However, processes may be quite different in each specific instance,
+     e.g., on a particular project.
+3)   Defined: Processes are well characterised and understood, and are described in standards, procedures, tools, and
+     methods. These standards are used to establish consistency across the organisation. Projects establish their defined
+     processes by tailoring the organisation’s set of standard processes according to tailoring guidelines.
+4)   Quantitatively Managed: Quantitative objectives for quality and process performance are established and used as
+     criteria in managing processes. Quantitative objectives are based on the needs of the customer, end users,
+     organisation, and process implementers.
+ENTERPRISE ARCHITECTURE AND OTHER GOVERNANCE INSTRUMENTS
+
+
+IT Implementation
+
+   In any software engineering project of substantial size, software architecture plays an important role. The
+    context of this software architecture may be given by an enterprise architecture, which provides constraints and
+    guidelines for individual software projects. As such, enterprise architecture is something that becomes
+    especially useful (or even necessary) at CMMI Level 3 and beyond, where projects have to conform to
+    organisation-wide standards and guidelines.
+ARCHITECTURE METHODS AND FRAMEWORKS
+
+
+The IEEE 1471-2000/ISO/IEC 42010 Standard
+
+   In 2000, the IEEE Computer Society approved IEEE Standard 1471-2000 (IEEE Computer Society 2000),
+    which builds a solid theoretical base for the definition, analysis, and description of system architectures.
+
+   IEEE 1471, which has since been subsumed by the ISO/IEC 42010 standard (ISO/IEC/IEEE 2011), focuses
+    mainly on software-intensive systems, such as information systems, embedded systems, and composite
+    systems in the context of computing.
+
+   It provides, in the terms of a ‘recommended practice’, a number of valuable concepts and terms of reference,
+    which reflect the ‘generally accepted trends in practice for architecture description’ and which ‘codify those
+    elements on which there is consensus’.
+ARCHITECTURE METHODS AND FRAMEWORKS
+
+
+
+The IEEE 1471-2000/ISO/IEC 42010 Standard
+
+   The standard gives a set of definitions for key terms such as acquirer, architect, architecture description,
+    architectural models, architecture, life cycle model, system, system stakeholder, concerns, mission, context,
+    architectural view, architectural viewpoint.
+ARCHITECTURE
+METHODS AND
+FRAMEWORKS
+
+The IEEE 1471-2000/ISO/IEC
+42010 Standard
+The standard also provides a
+conceptual framework, which is
+meant:
+ To explain how the key terms
+   relate to each other in a
+   conceptual model for
+   architecture description (this
+   model is shown in Fig. 2.5,
+   using the UML notation for
+   class diagrams; see also Sect.
+   2.3.3)
+ARCHITECTURE METHODS AND FRAMEWORKS
+
+
+The IEEE 1471-2000/ISO/IEC 42010 Standard
+
+ To explain the role of the stakeholders in the creation and use of an architecture description
+
+ To provide a number of scenarios for the architectural activities during the life cycle: architectures of
+   single systems, iterative architecture for evolutionary systems, architecture for existing systems and
+   architectural evaluation
+ARCHITECTURE METHODS AND FRAMEWORKS
+
+The IEEE 1471-2000/ISO/IEC 42010 Standard
+
+Furthermore, the standard gives six architecture description practices:
+•   Architectural documentation referring to identification, version, and overview information.
+•   Identification of the system stakeholders and of their concerns, established to be relevant to the
+    architecture.
+•   Selection of architectural viewpoints, containing the specification of each viewpoint that has been
+    selected to organise the representation of the architecture and the reasons for which it was
+    selected.
+•   Architectural views corresponding to the selected viewpoints.
+•   Consistency among architectural views.
+•   Architectural rationale for the selection of the current architecture from a number of considered
+    alternatives.
+ARCHITECTURE METHODS AND FRAMEWORKS
+
+The Zachman Framework
+
+ In 1987, John Zachman introduced the first and best-known enterprise architecture framework (Zachman
+
+   1987), although back then it was called ‘Framework for Information Systems Architecture’.
+
+ The framework as it applies to enterprises is simply a logical structure for classifying and organising the
+
+   descriptive representations of an enterprise that are significant to the management of the enterprise as
+   well as to the development of the enterprise’s systems.
+
+ The framework (Fig. 2.6) in its most simple form depicts the design artefacts that constitute the
+
+   intersection between the roles in the design process, that is, owner, designer and builder, and the
+   product abstractions, that is, what (material) it is made of, how (process) it works and where (geometry)
+   the components are relative to one another.
+ARCHITECTURE
+METHODS AND
+FRAMEWORKS
+
+The Zachman Framework
+ARCHITECTURE
+METHODS AND
+FRAMEWORKS
+
+The Zachman Framework
+
+
+
+
+                        https://docs.nomagic.com/display/PLUGINS/Zachman+Plugin
+ARCHITECTURE
+METHODS AND
+FRAMEWORKS
+
+The Zachman Framework Main
+View
+
+
+
+
+                             https://sparxsystems.com/resources/gallery/diagrams/architecture/arc-zachman-framework.html
+ARCHITECTURE
+METHODS AND
+FRAMEWORKS
+
+The Zachman Framework
+
+
+
+
+                        https://sparxsystems.com/resources/gallery/diagrams/architecture/arc-zachman-framework.html
+ARCHITECTURE
+METHODS AND
+FRAMEWORKS
+
+The Zachman Framework
+
+
+
+
+                        https://sparxsystems.com/resources/gallery/diagrams/architecture/arc-zachman-framework.html
+ARCHITECTURE
+METHODS AND
+FRAMEWORKS
+
+The Zachman Framework
+
+
+
+
+                        https://sparxsystems.com/resources/gallery/diagrams/architecture/arc-zachman-framework.html
+ARCHITECTURE
+METHODS AND
+FRAMEWORKS
+
+The Zachman Framework
+
+
+
+
+                        https://sparxsystems.com/resources/gallery/diagrams/architecture/arc-zachman-framework.html
+ARCHITECTURE METHODS AND FRAMEWORKS
+
+The Zachman Framework
+
+ Advantages of the Zachman framework are that it is easy to understand, it addresses the
+  enterprise as a whole, it is defined independently of tools or methodologies, and any issues can be
+  mapped against it to understand where they fit. An important drawback is the large number of cells,
+  which is an obstacle for the practical applicability of the framework. Also, the relations between the
+  different cells are not that well specified. Notwithstanding these drawbacks, Zachman is to be
+  credited with providing the first comprehensive framework for enterprise architecture, and his work
+  is still widely used.
+ARCHITECTURE METHODS AND FRAMEWORKS
+
+
+The Open Group Architecture Framework
+
+ The Open Group Architecture Framework (TOGAF) originated as a generic framework and
+  methodology for development of technical architectures but evolved into an enterprise architecture
+  framework and method.
+
+ From version 8 onwards, TOGAF (The Open Group 2011) is dedicated to enterprise architectures.
+ARCHITECTURE METHODS AND FRAMEWORKS
+
+The Open Group Architecture Framework
+TOGAF has the following main components (Fig. 2.7):
+    An Architecture Capability Framework, which addresses the organisation, processes, skills, roles, and
+      responsibilities required to establish and operate an architecture function within an enterprise.
+    The Architecture Development Method (ADM), which provides a ‘way of working’ for architects. The ADM is
+      considered to be the core of TOGAF, and consists of a stepwise cyclic approach for the development of the
+      overall enterprise architecture.
+    The Architecture Content Framework, which considers an overall enterprise architecture as composed of
+      four closely interrelated architectures: Business Architecture, Data Architecture, Application Architecture,
+      and Technology (IT) Architecture.
+    The Enterprise Continuum, which comprises various reference models, such as the Technical Reference
+      Model, The Open Group’s Standards Information Base (SIB), and The Building Blocks Information Base
+      (BBIB). The idea behind the Enterprise Continuum is to illustrates how architectures are developed across a
+      continuum ranging from foundational architectures, through common systems architectures and industry-
+      specific architectures, to an enterprise’s own individual architecture.
+ARCHITECTURE
+METHODS AND
+FRAMEWORKS
+
+The Open Group Architecture
+Framework
+ARCHITECTURE METHODS AND FRAMEWORKS
+
+
+The Open Group Architecture Framework
+
+TOGAF’s ADM (Fig. 2.8) is iterative, over the whole process, between phases and within phases. For each iteration
+of the ADM, a fresh decision must be taken as to:
+
+   The breadth of coverage of the enterprise to be defined;
+
+   The level of detail to be defined;
+
+   The extent of the time horizon aimed at, including the number and extent of any intermediate time horizons;
+
+   The architectural assets to be leveraged in the organisation’s Enterprise Continuum, including assets created in
+    previous iterations of the ADM cycle within the enterprise and assets available elsewhere in the industry.
+ARCHITECTURE
+METHODS AND
+FRAMEWORKS
+
+The Open Group Architecture
+Framework
+ARCHITECTURE
+METHODS AND
+FRAMEWORKS
+
+The Open Group Architecture
+Framework
+
+
+
+
+                              https://www.youtube.com/watch?v=8WOAmt8FGgc
+ARCHITECTURE METHODS AND FRAMEWORKS
+
+OMG’s Model-Driven Architecture
+
+ The Model-Driven Architecture (MDA) (Object Management Group 2014; Frankel 2003) aims to provide
+   an open, vendor-neutral approach to interoperability.
+
+ It builds upon the Object Management Group’s modelling standards: the Unified Modeling Language
+   (UML; see also Sect. 2.3.3), the Meta Object Facility (MOF) (Object Management Group 2015d) and the
+   Common Warehouse Meta-model (CWM). Platform-independent application descriptions built with these
+   standards can be realised using different open or proprietary platforms, such as Java, .NET, XMI/XML
+   and Web services.
+
+ MDA wants to raise the level of abstraction at which software solutions are specified by defining a
+   framework supported by a collection of standards that sets a standard for generating code from models
+   and vice versa. Now, MDA-based software development tools already support the specification of
+   software in UML instead of in a programming language like Java.
+ARCHITECTURE METHODS AND FRAMEWORKS
+
+OMG’s Model-Driven Architecture
+
+MDA comprises three abstraction levels with mappings between them (see Fig. 2.9):
+
+1) The requirements for the system are modelled in a domain model or business model, historically
+   called Computation-Independent Model (CIM) in MDA, which describes the situation in which the
+   system will be used. It hides much or all information about the use of automated data processing
+   systems.
+2) The Platform-Independent Model (PIM) describes the operation of a system while hiding the details
+   necessary for a particular platform. A PIM shows that part of the complete specification that does
+   not change from one platform to another.
+3) A Platform-Specific Model (PSM) combines the specifications in the PIM with the details that
+   specify how that system uses a particular type of platform.
+ARCHITECTURE
+METHODS AND
+FRAMEWORKS
+
+OMG’s Model-Driven
+Architecture
+REFERENCES
+
+
+
+  Lankhorst, M. (2017). Enterprise architecture at work (ISBN 978-3-662-53933-
+    0). Berlin: Springer.
+  https://slideplayer.com/slide/14291904/
+  https://www.bmc.com/blogs/cobit-vs-itil-understanding-governance-frameworks/
+

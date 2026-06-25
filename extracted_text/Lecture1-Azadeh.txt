@@ -1,0 +1,178 @@
+  ENTERPRISE ARCHITECTURE (EA) AND
+  DATABASE PROGRAMMING
+
+
+
+
+Azadeh Sarkheyli, Ph.D.
+(azadeh.sarkheyli@hh.se)
+             Course plan (Weeks 18-26)
+             Introduction to Enterprise Architecture (EA)
+CONTENTS:
+             Project Proposal
+COURSE PLAN
+Learning Outcomes (LOs)
+After completing the course, the student should be able to:
+Knowledge and understanding
+•   Explain the concepts of architectural strategy, system structuring and Enterprise Architecture (EA).
+•   Describe principles for a service-oriented, component-based, and distributed architecture.
+•   Describe relationships between different types of architecture within Enterprise Architecture (EA): business architecture, information
+    architecture and IT architecture.
+•   Demonstrate understanding of different roles in Enterprise Architecture (EA).
+Skills and Abilities
+•   Use general theory, methodology and technology for process and data modeling.
+•   Analyze a business and based on the analysis, design a database architecture that corresponds to a business's needs, goals, and
+    requirements.
+•   Implement different database solutions to achieve optimal database performance.
+•   Orally and in writing present problems and solutions in the area.
+Evaluation
+•   Assess whether different database solutions are reusable and optimized based on criteria for good database design.
+•   Based on relevant articles, discuss, reflect, and argue for when a certain type of architecture may be suitable, and for which type of business.
+COURSE
+PLAN
+COURSE PLAN
+
+ Assessment
+ ➢ Assessment 1: Attendance, cooperation, oral presentation in seminars, (30% of the
+   overall grade)
+ ➢ Assessment 2: Group project work with a written report and oral presentation,
+   (30% of the overall grade)
+ ➢ Assessment 3: Individual written test, (40% of the overall grade)
+INTRODUCTION TO ENTERPRISE ARCHITECTURE
+INTRODUCTION
+
+
+
+                              What exactly does
+                             ‘architecture’ mean?
+
+
+
+
+                                                    What is the meaning of
+                                                             EA ?
+     How EA can be useful?
+INTRODUCTION: CONCEPTS
+
+
+ To manage the complexity of any large organization or system, you need architecture.
+
+ For example, an architectural model of a house defines its major functions and how they
+   are structured. It provides an abstract design, ignoring many details.
+
+ Moreover, a similar frame of reference is needed in designing an enterprise. To create an
+   overview of the structure of an organization, its business processes, their application
+   support, and the technical infrastructure, you need to express the different aspects and
+   domains, and their relations.
+
+ Architecture can signify the art and science of designing the built environment, or the
+   product of such a design. Thus, the term architecture can encompass both the blueprint
+   for a building and the general underlying principles such as its style, as in ‘gothic
+   architecture’.
+INTRODUCTION: CONCEPTS
+
+
+
+
+Architecture: fundamental concepts or properties of a system in its environment,
+embodied in its elements, relationships, and in the principles of its design and evolution.
+INTRODUCTION
+
+
+
+   Discussion
+    What is the meaning of stakeholder? (with example)
+    Why should we consider it?
+
+
+    What is the meaning of enterprise?
+INTRODUCTION: HISTORICAL BACKGROUND OF ENTERPRISE ARCHITECTURE
+
+Roger Sessions, Object Watch Inc (2007):
+• Thirty years ago, a new field was born that soon came to be known as enterprise architecture. The field initially began to
+address two problems:
+   – System complexity—Organizations were spending more and more money building IT systems; and
+   – Poor business alignment—Organizations were finding it more and more difficult to keep those increasingly
+   expensive IT systems aligned with business need
+• IT systems unmanageably complex and increasingly costly to maintain
+• IT systems hindering the organization's ability to respond to current, and future, market conditions in a timely and cost-
+effective manner
+• Mission-critical information consistently out-of-date and/or just plain wrong
+• A culture of distrust between the business and technology sides of the organization
+INTRODUCTION: DEFINITIONS
+
+ Enterprise: any collection of organizations that has a common set of goals and/or a single bottom line.
+ Enterprise architecture: a coherent whole of principles, methods, and models that are used in the
+   design and realization of an enterprise’s organizational structure, business processes, information
+   systems, and infrastructure.
+ … the organizing logic for business processes and IT infrastructure reflecting the integration and
+   standardization requirements of the company's operating model … the desired state of business
+   process integration and business process standardization for delivering goods and services to
+   customers (Peter Weill, MIT Center for IS Research)
+ … defines the mission of an agency and describes the technology and information needed to perform
+   that mission, along with descriptions of how the architecture of the organization should be changed in
+   order to respond to changes in the mission (United States Government)
+ … the process of translating business vision and strategy into effective enterprise change by creating,
+   communicating and improving the key requirements, principles and models that describe the
+   enterprise's future state and enable its evolution (Gartner)
+INTRODUCTION: ENTERPRISE ARCHITECTURE SCOPE
+o   The term enterprise is generally applicable in many circumstances, including
+       Public or private sector organizations
+       An entire business or corporation
+       A part of a larger enterprise (such as a business unit)
+       A conglomerate of several organizations, such as a joint venture or partnership
+       A multiply outsourced business operation
+o   The term enterprise includes the whole complex, socio-technical system, including:
+       people
+       information
+       technology
+       business (e.g., operations)
+o   Defining the boundary or scope of the enterprise to be described is an important first step in creating the enterprise
+    architecture. “Enterprise” means more than the information systems employed by an organization.
+o   Composing holistic solutions that address the business challenges of the enterprise and support the governance needed to
+    implement them (Gartner).
+INTRODUCTION: ENTERPRISE ARCHITECTURE EXAMPLE
+
+
+
+
+            https://www.edrawsoft.com/enterprisearchitecture/enterprise-architecture-examples.html
+INTRODUCTION: ENTERPRISE ARCHITECTURE EXAMPLE
+
+
+
+
+            https://www.edrawsoft.com/enterprisearchitecture/enterprise-architecture-examples.html
+INTRODUCTION
+
+
+
+   Discussion
+   According the below papers describe why do we need Enterprise
+   Architecture?
+
+
+   ❖ Shanks, G., Gloet, M., Someh, I. A., Frampton, K., & Tamm, T. (2018).
+      Achieving benefits with enterprise architecture. The Journal of
+      Strategic Information Systems, 27(2), 139-156.
+   ❖ van de Wetering, R., Kurnia, S., & Kotusev, S. (2021). The role of
+      enterprise architecture for digital transformations. Sustainability,
+      13(4), 2237.
+   ❖ Ross, J. W. (2006). Enterprise architecture: Driving business benefits
+      from IT.
+REFERENCES
+
+
+
+  Lankhorst, M. (2017). Enterprise architecture at work (ISBN 978-3-662-53933-
+    0). Berlin: Springer.
+  https://loggle.io/blog/5-benefits-of-enterprise-architecture
+  https://www.edrawsoft.com/enterprisearchitecture/enterprise-architecture-
+    examples.html
+PROJECT
+
+
+    Form your group
+
+     The students should form a group consisting of 4 or 5 members.
+

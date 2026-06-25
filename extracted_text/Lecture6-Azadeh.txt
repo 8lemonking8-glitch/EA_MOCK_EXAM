@@ -1,0 +1,595 @@
+  ENTERPRISE ARCHITECTURE (EA) AND
+  DATABASE PROGRAMMING
+  LECTURE 6
+
+
+
+
+Azadeh Sarkheyli
+(azadeh.sarkheyli@hh.se)
+             Communication of Enterprise Architectures
+CONTENTS:    A Language for Enterprise Modelling
+COMMUNICATION OF ENTERPRISE ARCHITECTURES
+
+Describing architectures is all about communication. The role of an architecture description is, it always involves some communicative
+aspect. Consider, as an illustration, the potential uses of architecture descriptions as identified in the IEEE 1471 standard (IEEE
+Computer Society 2000):
+       Expression of the system and its (potential) evolution.
+
+       Analysis of alternative architectures.
+
+       Business planning for transition from a legacy architecture to a new architecture.
+
+       Communications among organizations involved in the development, production, fielding, operation, and maintenance of a system.
+
+       Communications between acquirers and developers as a part of contract negotiations.
+
+       Criteria for certifying conformance of implementations to the architecture.
+
+       Development and maintenance documentation, including material for reuse repositories and training material.
+
+       Input to subsequent system design and development activities.
+
+       Input to system generation and analysis tools.
+
+       Operational and infrastructure support; configuration management and repair; redesign and maintenance of systems, subsystems, and components.
+
+       Planning and budget support.
+
+       Preparation of acquisition documents (e.g., requests for proposal and statements of work).
+
+       Review, analysis, and evaluation of the system across the life cycle.
+
+       Specification for a group of systems sharing a common set of features, (e.g., product lines).
+ COMMUNICATION OF ENTERPRISE ARCHITECTURES
+
+
+System Development as a Knowledge Transformation Process
+In essence, we regard system development as a knowledge transformation process whereby
+conversations are used to share and create knowledge pertaining to both the system being developed,
+as well as the development process itself. The notion of ‘conversation’ should be interpreted here in the
+broadest sense, ranging from a single person producing an (architectural) description, via a one-on-one
+design or elicitation session, to a workshop with several stakeholders, and even the widespread
+dissemination of definitive architectures.
+ COMMUNICATION OF ENTERPRISE ARCHITECTURES
+
+
+System Development as a Knowledge Transformation Process
+ System development community: a group of objects, such as actors and representations, which are
+  involved in the development of a system.
+
+ Concern: an interest of a stakeholder with regards to the architecture description of some system,
+  resulting from the stakeholder’s goals, and the present or future role(s) played by the system in
+  relation to these goals.
+ COMMUNICATION OF ENTERPRISE ARCHITECTURES
+
+System Development as a Knowledge Transformation Process
+
+Some examples of concerns are:
+
+      The current situation with regards to the computerized support of a business process.
+
+      The requirements of a specific stakeholder with regards to the desired situation.
+
+      The improvements, which a new system may bring, to a pre-existing situation in relation to the costs of acquiring the
+       system.
+
+      The potential impact of a new system on the activities of a prospective user.
+
+      The potential impact of a new system on the work of the system administrators that are to maintain the new system.
+ COMMUNICATION OF ENTERPRISE ARCHITECTURES
+
+
+System Development as a Knowledge Transformation Process
+Once the knowledge has been introduced into a community, it can be shared among members of that
+community. Sharing knowledge between different actors may progress through a number of stages. We
+distinguish three major stages:
+
+      Aware: An actor may become aware of (possible) knowledge by way of the sharing by another actor.
+
+      Agreed: Once knowledge is shared, an actor can make up his or her own mind about it and decide whether or not to
+       agree to the knowledge shared.
+
+      Committed: Actors who agree to a specific knowledge topic may decide actually to commit to this knowledge. In
+       other words, they may decide to adapt their future behavior in accordance with this knowledge.
+    COMMUNICATION OF ENTERPRISE ARCHITECTURES
+
+Conversation Strategies
+Conversations take place in some situation that may limit the execution of the conversation. We may characterize such a situation further in
+terms of situational factors:
+
+   Availability of resources: Refers to the availability of resources that can be used in a conversation. The availability of resources can be
+    refined to more specific factors such as time for execution, actors, intellectual capacities needed from the actors, or financial means.
+
+   Complexity: The resources needed for the conversation, the knowledge being conversed about, etc., will exhibit a certain level of
+    complexity. This complexity also influences the conversation strategy to be followed. Examples of such complexity factors, are the
+    heterogeneity of the actors involved, the quantity of actors, complexity of the technology used, the complexity of the knowledge being
+    conversed about, and the size of the gap between the initial knowledge state and the desired knowledge state.
+
+   Uncertainty: If you want to determine a conversation strategy fit for a given situation, you have to make assumptions about the knowledge
+    goal.
+ COMMUNICATION OF ENTERPRISE ARCHITECTURES
+
+Conversation Strategies
+
+According to Fig. 4.2. Given a knowledge goal, an initial state, and conversation situation, a conversation strategy can be
+determined, which should lead us from the initial state to the knowledge state as desired by the knowledge goal, taking into
+account the conversation situation at hand.
+ COMMUNICATION OF ENTERPRISE ARCHITECTURES
+
+
+Architectural Conversations
+
+We can identify the following classes of knowledge goals that you may want to achieve in a conversation:
+
+      Introduction of knowledge: This refers to situations where there is a need to introduce into or create new knowledge in a (part of a)
+       development community. These kinds of knowledge goals typically lead to training or awareness sessions.
+
+      Agreement to knowledge: With this class of knowledge goals, we refer to situations in which the mutual agreement of different
+       stakeholders (with their own specific stakes and concerns!) needs to be improved or validated.
+
+      Commitment to knowledge: In these cases, the knowledge goal goes beyond that of achieving agreement. Stakeholders should be
+       willing to act upon the knowledge they agree to.
+ COMMUNICATION OF ENTERPRISE ARCHITECTURES
+
+Architectural Conversations: Conversation Techniques
+
+     Brown-paper session: Structured brainstorm-like group session (up to about 15 people) in which items (keywords or
+      short phrases) are elicited from the individuals in the group in answer to a question such as: ‘What are the key
+      functionality issues in our current IT architecture?’. The items are then collected on a sheet of paper and, by means
+      of an open and creative group process, structured and categorized. This may involve adding, deleting, merging, or
+      changing items.
+
+     Elicitation interview: An interview where an analyst puts informative questions to the informants. The aim is to gather
+      knowledge from the informants. Interviews can be more or less ‘open’: they can be strictly focused or guided, but the
+      conversation can also be left open to go where the interest of the interviewer or informants leads it.
+
+     Workshop: Involves one to, say, 15 people, working on a model or view interactively, mediated by an architect or
+      analyst. This class also encompasses so-called joint modelling sessions.
+ COMMUNICATION OF ENTERPRISE ARCHITECTURES
+
+Architectural Conversations: Conversation Techniques
+
+      Validation interview: An interview where an analyst will aim to find out if the view or model matches the views and
+       expectations of an informant. This could be a view or model that has been communicated to the informants beforehand, or
+       during the interview. A validation interview will typically be much more ‘closed’ than an elicitation interview: there will have to
+       be some systematic approach by which validity of the view or model is checked.
+
+      Committing review: A group of stakeholders are presented with a number of alternative models or views and their impact.
+       They are requested to select one alternative and commit to this alternative based on their insights into the potential impact.
+       This typically involves a formal decision-making processes.
+
+      Presentation: Involves one to three people presenting a model or view to a group of, say, up to a hundred people. One may
+       decide to elicit feedback, but this is usually gathered afterwards, in a more personal way, or at least 1:1 (e.g. through a round
+       of feedback).
+
+      Mailing: A form of ‘mass’ communication, where a model or view is presented or handed over to a large number of people.
+       Feedback may or may not be encouraged.
+ COMMUNICATION OF ENTERPRISE ARCHITECTURES
+Architectural Conversations
+
+
+
+
+                                             A + indicates that a certain conversation
+                                             class is well suited for the selected
+                                             technique of knowledge goals, while ++
+                                             indicates that it is particularly well suited.
+                                             On the other hand, a -- indicates that a
+                                             certain conversation technique is ill-suited
+                                             for the selected class of knowledge goals
+COMMUNICATION OF ENTERPRISE ARCHITECTURES
+
+
+     Discussion
+
+     According to the below paper choose four identified theories related to
+     the key elements of an EA practice which more focus on communication
+     and try to describe them?
+
+
+        Kotusev, S., & Kurnia, S. (2021). The theoretical basis of enterprise
+         architecture: A critical review and taxonomy of relevant theories. Journal of
+         Information Technology, 36(3), 275-315.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+Architecture provides a means to handle the complexity of modern information intensive enterprises. To this
+end, architects need ways to express architectures as clearly as possible: both for their own understanding
+and for communication with other stakeholders, such as system developers, end users, and managers.
+However,…
+
+ the current situation is that architects in different domains, even within the same organization, often use
+   their own description techniques and conventions.
+
+ there is no standard language for describing enterprise architectures in a precise way across domain
+   borders.
+
+ they are often described either in informal pictures that lack a well-defined meaning, or in detailed design
+   languages (such as UML) that are difficult to understand for non-experts.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+
+In   Fig.    5.1,   the    role   that   the
+enterprise     architecture       modelling
+language plays in our approach is
+summarized. It provides a means for
+integration, by allowing the creation
+of   models     that      show    high-level
+structures within domains and the
+relations between domains.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+Three main layers:
+1. The business layer offers products and services to external
+   customers, which are realized in the organization by business
+   processes (performed by business actors or roles).
+2. The application layer supports the business layer with application
+   services which are realized by (software) application components.
+3. The technology layer offers infrastructural services (e.g., processing,
+   storage, and communication services) needed to run applications,
+   realized by computer and communication devices and system
+   software.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+A premise of the ArchiMate language is that
+the general structure of models within the
+different layers is similar. The same types of
+concepts and relations are used, although
+their exact nature and granularity differ. As a
+result of this uniformity, models created for the
+different layers can quite easily be aligned with
+each other. To identify the concepts that make
+up this general structure, we start from the
+three dimensions shown in Fig. 5.3.
+ A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+
+
+The core concepts that are found
+in each layer of the language are
+depicted in Fig. 5.4.
+A LANGUAGE FOR
+ENTERPRISE
+MODELLING
+
+The structure of the language
+and the most important
+concepts are summarized in
+Fig. 5.5.
+A LANGUAGE FOR
+ENTERPRISE
+MODELLING
+
+A full overview of the language
+meta-model can be found in
+the official specification
+document (The Open Group
+2016a) and the notation is
+given in Appendix A
+A LANGUAGE FOR
+ENTERPRISE
+MODELLING
+
+An example of a motivation
+model is shown in Fig. 5.6. The
+example illustrates the use of
+the central concepts and
+relations.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+                            Motivation Concepts
+                             Stakeholder: the role of an individual, team or
+                               organization (or classes thereof) that
+                               represents their interest in the outcome of the
+                               architecture.
+                             Driver: an external or internal condition that
+                               motivates an organization to define its goals
+                               and implement the changes necessary to
+                               achieve them.
+                             Assessment: the result of an analysis of the
+                               state of affairs of the enterprise with respect to
+                               some driver.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+                            Motivation Concepts
+                               Goal: a high-level statement of intent, direction or
+                                desired end state for an organisation and its
+                                stakeholders.
+                               Requirement: a statement of need that must be met by
+                                the architecture.
+                               Constraint: a factor that prevents or obstructs the
+                                realisation of goals.
+                               Principle: a qualitative statement of intent that should be
+                                met by the architecture.
+                               Outcome: an end result that has been achieved.
+                               Value: the relative worth, utility or importance of a core
+                                element or an outcome.
+                               Meaning: the knowledge or expertise present in a
+                                business object or its representation, given a particular
+                                context.
+A LANGUAGE FOR
+ENTERPRISE
+MODELLING
+A course of action represents what
+an enterprise has decided to do to
+realize its goals. It can be used to
+model a high-level strategic plan or
+direction, or more concrete lower-
+level tactics. Courses of action are
+typically realized by capabilities and
+resources, as shown in Fig. 5.7.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+                   Business Structure Concepts
+                        Business actor: a business entity that is capable of performing
+                         behaviour.
+                        Business role: the responsibility for performing specific behaviour, to
+                         which an actor can be assigned, or the part an actor plays in a
+                         particular action or event.
+                        Business collaboration: an aggregate of two or more business internal
+                         active structure elements that work together to perform collective
+                         behaviour.
+                        Business interface: a point of access where a business service is
+                         made available to the environment.
+                        Business object: a concept used within a particular business domain.
+                        Representation: the perceptible form of the information carried by a
+                         business object.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+                            Strategy Concepts
+                             Course of action: an approach or plan for
+                               configuring some capabilities and resources of
+                               the enterprise, undertaken to achieve a goal.
+                             Capability: an ability that an active structure
+                               element, such as an organization, person or
+                               system, possesses.
+                             Resource: an asset owned or controlled by an
+                               individual or organisation.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+Business Layer Concepts
+     Business Structure Concepts
+     Business Behaviour Concepts
+     Higher-Level Business Concepts
+A LANGUAGE FOR
+ENTERPRISE
+MODELLING
+An example of a business layer
+model is shown in Fig. 5.9,
+illustrating the use of the central
+concepts and relations. In the
+following subsections, we will
+explain the business layer concepts
+in more detail.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+Business Behavior Concepts
+     Business service: an explicitly defined exposed business behaviour.
+     Business process: a sequence of business behaviours that achieves a specific outcome such as a defined set of
+      products and services.
+     Business function: a collection of business behaviour based on a chosen set of criteria (typically required
+      business resources and/or competences), closely aligned to an organisation, but not necessarily explicitly
+      governed by the organisation.
+     Business interaction: a unit of collective business behaviour performed by (a collaboration of) two or more
+      business roles.
+     Business event: a business behaviour element that denotes an organizational state change. It may originate from
+      and be resolved inside or outside the organisation.
+A LANGUAGE FOR ENTERPRISE MODELLING
+A LANGUAGE FOR ENTERPRISE MODELLING
+A LANGUAGE FOR ENTERPRISE MODELLING
+A LANGUAGE FOR ENTERPRISE MODELLING
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+Higher-Level Business Concepts
+     Product: a coherent collection of services and/or passive structure elements, accompanied by a contract/set of
+      agreements, which is offered as a whole to (internal or external) customers.
+     Contract: a formal or informal specification of an agreement between a provider and a consumer that specifies
+      the rights and obligations associated with a product and establishes functional and non-functional parameters for
+      interaction.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+
+Application Layer Concepts
+     Application Structure Concepts
+     Application Behavior Concepts
+A LANGUAGE FOR
+ENTERPRISE
+MODELLING
+
+A typical example of an
+application layer model is
+shown in Fig. 5.15, illustrating
+the use of the central concepts.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+Application Structure Concepts
+     Application component: an encapsulation of application functionality aligned to implementation structure, which is
+      modular and replaceable. It encapsulates its behaviour and data, exposes services and makes them available
+      through interfaces.
+     Application collaboration: an aggregate of two or more application components that work together to perform
+      collective application behaviour.
+     Application interface: a point of access where an application service is made available to a user, another
+      application component or a node.
+     Data object: data structured for automated processing.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+Application Behaviour Concepts
+     Application service: an explicitly defined exposed application behaviour.
+     Application function: automated behaviour that can be performed by an application component.
+     Application process: a sequence of application behaviours that achieves a specific outcome.
+     Application interaction: a unit of collective application behaviour performed by (a collaboration of) two or more
+      application components.
+     Application event: an application behaviour element that denotes a state change.
+  A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+The application layer
+and the business layer
+can be easily linked in
+ArchiMate (Fig. 5.16).
+Two types of relations
+provide this link:
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+
+Technology Layer Concepts
+     Technology Structure Concepts
+     Technology Behavior Concepts
+A LANGUAGE FOR
+ENTERPRISE
+MODELLING
+
+A typical example of a
+technology layer model is
+shown in Fig. 5.17, illustrating
+the use of the central concepts.
+A LANGUAGE FOR ENTERPRISE MODELLING
+Technology Structure Concepts
+     Node: a computational or physical resource that hosts, manipulates or interacts with other computational or
+      physical resources.
+     Technology collaboration: an aggregate of two or more nodes that work together to perform collective technology
+      behaviour.
+     Technology interface: a point of access where technology services offered by a node can be accessed.
+     Device: a physical IT resource upon which system software and artefacts may be deployed for execution.
+     System software: software that provides or contributes to an environment for storing, executing and using
+      software or data deployed within it.
+     Path: a link between two or more nodes, through which these nodes can exchange data or material.
+     Communication network: a set of structures that connects computer systems or other electronic devices for
+      transmission, routing and reception of data or data-based communications such as voice and video.
+     Artefact: a piece of data that is used or produced in a software development process or by deployment and
+      operation of a system.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+Technology Behaviour Concepts
+     Technology service: externally visible unit of functionality, provided by one or more nodes, exposed through well-
+      defined interfaces, and meaningful to the environment.
+     Technology function: a behaviour element that groups infrastructural behaviour that can be performed by a node.
+     Technology process: a sequence of technology behaviours that achieves a specific outcome.
+     Technology interaction: a unit of collective technology behaviour performed by (a collaboration of) two or more
+      nodes.
+     Technology event: a technology behaviour element that denotes a state change.
+A LANGUAGE FOR
+ENTERPRISE
+MODELLING
+Application–Technology Alignment
+The technology layer and the application
+layer can also be linked very easily
+Similar to business–application
+alignment, two types of relations provide
+this link:
+1) Technology services can serve
+   application functions and technology
+   interface serve application
+   components, i.e. there is a support
+   relation between the technology and
+   application layers (Fig. 5.18).
+2) Artefacts can realize data objects and
+   application components, i.e. there is a
+   implementation relation between the
+   technology and application layers
+   (Fig. 5.18).
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+
+Physical Concepts
+     Equipment: one or more physical machines, tools or instruments that can create, use, store, move or transform
+      materials.
+     Facility: a physical structure or environment.
+     Distribution network: a physical network used to transport materials or energy.
+     Material: tangible physical matter or physical elements.
+A LANGUAGE FOR
+ENTERPRISE
+MODELLING
+
+Physical Concepts
+Modelling the physical world and its
+interplay with IT is therefore an
+important addition to the language
+in ArchiMate version 3.0 (The Open
+Group 2016a). An example of these
+concepts is shown in Fig. 5.19.
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+
+Implementation and Migration Concepts
+     Implementation-Related Concepts
+     Migration Planning Concepts
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+Implementation-Related Concepts
+     Work package: a series of actions identified and designed to achieve specific results within specified time and
+      resource constraints.
+     Implementation event: a behaviour element that denotes a state change related to implementation or migration.
+     Deliverable: a precisely defined outcome of a work package.
+A LANGUAGE FOR
+ENTERPRISE
+MODELLING
+
+Implementation-Related
+Concepts
+An example of a model using the
+implementation-related concepts is
+shown in Fig. 5.20, illustrating the
+use of the central concepts and
+relations for expressing the work
+that needs to be done to realise an
+architecture.
+ A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+
+Migration Planning Concepts
+     Plateau: a relatively stable state of the
+      architecture that exists during a limited period
+      of time.
+     Gap: a statement of difference between two
+      plateaus.
+A LANGUAGE
+FOR
+ENTERPRISE
+MODELLING
+RELATIONS
+A LANGUAGE FOR
+ENTERPRISE
+MODELLING
+
+Guidelines for Modelling
+A LANGUAGE FOR ENTERPRISE MODELLING
+
+
+     Discussion
+
+     According to the below paper describe how the Business Model
+     Canvas can mapped to ArchiMate?
+
+
+        Meertens, L. O., Iacob, M. E., Nieuwenhuis, L. J., van Sinderen, M. J.,
+         Jonkers, H., & Quartel, D. (2012, March). Mapping the business model canvas
+         to ArchiMate. In Proceedings of the 27th annual ACM symposium on applied
+         computing (pp. 1694-1701).
+REFERENCES
+
+
+  Lankhorst, M. (2017). Enterprise architecture at work (ISBN 978-3-662-53933-
+    0). Berlin: Springer.
+  Kotusev, S., & Kurnia, S. (2021). The theoretical basis of enterprise architecture: A
+    critical review and taxonomy of relevant theories. Journal of Information
+    Technology, 36(3), 275-315.
+  Meertens, L. O., Iacob, M. E., Nieuwenhuis, L. J., van Sinderen, M. J., Jonkers, H., &
+    Quartel, D. (2012, March). Mapping the business model canvas to ArchiMate. In
+    Proceedings of the 27th annual ACM symposium on applied computing (pp.
+    1694-1701).
+

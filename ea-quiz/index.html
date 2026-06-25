@@ -1,0 +1,2288 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EA Final Quiz</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #17202a;
+      --muted: #647184;
+      --line: #d8dee8;
+      --brand: #2364aa;
+      --brand-dark: #174d86;
+      --ok: #177245;
+      --ok-bg: #e8f6ee;
+      --bad: #b3261e;
+      --bad-bg: #fdeceb;
+      --warn: #8a5a00;
+      --warn-bg: #fff5d7;
+      --shadow: 0 18px 45px rgba(34, 45, 60, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, #eef3f8 0, #f7f8fb 310px),
+        var(--bg);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .app {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 22px 0 28px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .title p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      min-height: 38px;
+      padding: 0 13px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s, color .15s, transform .15s;
+    }
+
+    .btn:hover {
+      border-color: #9fb2ca;
+      transform: translateY(-1px);
+    }
+
+    .btn.primary {
+      background: var(--brand);
+      color: #fff;
+      border-color: var(--brand);
+    }
+
+    .btn.primary:hover {
+      background: var(--brand-dark);
+    }
+
+    .btn.ghost {
+      background: transparent;
+    }
+
+    .btn:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .side,
+    .main {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .side {
+      padding: 16px;
+      position: sticky;
+      top: 16px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 11px;
+      min-height: 72px;
+      background: #fbfcfe;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .stat strong {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .progress {
+      height: 10px;
+      border-radius: 999px;
+      background: #e8edf4;
+      overflow: hidden;
+      margin: 6px 0 16px;
+    }
+
+    .progress div {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--brand), #2f9c73);
+      transition: width .2s;
+    }
+
+    .mode-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .lecture-section {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 0;
+      margin-bottom: 14px;
+    }
+
+    .lecture-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 9px;
+    }
+
+    .lecture-title span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    .lecture-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .lecture-btn {
+      min-height: 46px;
+      padding: 7px 9px;
+      text-align: left;
+      line-height: 1.25;
+    }
+
+    .lecture-btn strong,
+    .lecture-btn span {
+      display: block;
+    }
+
+    .lecture-btn strong {
+      font-size: 13px;
+    }
+
+    .lecture-btn span {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .lecture-btn.primary span {
+      color: rgba(255, 255, 255, .82);
+    }
+
+    .search {
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 11px;
+      margin-bottom: 12px;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    .question-list {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 7px;
+      max-height: 330px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .qdot {
+      height: 38px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .qdot.current {
+      border-color: var(--brand);
+      box-shadow: inset 0 0 0 2px rgba(35, 100, 170, .16);
+    }
+
+    .qdot.correct {
+      background: var(--ok-bg);
+      border-color: #9bd7b6;
+      color: var(--ok);
+    }
+
+    .qdot.wrong {
+      background: var(--bad-bg);
+      border-color: #f0aaa5;
+      color: var(--bad);
+    }
+
+    .main {
+      min-height: 620px;
+      padding: 22px;
+    }
+
+    .question-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #eef4fb;
+      color: var(--brand-dark);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .question-index {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .question {
+      margin: 22px 0 18px;
+      font-size: 21px;
+      line-height: 1.45;
+      letter-spacing: 0;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .option {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 12px;
+      align-items: center;
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      min-height: 58px;
+      padding: 10px 14px 10px 10px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s, transform .15s;
+    }
+
+    .option:hover {
+      border-color: #9fb2ca;
+      transform: translateY(-1px);
+    }
+
+    .letter {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: #f6f8fb;
+      font-weight: 700;
+    }
+
+    .option.correct {
+      border-color: #7fc89e;
+      background: var(--ok-bg);
+    }
+
+    .option.correct .letter {
+      background: var(--ok);
+      border-color: var(--ok);
+      color: #fff;
+    }
+
+    .option.wrong {
+      border-color: #e89b95;
+      background: var(--bad-bg);
+    }
+
+    .option.wrong .letter {
+      background: var(--bad);
+      border-color: var(--bad);
+      color: #fff;
+    }
+
+    .feedback {
+      display: none;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      padding: 14px;
+      margin: 12px 0 18px;
+      line-height: 1.55;
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback.correct {
+      border-color: #9bd7b6;
+      background: var(--ok-bg);
+    }
+
+    .feedback.wrong {
+      border-color: #f0aaa5;
+      background: var(--bad-bg);
+    }
+
+    .feedback strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .feedback div {
+      margin-top: 10px;
+    }
+
+    .feedback span {
+      display: block;
+    }
+
+    .memory-card {
+      border: 1px solid #e2cc7a;
+      border-radius: 8px;
+      background: #fff9e8;
+      padding: 12px 14px;
+      margin: 0 0 18px;
+      line-height: 1.5;
+      color: #3f3300;
+    }
+
+    .memory-card strong,
+    .cheat-sheet strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .lecture-guide {
+      margin-top: 16px;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+
+    .guide-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 9px;
+    }
+
+    .guide-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 10px;
+      margin-bottom: 8px;
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
+    .guide-card strong,
+    .guide-card span {
+      display: block;
+    }
+
+    .guide-card strong {
+      margin-bottom: 4px;
+    }
+
+    .guide-meta {
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .guide-focus {
+      color: var(--warn);
+      margin-top: 6px;
+    }
+
+    .guide-questions {
+      color: var(--brand-dark);
+      margin-top: 6px;
+    }
+
+    .cheat-sheet {
+      margin-top: 16px;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+
+    .cheat-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 9px;
+    }
+
+    .cheat-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 10px;
+      margin-bottom: 8px;
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
+    .cheat-card span {
+      display: block;
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding-top: 4px;
+    }
+
+    .empty {
+      display: none;
+      border: 1px dashed #b6c2d1;
+      border-radius: 8px;
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+      background: #fbfcfe;
+    }
+
+    .empty.show {
+      display: block;
+    }
+
+    @media (max-width: 860px) {
+      .app {
+        width: min(100% - 20px, 720px);
+        padding-top: 12px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .toolbar {
+        justify-content: flex-start;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .side {
+        position: static;
+      }
+
+      .question-list {
+        grid-template-columns: repeat(8, 1fr);
+        max-height: none;
+      }
+
+      .main {
+        min-height: auto;
+        padding: 16px;
+      }
+
+      .question-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .question {
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .question-list {
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      .option {
+        grid-template-columns: 34px 1fr;
+      }
+
+      .mode-row,
+      .lecture-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="title">
+        <h1>EA 期末刷题</h1>
+        <p>40 道单选，可按 Lecture + Discussion 考点逐讲刷题。</p>
+      </div>
+      <div class="toolbar">
+        <button class="btn" id="shuffleBtn" type="button">随机顺序</button>
+        <button class="btn" id="wrongBtn" type="button">错题模式</button>
+        <button class="btn ghost" id="resetBtn" type="button">重置记录</button>
+      </div>
+    </header>
+
+    <section class="layout">
+      <aside class="side">
+        <div class="stats" aria-live="polite">
+          <div class="stat"><span>已答</span><strong id="answeredStat">0/40</strong></div>
+          <div class="stat"><span>正确率</span><strong id="accuracyStat">0%</strong></div>
+          <div class="stat"><span>正确</span><strong id="correctStat">0</strong></div>
+          <div class="stat"><span>错题</span><strong id="wrongStat">0</strong></div>
+        </div>
+        <div class="progress" aria-label="Progress"><div id="progressBar"></div></div>
+        <div class="mode-row">
+          <button class="btn primary" id="allModeBtn" type="button">全部题目</button>
+          <button class="btn" id="unansweredBtn" type="button">未答题</button>
+        </div>
+        <div class="lecture-section">
+          <div class="lecture-title">逐 Lecture 刷题 <span>按老师 Discussion 抓考点</span></div>
+          <div class="lecture-row" id="lectureRow" aria-label="Lecture filters"></div>
+        </div>
+        <input class="search" id="searchInput" type="search" placeholder="搜索题干/主题/中文考点" />
+        <div class="question-list" id="questionList" aria-label="Question list"></div>
+        <div class="lecture-guide" id="lectureGuide"></div>
+        <div class="cheat-sheet">
+          <div class="cheat-title">考前核心表</div>
+          <div id="cheatSheet"></div>
+        </div>
+      </aside>
+
+      <section class="main">
+        <div class="empty" id="emptyState">
+          当前筛选没有题目。
+        </div>
+        <article id="questionCard">
+          <div class="question-head">
+            <span class="tag" id="topicTag">Topic</span>
+            <span class="question-index" id="questionIndex">Question 1 of 40</span>
+          </div>
+          <h2 class="question" id="questionText"></h2>
+          <div class="memory-card" id="memoryCard"></div>
+          <div class="options" id="options"></div>
+          <div class="feedback" id="feedback"></div>
+          <div class="actions">
+            <button class="btn" id="prevBtn" type="button">上一题</button>
+            <button class="btn primary" id="nextBtn" type="button">下一题</button>
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const QUESTIONS = [
+      {
+        id: 1,
+        topic: "Architecture definition",
+        question: "In the course slides, architecture is best defined as:",
+        options: [
+          "The complete source code of an information system",
+          "Fundamental concepts or properties of a system in its environment, embodied in elements, relationships, and principles",
+          "A project schedule for software implementation",
+          "A list of hardware components used by an organization"
+        ],
+        answer: 1,
+        explanation: "Lecture 1 gives this as the formal definition of architecture."
+      },
+      {
+        id: 2,
+        topic: "EA definition",
+        question: "Which statement best describes Enterprise Architecture (EA)?",
+        options: [
+          "A coherent whole of principles, methods, and models used to design and realize organizational structure, business processes, information systems, and infrastructure",
+          "A database normalization method for reducing redundancy",
+          "A purely technical diagram of servers and networks",
+          "A financial reporting standard for public companies"
+        ],
+        answer: 0,
+        explanation: "EA connects organization, processes, information systems, and infrastructure."
+      },
+      {
+        id: 3,
+        topic: "Enterprise scope",
+        question: "In EA, the term enterprise means:",
+        options: [
+          "Only the IT department",
+          "Only a legally registered company",
+          "Any collection of organizations with common goals and/or a single bottom line",
+          "Only the database system used by a business"
+        ],
+        answer: 2,
+        explanation: "The scope is broader than IT and can include organizations, units, partnerships, and outsourced operations."
+      },
+      {
+        id: 4,
+        topic: "Stakeholder",
+        question: "Why should stakeholders be considered in enterprise architecture work?",
+        options: [
+          "Because architecture descriptions address their concerns and viewpoints",
+          "Because stakeholders always write the database queries",
+          "Because stakeholders replace the need for architectural models",
+          "Because only external stakeholders are allowed to approve IT systems"
+        ],
+        answer: 0,
+        explanation: "Discussion in Lecture 1 and ISO/IEEE concepts emphasize stakeholder concerns and viewpoints."
+      },
+      {
+        id: 5,
+        topic: "EA origin",
+        question: "According to the historical background in Lecture 1, EA emerged mainly to address:",
+        options: [
+          "Marketing automation and social media analytics",
+          "System complexity and poor business alignment",
+          "Employee recruitment and training",
+          "The replacement of all legacy systems with cloud systems"
+        ],
+        answer: 1,
+        explanation: "Roger Sessions' summary in Lecture 1 highlights these two original problems."
+      },
+      {
+        id: 6,
+        topic: "Drivers",
+        question: "Which of the following is an example of an external driver for EA?",
+        options: [
+          "A new regulatory law requiring changes in IT management",
+          "A team choosing a new screen color for an internal tool",
+          "A developer refactoring one class",
+          "A temporary local printer failure"
+        ],
+        answer: 0,
+        explanation: "Lecture 2 lists legal/regulatory pressure as an external driver."
+      },
+      {
+        id: 7,
+        topic: "Alignment",
+        question: "Vertical alignment in Lecture 2 refers to the relation between:",
+        options: [
+          "Internal processes and external customers",
+          "Top strategy and people at the bottom",
+          "Application components and database tables",
+          "Suppliers and revenue streams"
+        ],
+        answer: 1,
+        explanation: "Horizontal alignment is internal processes to external customers; vertical is strategy to people."
+      },
+      {
+        id: 8,
+        topic: "BSC",
+        question: "The Balanced Scorecard views an enterprise from which four perspectives?",
+        options: [
+          "Cost, risk, schedule, quality",
+          "Business, data, application, technology",
+          "Financial, customer, internal business processes, learning and growth",
+          "Strategy, governance, compliance, procurement"
+        ],
+        answer: 2,
+        explanation: "Lecture 2 and Seminar 2 repeat these four BSC perspectives."
+      },
+      {
+        id: 9,
+        topic: "BSC",
+        question: "For each BSC perspective, the slides propose which three-layered structure?",
+        options: [
+          "Mission, objectives, measures",
+          "Input, process, output",
+          "Actor, role, interface",
+          "Strategy, application, infrastructure"
+        ],
+        answer: 0,
+        explanation: "This structure is explicitly listed in Lecture 2 and Seminar 2."
+      },
+      {
+        id: 10,
+        topic: "BMC",
+        question: "In the Business Model Canvas, the centre of the canvas is:",
+        options: [
+          "Cost structure",
+          "Key partners",
+          "Value proposition",
+          "Revenue streams"
+        ],
+        answer: 2,
+        explanation: "Lecture 2 identifies value proposition as the center, describing what is offered to customers."
+      },
+      {
+        id: 11,
+        topic: "Business architecture",
+        question: "Business architecture is described in Lecture 2 as:",
+        options: [
+          "A blueprint that provides a common understanding and aligns strategic objectives with tactical demands",
+          "A replacement for all enterprise governance instruments",
+          "A list of SQL tables and indexes",
+          "A financial audit checklist"
+        ],
+        answer: 0,
+        explanation: "The slides define business architecture as a business-oriented abstraction translating strategy into action."
+      },
+      {
+        id: 12,
+        topic: "EFQM",
+        question: "The EFQM model consists of:",
+        options: [
+          "Four criteria: all financial",
+          "Nine criteria: five enablers and four results",
+          "Three layers: CIM, PIM, PSM",
+          "Five COBIT process domains"
+        ],
+        answer: 1,
+        explanation: "Lecture 3 and Seminar 3 emphasize the nine EFQM criteria."
+      },
+      {
+        id: 13,
+        topic: "EFQM vs ISO",
+        question: "Compared with ISO 9001, EFQM is presented as:",
+        options: [
+          "Narrower and limited to technical software testing",
+          "Broader, providing an overall management framework for performance excellence",
+          "Identical in scope and purpose",
+          "A database modeling language"
+        ],
+        answer: 1,
+        explanation: "Lecture 3 states EFQM has a much broader scope than ISO 9001."
+      },
+      {
+        id: 14,
+        topic: "BSC vs EFQM",
+        question: "Which statement best captures the relationship between BSC and EFQM in the slides?",
+        options: [
+          "BSC focuses on strategic management, while EFQM supports measuring and benchmarking for continuous improvement",
+          "BSC is only for IT infrastructure, while EFQM is only for databases",
+          "BSC and EFQM are mutually exclusive and cannot be used together",
+          "EFQM replaces the need for strategy"
+        ],
+        answer: 0,
+        explanation: "Lecture 3 explicitly says they are complementary."
+      },
+      {
+        id: 15,
+        topic: "COBIT",
+        question: "COBIT mainly aims to bridge gaps between:",
+        options: [
+          "Business risks, control needs, and technical issues",
+          "Customer segments, channels, and pricing",
+          "UML diagrams, BPMN tasks, and IDEF boxes",
+          "Physical machines, materials, and facilities"
+        ],
+        answer: 0,
+        explanation: "This is the COBIT purpose stated in Lecture 3."
+      },
+      {
+        id: 16,
+        topic: "COBIT domains",
+        question: "Which option is one of the five COBIT process domains listed in Lecture 3?",
+        options: [
+          "Build, acquire and implement",
+          "Product, contract and value",
+          "Structure, behaviour and implementation",
+          "Mission, objective and measure"
+        ],
+        answer: 0,
+        explanation: "COBIT domains include EDM, APO, BAI, DSS, and MEA."
+      },
+      {
+        id: 17,
+        topic: "ITIL",
+        question: "ITIL is best described as:",
+        options: [
+          "A set of best practices for IT service delivery and support",
+          "A model for classifying enterprise artifacts in a matrix",
+          "A language for object-oriented software diagrams only",
+          "A method for defining external business drivers"
+        ],
+        answer: 0,
+        explanation: "Lecture 3 presents ITIL as best practices for IT service management."
+      },
+      {
+        id: 18,
+        topic: "COBIT vs ITIL",
+        question: "The relationship between COBIT and ITIL is best summarized as:",
+        options: [
+          "COBIT tells what should be controlled; ITIL explains how best-practice processes can realize it",
+          "ITIL defines enterprise strategy; COBIT defines customer value propositions",
+          "COBIT is only for marketing; ITIL is only for finance",
+          "They are identical frameworks with different names"
+        ],
+        answer: 0,
+        explanation: "Lecture 3 states COBIT's control objectives tell what to do; ITIL explains how."
+      },
+      {
+        id: 19,
+        topic: "CMMI",
+        question: "At which CMMI level does EA become especially useful because projects must conform to organization-wide standards and guidelines?",
+        options: [
+          "Level 1 Initial",
+          "Level 2 Managed",
+          "Level 3 Defined and beyond",
+          "Level 5 only"
+        ],
+        answer: 2,
+        explanation: "Lecture 3 explicitly links EA usefulness to CMMI Level 3 and beyond."
+      },
+      {
+        id: 20,
+        topic: "ISO/IEEE 42010",
+        question: "IEEE 1471 / ISO/IEC 42010 mainly provides:",
+        options: [
+          "A theoretical base and terms for architecture description",
+          "A revenue model for customer segments",
+          "A language restricted to process modeling",
+          "A maturity model for IT governance"
+        ],
+        answer: 0,
+        explanation: "Lecture 3 presents this standard as a foundation for architecture descriptions."
+      },
+      {
+        id: 21,
+        topic: "Architecture description",
+        question: "Which item is one of the six architecture description practices in IEEE 1471 / ISO/IEC 42010?",
+        options: [
+          "Identification of system stakeholders and their concerns",
+          "Elimination of all viewpoints",
+          "Replacement of architecture rationale with source code",
+          "Choosing a single stakeholder for every project"
+        ],
+        answer: 0,
+        explanation: "Stakeholders, concerns, viewpoints, views, consistency, and rationale are central practices."
+      },
+      {
+        id: 22,
+        topic: "Zachman",
+        question: "The Zachman Framework is primarily:",
+        options: [
+          "A logical structure for classifying and organizing descriptive representations of an enterprise",
+          "A stepwise cyclic method for developing architectures",
+          "A notation only for business process flow diagrams",
+          "A service desk framework"
+        ],
+        answer: 0,
+        explanation: "Zachman is classification-oriented, not a step-by-step method."
+      },
+      {
+        id: 23,
+        topic: "Zachman limitation",
+        question: "A drawback of the Zachman Framework mentioned in the slides is:",
+        options: [
+          "It has too few perspectives to cover the enterprise",
+          "The large number of cells and weakly specified relations between cells can reduce practical applicability",
+          "It is only suitable for database indexes",
+          "It forbids mapping issues to framework cells"
+        ],
+        answer: 1,
+        explanation: "Lecture 3 identifies these as important limitations."
+      },
+      {
+        id: 24,
+        topic: "TOGAF",
+        question: "The core of TOGAF is:",
+        options: [
+          "The Architecture Development Method (ADM)",
+          "The IDEF0 box-and-arrow notation",
+          "The EFQM results criteria",
+          "The BSC customer perspective"
+        ],
+        answer: 0,
+        explanation: "Lecture 3 describes ADM as TOGAF's core."
+      },
+      {
+        id: 25,
+        topic: "TOGAF content",
+        question: "TOGAF's Architecture Content Framework considers enterprise architecture as composed of:",
+        options: [
+          "Business, Data, Application, and Technology Architecture",
+          "Financial, Customer, Internal Process, and Learning Architecture",
+          "CIM, PIM, and PSM only",
+          "Service Delivery and Service Support only"
+        ],
+        answer: 0,
+        explanation: "These four interrelated architectures are listed in the TOGAF content framework."
+      },
+      {
+        id: 26,
+        topic: "MDA",
+        question: "In OMG's Model-Driven Architecture, the three abstraction levels are:",
+        options: [
+          "CIM, PIM, and PSM",
+          "EDM, APO, and BAI",
+          "IDEF0, IDEF1X, and IDEF3",
+          "Aware, Agreed, and Committed"
+        ],
+        answer: 0,
+        explanation: "Lecture 3 gives CIM, PIM, and PSM as MDA levels."
+      },
+      {
+        id: 27,
+        topic: "IDEF",
+        question: "IDEF1X is mainly used for:",
+        options: [
+          "Logical and physical data modeling",
+          "Modeling IT service desks",
+          "Creating business value propositions",
+          "Selecting architecture viewpoints"
+        ],
+        answer: 0,
+        explanation: "Lecture 4 lists IDEF1X as the data modeling member of the IDEF family."
+      },
+      {
+        id: 28,
+        topic: "IDEF0",
+        question: "The five elements of an IDEF0 functional model are:",
+        options: [
+          "Activity, inputs, outputs, controls/constraints, and mechanisms",
+          "Product, contract, value, goal, and outcome",
+          "Mission, objective, measure, driver, and assessment",
+          "Actor, role, collaboration, event, and plateau"
+        ],
+        answer: 0,
+        explanation: "Lecture 4 states these IDEF0 elements."
+      },
+      {
+        id: 29,
+        topic: "BPMN",
+        question: "BPMN is restricted mainly to:",
+        options: [
+          "Business process modeling",
+          "Physical network modeling",
+          "Financial reporting",
+          "Hardware deployment only"
+        ],
+        answer: 0,
+        explanation: "Lecture 4 notes that BPMN does not cover applications or infrastructure."
+      },
+      {
+        id: 30,
+        topic: "UML",
+        question: "UML diagrams in Lecture 4 are grouped into which categories?",
+        options: [
+          "Structure, Behaviour, and Implementation",
+          "Customer, Financial, Internal, and Learning",
+          "Business, Application, and Technology",
+          "Introduction, Agreement, and Commitment"
+        ],
+        answer: 0,
+        explanation: "Lecture 4 groups the 13 UML diagram types this way."
+      },
+      {
+        id: 31,
+        topic: "Description languages",
+        question: "A general weakness of IDEF, BPMN, UML and similar description languages for EA is that:",
+        options: [
+          "They often poorly define relations between domains and lack an overall architectural vision",
+          "They are all financial accounting standards",
+          "They cannot represent any process or data concept",
+          "They are all identical to ArchiMate"
+        ],
+        answer: 0,
+        explanation: "Lecture 4 lists weak cross-domain integration and weak semantics as common issues."
+      },
+      {
+        id: 32,
+        topic: "Architecture design support",
+        question: "In Lecture 5, the need for a common, well-defined vocabulary is mainly related to which architectural support need?",
+        options: [
+          "Design",
+          "Revenue streaming",
+          "Legal registration",
+          "Office layout"
+        ],
+        answer: 0,
+        explanation: "The Design section stresses common vocabulary and methodical support."
+      },
+      {
+        id: 33,
+        topic: "Compositionality",
+        question: "Compositionality means:",
+        options: [
+          "Dealing with complexity by distinguishing system parts and their relations",
+          "Removing all relations between models",
+          "Using only one stakeholder viewpoint",
+          "Replacing architecture with informal pictures"
+        ],
+        answer: 0,
+        explanation: "Lecture 5 explains compositionality with car parts and company systems/processes."
+      },
+      {
+        id: 34,
+        topic: "View/Viewpoint",
+        question: "A view differs from a viewpoint because:",
+        options: [
+          "A view expresses architecture from stakeholder concerns; a viewpoint specifies conventions for constructing and interpreting that type of view",
+          "A viewpoint is always a database table; a view is always a class diagram",
+          "A view is informal, while a viewpoint is source code",
+          "They are exactly the same term"
+        ],
+        answer: 0,
+        explanation: "Lecture 5 gives these definitions under Views and Viewpoints."
+      },
+      {
+        id: 35,
+        topic: "Symbolic/Semantic model",
+        question: "Which statement correctly compares symbolic and semantic models?",
+        options: [
+          "A symbolic model uses symbols to express properties; a semantic model interprets the meaning of those symbols",
+          "A semantic model is a drawing tool, while a symbolic model is a financial measure",
+          "Symbolic models cannot contain relationships",
+          "Semantic models are unrelated to architecture meaning"
+        ],
+        answer: 0,
+        explanation: "Lecture 5 makes this distinction in Pictures, Models, and Semantics."
+      },
+      {
+        id: 36,
+        topic: "Knowledge states",
+        question: "In Lecture 6, knowledge sharing between actors may progress through which stages?",
+        options: [
+          "Aware, Agreed, Committed",
+          "Mission, Objectives, Measures",
+          "Initial, Managed, Defined",
+          "Activity, Input, Output"
+        ],
+        answer: 0,
+        explanation: "These are the three major knowledge states in Lecture 6."
+      },
+      {
+        id: 37,
+        topic: "Conversation technique",
+        question: "A committing review is best used when:",
+        options: [
+          "Stakeholders are presented with alternative models/views and must select and commit to one",
+          "An analyst asks open questions to gather knowledge",
+          "A model is mailed to a large audience with no expectation of decision",
+          "A single developer writes code without stakeholders"
+        ],
+        answer: 0,
+        explanation: "Lecture 6 defines committing review as a formal decision-oriented technique."
+      },
+      {
+        id: 38,
+        topic: "ArchiMate layers",
+        question: "The three main layers of ArchiMate introduced in Lecture 6 are:",
+        options: [
+          "Business, Application, and Technology",
+          "Financial, Customer, and Internal Process",
+          "ISO, EFQM, and COBIT",
+          "Zachman, TOGAF, and MDA"
+        ],
+        answer: 0,
+        explanation: "Lecture 6 introduces these as the main ArchiMate layers."
+      },
+      {
+        id: 39,
+        topic: "ArchiMate business layer",
+        question: "In ArchiMate, a business process is:",
+        options: [
+          "A sequence of business behaviours that achieves a specific outcome",
+          "A physical IT resource on which software is deployed",
+          "A data structure for automated processing",
+          "A factor that obstructs goals"
+        ],
+        answer: 0,
+        explanation: "This is the business behaviour concept definition in Lecture 6."
+      },
+      {
+        id: 40,
+        topic: "ArchiMate migration planning",
+        question: "Which ArchiMate concept represents a statement of difference between two plateaus?",
+        options: [
+          "Gap",
+          "Driver",
+          "Business actor",
+          "Application interface"
+        ],
+        answer: 0,
+        explanation: "Lecture 6 defines Gap in migration planning concepts."
+      }
+    ];
+
+    const LECTURES = [
+      {
+        id: "L1",
+        title: "Lecture 1",
+        label: "L1",
+        range: [1, 5],
+        summary: "Architecture / EA 基础概念与 EA 出现原因。",
+        examFocus: "零基础先背四件事：architecture 是元素+关系+原则；enterprise 不等于 IT 部门；stakeholder 有 concerns；EA 起因为复杂性和业务对齐不足。",
+        discussions: [
+          {
+            page: "p10",
+            title: "Stakeholder / Enterprise",
+            questionIds: [2, 3, 4],
+            tip: "stakeholder 有 concerns，enterprise 的范围比公司或 IT 部门更大。"
+          },
+          {
+            page: "p16",
+            title: "Why Enterprise Architecture",
+            questionIds: [5],
+            tip: "EA 主要解决 system complexity 和 poor business alignment。"
+          }
+        ]
+      },
+      {
+        id: "L2",
+        title: "Lecture 2",
+        label: "L2",
+        range: [6, 11],
+        summary: "EA drivers、alignment、BSC、BMC 与 business architecture。",
+        examFocus: "本讲高频是内外部驱动、纵向/横向对齐，以及 BSC/BMC 的固定结构。看到 regulation/law/market 通常是 external driver。",
+        discussions: [
+          {
+            page: "p13",
+            title: "Internal / External Drivers",
+            questionIds: [6, 7],
+            tip: "external driver 来自企业外部；vertical alignment 是 top strategy 到 bottom people。"
+          },
+          {
+            page: "p28",
+            title: "Good Enterprise Architecture",
+            questionIds: [11],
+            tip: "good EA 要提供共同理解，把战略目标和战术需求对齐。"
+          }
+        ]
+      },
+      {
+        id: "L3",
+        title: "Lecture 3",
+        label: "L3",
+        range: [12, 26],
+        summary: "治理/质量/服务框架与 EA 方法：EFQM、ISO、COBIT、ITIL、CMMI、ISO 42010、Zachman、TOGAF、MDA。",
+        examFocus: "本讲题最多。先分清：EFQM/ISO 是质量绩效，COBIT/ITIL 是 IT governance/service，Zachman/TOGAF 是 EA 框架，MDA 是 CIM/PIM/PSM。",
+        discussions: [
+          {
+            page: "p10",
+            title: "ISO 9001 vs EFQM",
+            questionIds: [12, 13, 14],
+            tip: "ISO 9001 偏质量管理标准；EFQM 更宽，偏整体绩效卓越和持续改进。"
+          },
+          {
+            page: "p18",
+            title: "ITIL vs COBIT",
+            questionIds: [15, 16, 17, 18],
+            tip: "COBIT tells what to control；ITIL explains how to run IT service processes。"
+          }
+        ]
+      },
+      {
+        id: "L4",
+        title: "Lecture 4",
+        label: "L4",
+        range: [27, 31],
+        summary: "Description languages：IDEF、BPMN、UML，以及 TOGAF vs Zachman 回顾。",
+        examFocus: "看到 IDEF0 选功能五件套，IDEF1X 选数据，BPMN 选业务流程，UML 选软件系统结构/行为/实现；共同弱点是跨域关系和语义不足。",
+        discussions: [
+          {
+            page: "p6",
+            title: "TOGAF vs Zachman",
+            questionIds: [],
+            crossRefIds: [22, 23, 24, 25],
+            tip: "Zachman 是分类矩阵；TOGAF 是带 ADM 的架构开发方法。"
+          },
+          {
+            page: "p20",
+            title: "BPMN vs UML vs IDEF",
+            questionIds: [27, 28, 29, 30, 31],
+            tip: "三者各有所长，但都难以完整覆盖 EA 的 business/application/technology 跨域关系。"
+          }
+        ]
+      },
+      {
+        id: "L5",
+        title: "Lecture 5",
+        label: "L5",
+        range: [32, 35],
+        summary: "Architectural complexity、domain integration、view/viewpoint、symbolic/semantic models。",
+        examFocus: "本讲核心是“如何把复杂架构说清楚”：共同 vocabulary、parts+relations、view/viewpoint，以及 symbolic 与 semantic 的区别。",
+        discussions: [
+          {
+            page: "p11",
+            title: "Integrating EA Domains",
+            questionIds: [32, 33, 34],
+            tip: "跨领域集成需要共同词汇、清楚关系，并用 views/viewpoints 服务不同 stakeholder concerns。"
+          },
+          {
+            page: "p21",
+            title: "Symbolic / Semantic Integration",
+            questionIds: [35],
+            tip: "symbolic 看符号表达，semantic 看符号意义；考试常用二者互相混淆。"
+          }
+        ]
+      },
+      {
+        id: "L6",
+        title: "Lecture 6",
+        label: "L6",
+        range: [36, 40],
+        summary: "EA communication、conversation techniques、ArchiMate 三层与 migration concepts。",
+        examFocus: "先背 Aware → Agreed → Committed，再背 ArchiMate 三层 Business/Application/Technology；Plateau 是阶段状态，Gap 是两个阶段的差。",
+        discussions: [
+          {
+            page: "p14",
+            title: "Communication-focused EA Theories",
+            questionIds: [36, 37],
+            tip: "committing review 的关键词是让 stakeholders 在备选模型/视图中选择并承诺。"
+          },
+          {
+            page: "p54",
+            title: "BMC to ArchiMate / ArchiMate Concepts",
+            questionIds: [38, 39, 40],
+            crossRefIds: [10],
+            tip: "BMC 的 value proposition 是前置概念；ArchiMate 用业务、应用、技术三层表达架构。"
+          }
+        ]
+      }
+    ];
+
+    const TRANSLATIONS = {
+      1: {
+        questionZh: "在课程课件中，architecture（架构）最准确的定义是什么？",
+        answerZh: "系统在其环境中的基本概念或属性，体现在系统元素、元素关系以及设计和演化原则中。",
+        explanationZh: "这道题考 Lecture 1 的正式定义。不要把 architecture 理解成代码、项目计划或硬件清单；EA 里的架构强调抽象结构、关系和原则。"
+      },
+      2: {
+        questionZh: "哪一项最能描述 Enterprise Architecture（企业架构，EA）？",
+        answerZh: "EA 是一套连贯的原则、方法和模型，用来设计并实现企业的组织结构、业务流程、信息系统和基础设施。",
+        explanationZh: "EA 的重点是把业务、组织、流程、信息系统和技术基础设施连接起来，而不是只画服务器图或只做数据库设计。"
+      },
+      3: {
+        questionZh: "在 EA 中，enterprise（企业/组织整体）这个词是什么意思？",
+        answerZh: "任何具有共同目标和/或共同最终收益的一组组织。",
+        explanationZh: "enterprise 的范围比 company 或 IT department 更广，可以是整个公司、业务部门、公共组织、合作联盟或外包业务集合。"
+      },
+      4: {
+        questionZh: "为什么在企业架构工作中必须考虑 stakeholders（利益相关者）？",
+        answerZh: "因为架构描述需要回应利益相关者的关注点和视角。",
+        explanationZh: "stakeholder 是对架构结果有利益或影响的人/团队/组织。不同 stakeholder 关心不同问题，所以 EA 要用 views/viewpoints 来服务这些 concerns。"
+      },
+      5: {
+        questionZh: "根据 Lecture 1 的历史背景，EA 最初主要为了解决哪两个问题？",
+        answerZh: "系统复杂性，以及 IT 与业务之间对齐不足。",
+        explanationZh: "课件强调 EA 出现的背景是 IT 系统越来越复杂、维护成本越来越高，同时 IT 难以支持业务需求。"
+      },
+      6: {
+        questionZh: "以下哪一项是 EA 的 external driver（外部驱动因素）？",
+        answerZh: "新的监管法律要求改变 IT 管理方式。",
+        explanationZh: "external driver 来自企业外部，例如法律监管、竞争压力、市场变化。选项 B/C/D 都更像局部内部事件，不足以构成外部驱动。"
+      },
+      7: {
+        questionZh: "Lecture 2 中的 vertical alignment（纵向对齐）指的是哪两者之间的关系？",
+        answerZh: "高层战略与基层人员之间的关系。",
+        explanationZh: "vertical alignment 是从 top strategy 到 people at the bottom 的一致性；horizontal alignment 才是内部流程与外部客户之间的关系。"
+      },
+      8: {
+        questionZh: "Balanced Scorecard（平衡计分卡）从哪四个视角观察企业？",
+        answerZh: "财务、客户、内部业务流程、学习与成长。",
+        explanationZh: "BSC 是战略管理工具，四个视角非常高频。看到 customer/financial/internal process/learning and growth 组合，基本就是 BSC。"
+      },
+      9: {
+        questionZh: "对于 BSC 的每个视角，课件提出哪三层结构？",
+        answerZh: "mission（使命）、objectives（目标）、measures（衡量指标）。",
+        explanationZh: "Seminar 2 也要求按这三层填表。mission 说明方向，objectives 说明要达成什么，measures 说明如何量化判断。"
+      },
+      10: {
+        questionZh: "在 Business Model Canvas（商业模式画布）中，画布中心是什么？",
+        answerZh: "Value proposition（价值主张）。",
+        explanationZh: "价值主张描述企业向不同客户提供什么产品或服务、解决什么问题。它位于 BMC 中心，是连接客户侧和资源活动侧的核心。"
+      },
+      11: {
+        questionZh: "Lecture 2 如何描述 business architecture（业务架构）？",
+        answerZh: "它是企业蓝图，提供共同理解，并把战略目标与战术需求对齐。",
+        explanationZh: "业务架构不是 SQL 表或审计清单，而是业务导向的抽象，用来把 strategy 转化为 action。"
+      },
+      12: {
+        questionZh: "EFQM 模型由什么组成？",
+        answerZh: "九个卓越准则：五个 enablers（促成因素）和四个 results（结果）。",
+        explanationZh: "EFQM 是质量和绩效卓越框架。考试常考 5 enablers + 4 results 这个结构。"
+      },
+      13: {
+        questionZh: "与 ISO 9001 相比，课件如何描述 EFQM？",
+        answerZh: "EFQM 范围更广，是面向整个组织绩效卓越的总体管理框架。",
+        explanationZh: "ISO 9001 更偏质量管理标准；EFQM 不只关注质量，还关注组织整体绩效、学习、创新和持续改进。"
+      },
+      14: {
+        questionZh: "哪一项最准确概括 BSC 和 EFQM 的关系？",
+        answerZh: "BSC 关注战略管理；EFQM 通过测量和标杆比较支持持续改进。",
+        explanationZh: "二者是互补关系，不是互斥关系。BSC 帮助做战略选择，EFQM 帮助执行战略所需的持续改进。"
+      },
+      15: {
+        questionZh: "COBIT 主要旨在弥合哪些方面之间的差距？",
+        answerZh: "业务风险、控制需求和技术问题。",
+        explanationZh: "COBIT 是 IT governance/control framework。关键词是 governance、control objectives、business risks、control needs、technical issues。"
+      },
+      16: {
+        questionZh: "以下哪一项是 Lecture 3 中列出的 COBIT 五个流程域之一？",
+        answerZh: "Build, acquire and implement（构建、获取和实施）。",
+        explanationZh: "COBIT 五个域包括 Evaluate/Direct/Monitor、Align/Plan/Organise、Build/Acquire/Implement、Deliver/Service/Support、Monitor/Evaluate/Assess。"
+      },
+      17: {
+        questionZh: "ITIL 最准确的描述是什么？",
+        answerZh: "IT 服务交付和支持的一套最佳实践。",
+        explanationZh: "ITIL 关注 IT service management，尤其是 service delivery 和 service support；它不是 Zachman 矩阵，也不是 UML。"
+      },
+      18: {
+        questionZh: "COBIT 与 ITIL 的关系最准确可以怎样概括？",
+        answerZh: "COBIT 说明应该控制什么；ITIL 说明如何用最佳实践流程实现这些控制目标。",
+        explanationZh: "记忆方式：COBIT 更偏 what/governance/control，ITIL 更偏 how/service management/process practice。"
+      },
+      19: {
+        questionZh: "在哪个 CMMI 等级及以上，EA 特别有用，因为项目必须遵守组织级标准和指南？",
+        answerZh: "Level 3 Defined 及以上。",
+        explanationZh: "CMMI Level 3 的关键词是组织级标准化、已定义流程、跨项目一致性，因此 EA 的约束和指南开始特别重要。"
+      },
+      20: {
+        questionZh: "IEEE 1471 / ISO/IEC 42010 主要提供什么？",
+        answerZh: "架构描述的理论基础和关键术语。",
+        explanationZh: "这个标准关注 architecture description，包括 stakeholder、concern、view、viewpoint、rationale 等概念。"
+      },
+      21: {
+        questionZh: "以下哪一项属于 IEEE 1471 / ISO/IEC 42010 的六个架构描述实践？",
+        answerZh: "识别系统利益相关者及其关注点。",
+        explanationZh: "标准强调先识别 stakeholders and concerns，再选择 viewpoints、创建 views、保持一致性并说明 architecture rationale。"
+      },
+      22: {
+        questionZh: "Zachman Framework 主要是什么？",
+        answerZh: "用于分类和组织企业描述性表示的一种逻辑结构。",
+        explanationZh: "Zachman 更像分类框架/矩阵，帮助把企业问题放到合适的格子里；它不是像 TOGAF ADM 那样的逐步开发方法。"
+      },
+      23: {
+        questionZh: "课件提到 Zachman Framework 的一个缺点是什么？",
+        answerZh: "格子数量很多，而且格子之间的关系规定不够清楚，降低实际适用性。",
+        explanationZh: "Zachman 的优点是全面、易理解、独立于工具；缺点是 cells 太多、cell 之间关系不够明确。"
+      },
+      24: {
+        questionZh: "TOGAF 的核心是什么？",
+        answerZh: "Architecture Development Method（ADM，架构开发方法）。",
+        explanationZh: "TOGAF 是框架加方法。ADM 是循环迭代的 architecture development process，因此是 TOGAF 的核心。"
+      },
+      25: {
+        questionZh: "TOGAF 的 Architecture Content Framework 认为企业架构由哪些架构组成？",
+        answerZh: "业务架构、数据架构、应用架构和技术架构。",
+        explanationZh: "这四类架构在 TOGAF 中紧密相关。看到 Business/Data/Application/Technology Architecture 就选 TOGAF content。"
+      },
+      26: {
+        questionZh: "在 OMG 的 Model-Driven Architecture（MDA）中，三个抽象层次是什么？",
+        answerZh: "CIM、PIM 和 PSM。",
+        explanationZh: "CIM 是计算无关模型，PIM 是平台无关模型，PSM 是平台特定模型。MDA 的核心是从高抽象模型映射到具体平台。"
+      },
+      27: {
+        questionZh: "IDEF1X 主要用于什么？",
+        answerZh: "逻辑数据模型和物理数据模型。",
+        explanationZh: "IDEF0 偏功能建模，IDEF3 偏流程建模，IDEF1X 偏数据建模。题目问 IDEF1X 时，直接联想到 data modeling。"
+      },
+      28: {
+        questionZh: "IDEF0 功能模型的五个元素是什么？",
+        answerZh: "活动、输入、输出、控制/约束和机制。",
+        explanationZh: "IDEF0 用 box 表示 activity/process，并用 input、output、control、mechanism 描述一个功能如何执行。"
+      },
+      29: {
+        questionZh: "BPMN 主要限制在什么范围内？",
+        answerZh: "业务流程建模。",
+        explanationZh: "BPMN 的强项是 business process notation，但不覆盖应用系统或技术基础设施。"
+      },
+      30: {
+        questionZh: "Lecture 4 中 UML 图被分为哪几类？",
+        answerZh: "结构、行为和实现。",
+        explanationZh: "UML 有很多子图。课件把 13 类 UML 图分为 Structure、Behaviour、Implementation 三组。"
+      },
+      31: {
+        questionZh: "IDEF、BPMN、UML 等描述语言在 EA 中的共同弱点是什么？",
+        answerZh: "它们通常对不同领域之间的关系定义较弱，并缺少整体架构视野。",
+        explanationZh: "这些语言各有所长，但往往只覆盖业务、应用或技术中的一部分，跨域集成和明确语义不足。"
+      },
+      32: {
+        questionZh: "Lecture 5 中，对共同且定义明确的词汇表的需求主要属于哪种架构支持需求？",
+        answerZh: "Design（设计）。",
+        explanationZh: "设计架构时需要共同 vocabulary，避免误解并支持跨领域集成；communication 则更强调向不同 stakeholder 展示相关视角。"
+      },
+      33: {
+        questionZh: "Compositionality（组合性）是什么意思？",
+        answerZh: "通过区分系统的组成部分以及这些部分之间的关系来处理复杂性。",
+        explanationZh: "课件用汽车例子说明：先理解发动机、轮子等部件，再理解它们之间的关系。EA 中也是先看系统/流程及其关系。"
+      },
+      34: {
+        questionZh: "view 和 viewpoint 的区别是什么？",
+        answerZh: "view 从利益相关者关注点表达架构；viewpoint 规定构建和解释某类 view 的规则。",
+        explanationZh: "简单记忆：view 是具体视图，viewpoint 是生成和解读视图的规范/约定。"
+      },
+      35: {
+        questionZh: "哪一项正确比较 symbolic model 和 semantic model？",
+        answerZh: "symbolic model 用符号表达属性；semantic model 解释这些符号的含义。",
+        explanationZh: "symbolic 偏语法和符号结构，semantic 偏意义解释。EA 中需要语义清楚，才能减少不同模型之间的歧义。"
+      },
+      36: {
+        questionZh: "Lecture 6 中，行为者之间的知识共享可能经历哪几个阶段？",
+        answerZh: "Aware、Agreed、Committed。",
+        explanationZh: "先知道某个知识（aware），再同意它（agreed），最后愿意按它行动（committed）。"
+      },
+      37: {
+        questionZh: "committing review 最适合在什么情况下使用？",
+        answerZh: "向利益相关者展示多个模型/视图方案，并要求他们选择并承诺其中一个方案。",
+        explanationZh: "committing review 比普通讨论更正式，目标不是收集信息，而是推动 stakeholders 对某个架构选择做出承诺。"
+      },
+      38: {
+        questionZh: "Lecture 6 中介绍的 ArchiMate 三个主要层是什么？",
+        answerZh: "业务层、应用层和技术层。",
+        explanationZh: "ArchiMate 用这三层把业务服务/流程、应用服务/组件、技术服务/节点连接起来，支持跨层对齐。"
+      },
+      39: {
+        questionZh: "在 ArchiMate 中，business process 是什么？",
+        answerZh: "一系列业务行为，用来实现某个特定结果。",
+        explanationZh: "business process 属于 business behaviour concepts。它强调 sequence of business behaviours 和 specific outcome。"
+      },
+      40: {
+        questionZh: "哪个 ArchiMate 概念表示两个 plateaus（阶段性稳定架构状态）之间的差异？",
+        answerZh: "Gap（差距）。",
+        explanationZh: "Plateau 是某一段时间内相对稳定的架构状态；Gap 描述两个 Plateau 之间的差异，属于 migration planning concepts。"
+      }
+    };
+
+    const MEMORY_TIPS = {
+      1: "架构 = 元素 + 关系 + 原则。不是代码、计划或硬件清单。",
+      2: "EA = Business + Process + IS + Infrastructure 的总蓝图。",
+      3: "Enterprise 不等于 IT 部门；它可以是公司、部门、联盟或外包组合。",
+      4: "Stakeholder 有 concern，所以架构要用 view/viewpoint 回应他们。",
+      5: "EA 起因两件事：系统太复杂，IT 和业务对不齐。",
+      6: "External driver 看外部压力：法律、监管、竞争、市场。",
+      7: "Vertical = 上下贯通：top strategy 到 bottom people；Horizontal = 流程到客户。",
+      8: "BSC 四视角口诀：财客内学 = Financial, Customer, Internal, Learning.",
+      9: "BSC 三层：Mission 想成方向，Objectives 是目标，Measures 是数字指标。",
+      10: "BMC 中心永远先想 Value Proposition：你给客户什么价值。",
+      11: "Business architecture 是把战略翻译成行动的业务蓝图。",
+      12: "EFQM = 9 criteria = 5 enablers + 4 results.",
+      13: "ISO 9001 偏质量标准；EFQM 范围更大，偏整体绩效卓越。",
+      14: "BSC 管战略选择；EFQM 管持续改进和标杆比较。",
+      15: "COBIT 三个关键词：Risk, Control, Technical issues.",
+      16: "COBIT 五域缩写：EDM, APO, BAI, DSS, MEA。看到 Build/Acquire/Implement 就是 BAI。",
+      17: "ITIL = IT service management 的最佳实践，重点是服务交付和支持。",
+      18: "COBIT 问 what to control；ITIL 问 how to do service process.",
+      19: "CMMI Level 3 = Defined = 组织级标准出现，所以 EA 特别有用。",
+      20: "ISO/IEC 42010 关键词：architecture description, stakeholder, concern, view, viewpoint.",
+      21: "架构描述先识别 stakeholders and concerns，再选 viewpoints 和 views。",
+      22: "Zachman = 分类矩阵；TOGAF = 开发方法。看到 logical structure 选 Zachman。",
+      23: "Zachman 缺点：格子多，格子之间关系不够清楚。",
+      24: "TOGAF 核心 = ADM，记作 Architecture Development Method.",
+      25: "TOGAF 四架构：Business, Data, Application, Technology.",
+      26: "MDA 三层：CIM 不管计算，PIM 不管平台，PSM 指定平台。",
+      27: "IDEF1X 的 X 记成 X-ray 看数据结构：data model.",
+      28: "IDEF0 五件套：Activity, Input, Output, Control, Mechanism.",
+      29: "BPMN 名字里有 Business Process，所以只管业务流程。",
+      30: "UML 三类：Structure, Behaviour, Implementation.",
+      31: "IDEF/BPMN/UML 的弱点：各管一块，跨域关系和语义弱。",
+      32: "共同词汇表是 Design 支持，目的是减少误解。",
+      33: "Compositionality = 先拆零件，再看零件关系。",
+      34: "View 是具体图；Viewpoint 是画图和读图的规则。",
+      35: "Symbolic = 符号；Semantic = 符号背后的意思。",
+      36: "知识三阶段：Aware 知道，Agreed 同意，Committed 按它行动。",
+      37: "Committing review = 让 stakeholders 在多个方案里选一个并承诺。",
+      38: "ArchiMate 三层：Business 做业务，Application 支撑业务，Technology 跑应用。",
+      39: "Business process = 一串 business behaviours 达成 outcome.",
+      40: "Plateau 是阶段状态；Gap 是两个阶段之间的差距。"
+    };
+
+    const CHEAT_SHEET = [
+      { title: "BSC", note: "四视角：Financial / Customer / Internal Process / Learning & Growth。三层：Mission / Objectives / Measures。" },
+      { title: "BMC", note: "中心是 Value Proposition；客户侧看 Segments / Relationships / Channels；赚钱看 Cost / Revenue。" },
+      { title: "EFQM", note: "9 criteria = 5 enablers + 4 results。比 ISO 9001 更宽，偏绩效卓越和持续改进。" },
+      { title: "COBIT vs ITIL", note: "COBIT = what to control；ITIL = how to run IT service. COBIT 五域：EDM, APO, BAI, DSS, MEA。" },
+      { title: "Zachman vs TOGAF", note: "Zachman 是分类矩阵；TOGAF 是带 ADM 的架构开发方法。" },
+      { title: "MDA", note: "CIM -> PIM -> PSM：从业务/需求，到平台无关模型，再到平台特定模型。" },
+      { title: "IDEF / BPMN / UML", note: "IDEF0 功能，IDEF3 流程，IDEF1X 数据；BPMN 业务流程；UML 软件系统图。" },
+      { title: "View / Viewpoint", note: "View 是具体视图；Viewpoint 是构建和解释该类视图的规则。" },
+      { title: "ArchiMate", note: "三层：Business / Application / Technology。迁移概念：Plateau 是状态，Gap 是差距。" }
+    ];
+
+    const HUMAN_EXPLANATIONS = {
+      1: {
+        ask: "题目问：课件里 architecture 的正式定义是什么。",
+        clue: "关键词是 fundamental concepts/properties、elements、relationships、principles。",
+        choose: "选 B，因为架构不是某个具体文件，而是描述一个系统的核心结构、组成关系和设计原则。",
+        avoid: "A 是代码，C 是项目计划，D 是硬件清单，都太具体，不是 architecture 的抽象定义。"
+      },
+      2: {
+        ask: "题目问：EA 到底覆盖什么范围。",
+        clue: "看到 organization、business processes、information systems、infrastructure 这一串，就在说 EA。",
+        choose: "选 A，因为 EA 把组织、业务流程、信息系统和基础设施放在一起看，目的是让业务和 IT 对齐。",
+        avoid: "B 只是数据库，C 只是技术图，D 是财务标准，范围都太窄。"
+      },
+      3: {
+        ask: "题目问：enterprise 这个词在 EA 里是不是只等于一家公司。",
+        clue: "关键词是 collection of organizations、common goals、single bottom line。",
+        choose: "选 C，因为 enterprise 可以是一家公司、部门、公共机构、联盟或外包业务组合。",
+        avoid: "A 和 D 把 enterprise 缩成 IT/数据库；B 把它限制成法律意义上的公司，都不对。"
+      },
+      4: {
+        ask: "题目问：为什么 EA 要管 stakeholder。",
+        clue: "stakeholder 会有 concerns 和 viewpoints。",
+        choose: "选 A，因为架构图和架构说明最终要回答不同利益相关者关心的问题。",
+        avoid: "B 说 stakeholder 写 SQL，C 说 stakeholder 代替模型，D 说只有外部 stakeholder 能批准，都是乱加条件。"
+      },
+      5: {
+        ask: "题目问：EA 这个领域最早是为了解决什么痛点。",
+        clue: "课件原话强调 system complexity 和 poor business alignment。",
+        choose: "选 B，因为组织 IT 系统越来越复杂，同时 IT 越来越难贴合业务需要。",
+        avoid: "A、C、D 都可能是现代企业问题，但不是课件里讲的 EA 起源。"
+      },
+      6: {
+        ask: "题目问：哪个是 external driver，也就是外部压力。",
+        clue: "external 看企业外面来的压力，比如 law、regulation、competitors、market。",
+        choose: "选 A，因为新法律/监管要求来自企业外部，会迫使企业调整 IT 管理。",
+        avoid: "B、C、D 都是企业内部的小变化或临时故障，不是外部驱动。"
+      },
+      7: {
+        ask: "题目问：vertical alignment 是哪两层之间对齐。",
+        clue: "vertical 就想成从上到下：top strategy 往下落实到 people。",
+        choose: "选 B，因为纵向对齐就是高层战略和底层人员执行之间的一致。",
+        avoid: "A 是 horizontal alignment；C 是技术细节；D 是商业模式元素。"
+      },
+      8: {
+        ask: "题目问：BSC 的四个视角是哪四个。",
+        clue: "口诀：财客内学 = Financial, Customer, Internal Process, Learning & Growth。",
+        choose: "选 C，因为它完整列出了 BSC 四视角。",
+        avoid: "A 像项目管理，B 像 TOGAF/架构层，D 像治理词汇，都不是 BSC 四视角。"
+      },
+      9: {
+        ask: "题目问：BSC 每个视角下面还要填哪三层。",
+        clue: "Seminar 2 表格就是 Mission / Objectives / Measures。",
+        choose: "选 A，因为 mission 是方向，objectives 是目标，measures 是衡量指标。",
+        avoid: "B 像流程模型，C 像 ArchiMate 结构概念，D 像架构分层。"
+      },
+      10: {
+        ask: "题目问：BMC 九宫格的中心是什么。",
+        clue: "BMC 中间格永远是 Value proposition。",
+        choose: "选 C，因为商业模式首先要说明你给客户什么价值。",
+        avoid: "A/D 是钱的两边，B 是合作伙伴，都不是中心。"
+      },
+      11: {
+        ask: "题目问：business architecture 在课件中起什么作用。",
+        clue: "关键词是 blueprint、common understanding、align strategic objectives and tactical demands。",
+        choose: "选 A，因为业务架构就是把战略变成可理解、可执行的业务蓝图。",
+        avoid: "B 说它替代所有治理工具太夸张；C/D 分别是数据库和审计，不是业务架构。"
+      },
+      12: {
+        ask: "题目问：EFQM 的结构。",
+        clue: "数字题：EFQM = 9 criteria = 5 enablers + 4 results。",
+        choose: "选 B，因为这是课件和 Seminar 3 反复出现的结构。",
+        avoid: "C 是 MDA，D 是 COBIT，A 是编造的。"
+      },
+      13: {
+        ask: "题目问：EFQM 和 ISO 9001 谁范围更大。",
+        clue: "课件说 EFQM has a much broader scope than ISO 9001。",
+        choose: "选 B，因为 EFQM 不只看质量标准，还看整个组织的绩效卓越。",
+        avoid: "A 说 EFQM 更窄，反了；C 说一样，错；D 和数据库无关。"
+      },
+      14: {
+        ask: "题目问：BSC 和 EFQM 怎么分工。",
+        clue: "BSC = strategy；EFQM = measurement/benchmarking/continuous improvement。",
+        choose: "选 A，因为 BSC 帮你定战略，EFQM 帮你衡量和持续改进执行效果。",
+        avoid: "B 把二者说成 IT/数据库；C 说互斥；D 说 EFQM 替代战略，都不符合课件。"
+      },
+      15: {
+        ask: "题目问：COBIT 解决哪几类 gap。",
+        clue: "背三个词：business risks、control needs、technical issues。",
+        choose: "选 A，因为 COBIT 是 IT governance/control 框架，核心就是把风险、控制和技术连起来。",
+        avoid: "B 是 BMC 客户/渠道/价格，C 是建模语言，D 是物理概念。"
+      },
+      16: {
+        ask: "题目问：哪个选项是 COBIT 五个流程域之一。",
+        clue: "COBIT 五域缩写：EDM / APO / BAI / DSS / MEA；BAI = Build, Acquire and Implement。",
+        choose: "选 A，因为 Build, acquire and implement 正好是 BAI。",
+        avoid: "B 是 ArchiMate/BMC 混合词，C 像 UML 分类，D 是 BSC 三层。"
+      },
+      17: {
+        ask: "题目问：ITIL 是什么。",
+        clue: "看到 IT service delivery/support，就想到 ITIL。",
+        choose: "选 A，因为 ITIL 是 IT 服务管理的一套最佳实践。",
+        avoid: "B 是 Zachman，C 是 UML，D 是 driver 概念。"
+      },
+      18: {
+        ask: "题目问：COBIT 和 ITIL 怎么配合。",
+        clue: "一句话：COBIT tells what, ITIL explains how。",
+        choose: "选 A，因为 COBIT 给控制目标，ITIL 给服务管理流程做法。",
+        avoid: "B/C/D 都把两个框架的定位说乱了。"
+      },
+      19: {
+        ask: "题目问：CMMI 到哪个等级后 EA 特别有用。",
+        clue: "Level 3 Defined = 组织级标准化。",
+        choose: "选 C，因为 Level 3 开始要求项目遵守组织统一的标准和流程，EA 正好提供这些约束和指南。",
+        avoid: "Level 1/2 还不够组织级标准化；Level 5 太晚，不是课件说法。"
+      },
+      20: {
+        ask: "题目问：IEEE 1471 / ISO 42010 是干什么的。",
+        clue: "关键词是 architecture description，不是商业模式或流程语言。",
+        choose: "选 A，因为它提供架构描述的术语和理论基础。",
+        avoid: "B 是 BMC，C 像 BPMN，D 像 COBIT 成熟度。"
+      },
+      21: {
+        ask: "题目问：哪个属于架构描述实践。",
+        clue: "架构描述第一步要识别 stakeholders 和 concerns。",
+        choose: "选 A，因为标准明确要求识别系统利益相关者及其关注点。",
+        avoid: "B/D 都和多利益相关者思想相反；C 说用源代码替代理由也不对。"
+      },
+      22: {
+        ask: "题目问：Zachman Framework 的本质是什么。",
+        clue: "Zachman = classification matrix，不是 method。",
+        choose: "选 A，因为 Zachman 是把企业描述性产物分类整理的逻辑结构。",
+        avoid: "B 是 TOGAF ADM；C 是 BPMN；D 是 ITIL/service desk。"
+      },
+      23: {
+        ask: "题目问：Zachman 的缺点。",
+        clue: "记两个缺点：cells 多，relations between cells 不清楚。",
+        choose: "选 B，因为课件明确说格子多影响实用性，格子关系也不够明确。",
+        avoid: "A 说太少，反了；C/D 都不是课件缺点。"
+      },
+      24: {
+        ask: "题目问：TOGAF 的核心组件。",
+        clue: "看到 core of TOGAF，直接找 ADM。",
+        choose: "选 A，因为 ADM 是 TOGAF 里指导架构开发的循环方法。",
+        avoid: "B 是 IDEF0，C 是 EFQM，D 是 BSC。"
+      },
+      25: {
+        ask: "题目问：TOGAF Content Framework 的四类架构。",
+        clue: "四个词：Business / Data / Application / Technology。",
+        choose: "选 A，因为这四类是 TOGAF 内容框架里的标准组合。",
+        avoid: "B 是 BSC，C 是 MDA，D 是 ITIL。"
+      },
+      26: {
+        ask: "题目问：MDA 的三个抽象层。",
+        clue: "MDA = CIM -> PIM -> PSM。",
+        choose: "选 A，因为 CIM 是计算无关，PIM 是平台无关，PSM 是平台特定。",
+        avoid: "B 是 COBIT 缩写，C 是 IDEF 家族，D 是知识共享阶段。"
+      },
+      27: {
+        ask: "题目问：IDEF1X 用来做什么。",
+        clue: "IDEF1X 里的 1X 记成 data model 版本，不是流程。",
+        choose: "选 A，因为 IDEF1X 用于逻辑和物理数据建模。",
+        avoid: "B 是 ITIL，C 是 BMC，D 是 ISO 42010/viewpoint。"
+      },
+      28: {
+        ask: "题目问：IDEF0 的五个元素。",
+        clue: "IDEF0 盒子模型：Activity in the box，四周是 Input / Output / Control / Mechanism。",
+        choose: "选 A，因为它完整列出 Activity, Inputs, Outputs, Controls, Mechanisms。",
+        avoid: "B 是 ArchiMate/BMC 词，C 是 BSC 三层加 driver，D 是 ArchiMate 概念。"
+      },
+      29: {
+        ask: "题目问：BPMN 的适用范围。",
+        clue: "BPMN 全称里就有 Business Process。",
+        choose: "选 A，因为 BPMN 主要用于业务流程建模。",
+        avoid: "B/C/D 分别是物理网络、财务、硬件部署，不是 BPMN 的主要范围。"
+      },
+      30: {
+        ask: "题目问：UML 图的三大类。",
+        clue: "UML 三类：Structure / Behaviour / Implementation。",
+        choose: "选 A，因为课件把 UML 13 种图分到这三类。",
+        avoid: "B 是 BSC，C 是 ArchiMate/TOGAF 层，D 是知识目标阶段。"
+      },
+      31: {
+        ask: "题目问：IDEF、BPMN、UML 这类语言用于 EA 时的共同问题。",
+        clue: "共同问题是跨 domain 对不上，语义也不够强。",
+        choose: "选 A，因为它们往往只擅长某一块，难以表达 business/application/technology 之间的关系。",
+        avoid: "B/C/D 都太绝对或事实错误。"
+      },
+      32: {
+        ask: "题目问：common, well-defined vocabulary 是为了支持哪类架构活动。",
+        clue: "题干问 vocabulary。课件在 Design 小节说设计时需要共同词汇来避免误解。",
+        choose: "选 A，因为统一术语首先是为了支持架构设计，让大家对概念说同一种话。",
+        avoid: "B 是商业收入，C 是法律注册，D 是办公室布局，和课件语境不沾边。"
+      },
+      33: {
+        ask: "题目问：compositionality 是什么思路。",
+        clue: "composition = 组成。先拆成 parts，再看 relations。",
+        choose: "选 A，因为组合性就是用部件及部件关系来处理复杂系统。",
+        avoid: "B 是反着来，C 把视角限制太死，D 是否定正式建模。"
+      },
+      34: {
+        ask: "题目问：view 和 viewpoint 怎么区分。",
+        clue: "View 是画出来/写出来的具体视图；Viewpoint 是怎么画、怎么看的规则。",
+        choose: "选 A，因为它同时说清了 view 服务 stakeholder concerns，viewpoint 提供 conventions。",
+        avoid: "B/C 是编造，D 说二者一样也错。"
+      },
+      35: {
+        ask: "题目问：symbolic model 和 semantic model 的区别。",
+        clue: "symbolic 看符号；semantic 看意义。",
+        choose: "选 A，因为 symbolic model 用符号表达结构，semantic model 解释这些符号到底代表什么。",
+        avoid: "B/C/D 都把符号、语义和关系说错了。"
+      },
+      36: {
+        ask: "题目问：知识在 stakeholder 之间传播的三个阶段。",
+        clue: "三步：Aware 知道，Agreed 同意，Committed 承诺行动。",
+        choose: "选 A，因为这是 Lecture 6 明确列出的知识共享阶段。",
+        avoid: "B 是 BSC，C 是 CMMI，D 是 IDEF0。"
+      },
+      37: {
+        ask: "题目问：committing review 适合什么场景。",
+        clue: "committing 这个词说明重点是 commit，不只是讨论。",
+        choose: "选 A，因为它要求 stakeholders 在多个架构方案中选择并承诺一个方案。",
+        avoid: "B 是 elicitation interview，C 是 mailing，D 根本没有 stakeholder 沟通。"
+      },
+      38: {
+        ask: "题目问：ArchiMate 的三大主层。",
+        clue: "从上到下：Business 提供业务，Application 支撑业务，Technology 支撑应用。",
+        choose: "选 A，因为 ArchiMate 三层就是 Business/Application/Technology。",
+        avoid: "B 是 BSC，C 是治理/质量框架，D 是三个 EA 框架/方法。"
+      },
+      39: {
+        ask: "题目问：ArchiMate 里的 business process 是什么。",
+        clue: "process = sequence；business process = sequence of business behaviours。",
+        choose: "选 A，因为业务流程是一串业务行为，用来达成特定结果。",
+        avoid: "B 是 technology/device，C 是 data object，D 是 constraint。"
+      },
+      40: {
+        ask: "题目问：两个 plateau 之间的差异叫什么。",
+        clue: "Plateau 是阶段状态；两个阶段状态之间的差，就是 Gap。",
+        choose: "选 A，因为 ArchiMate migration planning 里 Gap 专门表示两个 plateaus 的差异。",
+        avoid: "B 是动因，C 是业务参与者，D 是应用接口。"
+      }
+    };
+
+    const STORAGE_KEY = "ea-final-quiz-state-v1";
+    const letters = ["A", "B", "C", "D"];
+
+    const state = {
+      order: QUESTIONS.map((q) => q.id),
+      current: 0,
+      mode: "all",
+      lecture: "all",
+      search: "",
+      answers: {}
+    };
+
+    const els = {
+      answeredStat: document.getElementById("answeredStat"),
+      accuracyStat: document.getElementById("accuracyStat"),
+      correctStat: document.getElementById("correctStat"),
+      wrongStat: document.getElementById("wrongStat"),
+      progressBar: document.getElementById("progressBar"),
+      allModeBtn: document.getElementById("allModeBtn"),
+      unansweredBtn: document.getElementById("unansweredBtn"),
+      shuffleBtn: document.getElementById("shuffleBtn"),
+      wrongBtn: document.getElementById("wrongBtn"),
+      resetBtn: document.getElementById("resetBtn"),
+      searchInput: document.getElementById("searchInput"),
+      lectureRow: document.getElementById("lectureRow"),
+      questionList: document.getElementById("questionList"),
+      lectureGuide: document.getElementById("lectureGuide"),
+      emptyState: document.getElementById("emptyState"),
+      questionCard: document.getElementById("questionCard"),
+      topicTag: document.getElementById("topicTag"),
+      questionIndex: document.getElementById("questionIndex"),
+      questionText: document.getElementById("questionText"),
+      memoryCard: document.getElementById("memoryCard"),
+      options: document.getElementById("options"),
+      feedback: document.getElementById("feedback"),
+      cheatSheet: document.getElementById("cheatSheet"),
+      prevBtn: document.getElementById("prevBtn"),
+      nextBtn: document.getElementById("nextBtn")
+    };
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (!saved || typeof saved !== "object") return;
+        if (Array.isArray(saved.order) && saved.order.length === QUESTIONS.length) {
+          state.order = saved.order.filter((id) => QUESTIONS.some((q) => q.id === id));
+        }
+        if (saved.answers && typeof saved.answers === "object") {
+          state.answers = saved.answers;
+        }
+        if (Number.isInteger(saved.current)) {
+          state.current = Math.max(0, Math.min(saved.current, QUESTIONS.length - 1));
+        }
+        if (saved.lecture === "all" || LECTURES.some((lecture) => lecture.id === saved.lecture)) {
+          state.lecture = saved.lecture;
+        }
+      } catch {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        order: state.order,
+        current: state.current,
+        lecture: state.lecture,
+        answers: state.answers
+      }));
+    }
+
+    function getQuestionById(id) {
+      return QUESTIONS.find((q) => q.id === id);
+    }
+
+    function getLectureById(lectureId) {
+      return LECTURES.find((lecture) => lecture.id === lectureId);
+    }
+
+    function idsForLecture(lectureId) {
+      if (lectureId === "all") return QUESTIONS.map((q) => q.id);
+      const lecture = getLectureById(lectureId);
+      if (!lecture) return [];
+      const [start, end] = lecture.range;
+      return QUESTIONS.filter((q) => q.lecture === lectureId || (!q.lecture && q.id >= start && q.id <= end)).map((q) => q.id);
+    }
+
+    function getLectureForQuestion(questionId) {
+      const question = getQuestionById(questionId);
+      if (question?.lecture) return getLectureById(question.lecture);
+      return LECTURES.find((lecture) => {
+        const [start, end] = lecture.range;
+        return questionId >= start && questionId <= end;
+      });
+    }
+
+    function questionMatchesLecture(questionId) {
+      return state.lecture === "all" || getLectureForQuestion(questionId)?.id === state.lecture;
+    }
+
+    function getQuestionDiscussions(questionId) {
+      return LECTURES.flatMap((lecture) => lecture.discussions
+        .filter((discussion) =>
+          (discussion.questionIds || []).includes(questionId) ||
+          (discussion.crossRefIds || []).includes(questionId)
+        )
+        .map((discussion) => ({ ...discussion, lecture }))
+      );
+    }
+
+    function getQuestionSearchText(q) {
+      const zh = TRANSLATIONS[q.id] || {};
+      const human = HUMAN_EXPLANATIONS[q.id] || {};
+      const discussions = getQuestionDiscussions(q.id);
+      return [
+        q.topic,
+        q.question,
+        ...q.options,
+        q.explanation,
+        zh.questionZh,
+        zh.answerZh,
+        zh.explanationZh,
+        MEMORY_TIPS[q.id],
+        human.ask,
+        human.clue,
+        human.choose,
+        human.avoid,
+        ...discussions.flatMap(({ lecture, page, title, tip }) => [lecture.title, lecture.summary, lecture.examFocus, page, title, tip])
+      ].filter(Boolean).join(" ").toLowerCase();
+    }
+
+    function getLectureProgress(lectureId) {
+      const ids = idsForLecture(lectureId);
+      const answered = ids.filter((id) => state.answers[id]).length;
+      const correct = ids.filter((id) => state.answers[id]?.correct).length;
+      return { total: ids.length, answered, correct, wrong: answered - correct };
+    }
+
+    function filteredIds() {
+      const term = state.search.trim().toLowerCase();
+      return state.order.filter((id) => {
+        const q = getQuestionById(id);
+        const record = state.answers[id];
+        const matchesMode =
+          state.mode === "all" ||
+          (state.mode === "wrong" && record && !record.correct) ||
+          (state.mode === "unanswered" && !record);
+        const matchesLecture = questionMatchesLecture(id);
+        const matchesSearch = !term || getQuestionSearchText(q).includes(term);
+        return matchesMode && matchesLecture && matchesSearch;
+      });
+    }
+
+    function currentQuestion() {
+      const ids = filteredIds();
+      if (!ids.length) return null;
+      state.current = Math.max(0, Math.min(state.current, ids.length - 1));
+      return getQuestionById(ids[state.current]);
+    }
+
+    function answerQuestion(questionId, selected) {
+      const q = getQuestionById(questionId);
+      state.answers[questionId] = {
+        selected,
+        correct: selected === q.answer
+      };
+      saveState();
+      render();
+    }
+
+    function renderStats() {
+      const ids = idsForLecture(state.lecture);
+      const records = ids.map((id) => state.answers[id]).filter(Boolean);
+      const answered = records.length;
+      const correct = records.filter((r) => r.correct).length;
+      const wrong = answered - correct;
+      const accuracy = answered ? Math.round((correct / answered) * 100) : 0;
+
+      els.answeredStat.textContent = `${answered}/${ids.length}`;
+      els.accuracyStat.textContent = `${accuracy}%`;
+      els.correctStat.textContent = String(correct);
+      els.wrongStat.textContent = String(wrong);
+      els.progressBar.style.width = `${ids.length ? (answered / ids.length) * 100 : 0}%`;
+    }
+
+    function renderModes() {
+      els.allModeBtn.classList.toggle("primary", state.mode === "all");
+      els.unansweredBtn.classList.toggle("primary", state.mode === "unanswered");
+      els.wrongBtn.classList.toggle("primary", state.mode === "wrong");
+    }
+
+    function renderLectureFilters() {
+      const allProgress = getLectureProgress("all");
+      const buttons = [{ id: "all", title: "全部", label: "All", progress: allProgress },
+        ...LECTURES.map((lecture) => ({
+          id: lecture.id,
+          title: lecture.label,
+          label: lecture.title,
+          progress: getLectureProgress(lecture.id)
+        }))
+      ];
+
+      els.lectureRow.innerHTML = buttons.map((item) => `
+        <button class="btn lecture-btn ${state.lecture === item.id ? "primary" : ""}" type="button" data-lecture="${escapeHtml(item.id)}">
+          <strong>${escapeHtml(item.title)}</strong>
+          <span>${item.progress.answered}/${item.progress.total} 已答</span>
+        </button>
+      `).join("");
+    }
+
+    function questionRefs(ids) {
+      if (!ids || !ids.length) return "";
+      return ids.map((id) => `Q${id}`).join("、");
+    }
+
+    function renderLectureGuide() {
+      if (state.lecture === "all") {
+        els.lectureGuide.innerHTML = `
+          <div class="guide-title">Lecture Discussion 考点总览</div>
+          ${LECTURES.map((lecture) => `
+            <div class="guide-card">
+              <strong>${escapeHtml(lecture.label)} · ${escapeHtml(lecture.summary)}</strong>
+              <span class="guide-meta">${escapeHtml(lecture.discussions.map((item) => `${item.page} ${item.title}`).join("；"))}</span>
+              <span class="guide-focus">${escapeHtml(lecture.examFocus)}</span>
+            </div>
+          `).join("")}
+        `;
+        return;
+      }
+
+      const lecture = getLectureById(state.lecture);
+      if (!lecture) {
+        els.lectureGuide.innerHTML = "";
+        return;
+      }
+
+      const progress = getLectureProgress(lecture.id);
+      els.lectureGuide.innerHTML = `
+        <div class="guide-title">${escapeHtml(lecture.title)} 必会 Discussion</div>
+        <div class="guide-card">
+          <strong>${escapeHtml(lecture.summary)}</strong>
+          <span class="guide-meta">当前 Lecture 进度：${progress.answered}/${progress.total} 已答，${progress.correct} 正确，${progress.wrong} 错题</span>
+          <span class="guide-focus">${escapeHtml(lecture.examFocus)}</span>
+        </div>
+        ${lecture.discussions.map((item) => `
+          <div class="guide-card">
+            <strong>${escapeHtml(item.page)} · ${escapeHtml(item.title)}</strong>
+            <span>${escapeHtml(item.tip)}</span>
+            ${item.questionIds?.length ? `<span class="guide-questions">覆盖题：${escapeHtml(questionRefs(item.questionIds))}</span>` : ""}
+            ${item.crossRefIds?.length ? `<span class="guide-questions">交叉复习：${escapeHtml(questionRefs(item.crossRefIds))}</span>` : ""}
+          </div>
+        `).join("")}
+      `;
+    }
+
+    function renderQuestionList() {
+      const ids = filteredIds();
+      els.questionList.innerHTML = "";
+      ids.forEach((id, index) => {
+        const q = getQuestionById(id);
+        const record = state.answers[id];
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "qdot";
+        if (index === state.current) button.classList.add("current");
+        if (record && record.correct) button.classList.add("correct");
+        if (record && !record.correct) button.classList.add("wrong");
+        const lecture = getLectureForQuestion(id);
+        button.textContent = String(id);
+        button.title = `Question ${id} · ${lecture?.title || "Lecture"} · ${q.topic}`;
+        button.addEventListener("click", () => {
+          state.current = index;
+          saveState();
+          render();
+        });
+        els.questionList.appendChild(button);
+      });
+    }
+
+    function renderCheatSheet() {
+      els.cheatSheet.innerHTML = CHEAT_SHEET.map((item) => `
+        <div class="cheat-card">
+          <strong>${escapeHtml(item.title)}</strong>
+          <span>${escapeHtml(item.note)}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderQuestion() {
+      const ids = filteredIds();
+      const q = currentQuestion();
+      const hasQuestion = Boolean(q);
+
+      els.emptyState.classList.toggle("show", !hasQuestion);
+      els.questionCard.style.display = hasQuestion ? "" : "none";
+      if (!q) return;
+
+      const record = state.answers[q.id];
+      const lecture = getLectureForQuestion(q.id);
+      const discussions = getQuestionDiscussions(q.id);
+      const discussionText = discussions.length
+        ? discussions.map(({ lecture: itemLecture, page, title }) => `${itemLecture.label} ${page} · ${title}`).join("；")
+        : `${lecture?.label || "Lecture"} 基础定义/组件清单`;
+      els.topicTag.textContent = `${lecture?.title || "Lecture"} · ${q.topic}`;
+      els.questionIndex.textContent = `Question ${q.id} | ${state.current + 1} of ${ids.length}`;
+      els.questionText.textContent = q.question;
+      els.memoryCard.innerHTML = record
+        ? `<strong>速记</strong><span>${escapeHtml(MEMORY_TIPS[q.id] || q.memory || "先看题干关键词，再排除明显不属于该框架的选项。")}</span>`
+        : `<strong>${escapeHtml(lecture?.label || "Lecture")} 作答提示</strong><span>${escapeHtml(lecture?.examFocus || "先独立判断，不显示口诀；选完后会显示题目翻译、速记和解析。")}</span>`;
+      els.options.innerHTML = "";
+
+      q.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "option";
+        if (record) {
+          if (index === q.answer) button.classList.add("correct");
+          if (index === record.selected && index !== q.answer) button.classList.add("wrong");
+        }
+        button.innerHTML = `<span class="letter">${letters[index]}</span><span>${escapeHtml(option)}</span>`;
+        button.addEventListener("click", () => answerQuestion(q.id, index));
+        els.options.appendChild(button);
+      });
+
+      if (record) {
+        const selectedLetter = letters[record.selected];
+        const correctLetter = letters[q.answer];
+        const zh = TRANSLATIONS[q.id] || {
+          questionZh: q.questionZh,
+          answerZh: q.answerZh,
+          explanationZh: q.explanationZh
+        };
+        const memoryTip = MEMORY_TIPS[q.id] || q.memory || "先看题干关键词，再排除明显不属于该框架的选项。";
+        const human = HUMAN_EXPLANATIONS[q.id] || q.human || {
+          ask: q.ask || `题目问：${zh.questionZh || q.question}`,
+          clue: q.clue || memoryTip,
+          choose: q.choose || zh.explanationZh || q.explanation,
+          avoid: q.avoid || "其他选项通常属于别的框架，或把概念范围说得太大/太小。"
+        };
+        const zhBlock = `
+          <div><strong>对应 Discussion</strong><span>${escapeHtml(discussionText)}</span></div>
+          <div><strong>速记</strong><span>${escapeHtml(memoryTip)}</span></div>
+          <div><strong>题目翻译</strong><span>${escapeHtml(zh.questionZh || "暂无翻译")}</span></div>
+          <div><strong>正确答案翻译</strong><span>${correctLetter}. ${escapeHtml(zh.answerZh || q.options[q.answer])}</span></div>
+          <div><strong>题目在问什么</strong><span>${escapeHtml(human.ask)}</span></div>
+          <div><strong>关键词</strong><span>${escapeHtml(human.clue)}</span></div>
+          <div><strong>为什么选 ${correctLetter}</strong><span>${escapeHtml(human.choose)}</span></div>
+          <div><strong>其他选项为什么不选</strong><span>${escapeHtml(human.avoid)}</span></div>
+          <div><strong>English note</strong><span>${escapeHtml(q.explanation)}</span></div>
+        `;
+        els.feedback.className = `feedback show ${record.correct ? "correct" : "wrong"}`;
+        els.feedback.innerHTML = record.correct
+          ? `<strong>回答正确：${correctLetter}</strong>${zhBlock}`
+          : `<strong>回答错误：你选了 ${selectedLetter}，正确答案是 ${correctLetter}</strong>${zhBlock}`;
+      } else {
+        els.feedback.className = "feedback";
+        els.feedback.innerHTML = "";
+      }
+
+      els.prevBtn.disabled = state.current === 0;
+      els.nextBtn.disabled = state.current >= ids.length - 1;
+    }
+
+    function render() {
+      renderStats();
+      renderModes();
+      renderLectureFilters();
+      renderQuestionList();
+      renderLectureGuide();
+      renderCheatSheet();
+      renderQuestion();
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function shuffleOrder() {
+      const next = [...state.order];
+      for (let i = next.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [next[i], next[j]] = [next[j], next[i]];
+      }
+      state.order = next;
+      state.current = 0;
+      saveState();
+      render();
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      state.current = 0;
+      render();
+    }
+
+    function setLecture(lectureId) {
+      state.lecture = lectureId;
+      state.current = 0;
+      saveState();
+      render();
+    }
+
+    els.allModeBtn.addEventListener("click", () => setMode("all"));
+    els.unansweredBtn.addEventListener("click", () => setMode("unanswered"));
+    els.wrongBtn.addEventListener("click", () => setMode("wrong"));
+    els.shuffleBtn.addEventListener("click", shuffleOrder);
+    els.resetBtn.addEventListener("click", () => {
+      if (!confirm("确定要清空做题记录吗？")) return;
+      state.answers = {};
+      state.current = 0;
+      state.mode = "all";
+      state.lecture = "all";
+      saveState();
+      render();
+    });
+    els.searchInput.addEventListener("input", (event) => {
+      state.search = event.target.value;
+      state.current = 0;
+      render();
+    });
+    els.lectureRow.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-lecture]");
+      if (!button) return;
+      const lectureId = button.dataset.lecture;
+      if (lectureId === "all" || getLectureById(lectureId)) setLecture(lectureId);
+    });
+    els.prevBtn.addEventListener("click", () => {
+      state.current -= 1;
+      saveState();
+      render();
+    });
+    els.nextBtn.addEventListener("click", () => {
+      state.current += 1;
+      saveState();
+      render();
+    });
+
+    window.addEventListener("keydown", (event) => {
+      const q = currentQuestion();
+      if (!q) return;
+      const key = event.key.toLowerCase();
+      if (["1", "2", "3", "4"].includes(key)) {
+        answerQuestion(q.id, Number(key) - 1);
+      }
+      if (["a", "b", "c", "d"].includes(key)) {
+        answerQuestion(q.id, letters.indexOf(key.toUpperCase()));
+      }
+      if (key === "arrowleft" && !els.prevBtn.disabled) {
+        state.current -= 1;
+        saveState();
+        render();
+      }
+      if (key === "arrowright" && !els.nextBtn.disabled) {
+        state.current += 1;
+        saveState();
+        render();
+      }
+    });
+
+    loadState();
+    render();
+  </script>
+</body>
+</html>

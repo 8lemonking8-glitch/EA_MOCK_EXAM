@@ -1,0 +1,256 @@
+  ENTERPRISE ARCHITECTURE (EA) AND
+  DATABASE PROGRAMMING
+  LECTURE 5
+
+
+
+
+Azadeh Sarkheyli
+(azadeh.sarkheyli@hh.se)
+             Getting to Grips with Architectural Complexity
+
+CONTENTS:    Describing Enterprise Architectures
+             Pictures, Models, and Semantics
+GETTING TO GRIPS WITH ARCHITECTURAL COMPLEXITY
+
+
+
+ Companies have long recognized the need for an integrated architectural approach and have
+  developed their own architecture practice. However, they still experience a lack of support in the
+  design, communication, realization, and management of architectures.
+GETTING TO GRIPS WITH ARCHITECTURAL COMPLEXITY
+
+   Design: When designing architectures, architects should use a common, well-defined vocabulary to avoid
+    misunderstandings and promote clear designs. Such a vocabulary must not just focus on a single architecture domain
+    but should allow for the integration of different types of architectures related to different domains. Next to a common
+    language, architects should be supported in their design activities by providing methodical support, general and
+    organization specific guidelines, best practices, drawing standards, and other means that promote the quality of the
+    architectures. Furthermore, to facilitate the design process, which is iterative and requires changes and updates to
+    architectures, support for tracking architectural decisions and changes is desirable.
+
+   Communication: Architectures are shared with various stakeholders within and outside the organization. To facilitate
+    the communication about architectures, it should be possible to visualize precisely the relevant aspects for a particular
+    group of stakeholders. Especially important in this respect is to bring about a successful communication on relations
+    among different domains described by different architectures (e.g., processes vs. applications), since this will often
+    involve multiple groups of stakeholders. Clear communication is also very important in the case of outsourcing of parts
+    of the implementation of an architecture to external organizations.
+GETTING TO GRIPS WITH ARCHITECTURAL COMPLEXITY
+
+ Realization: To facilitate the realization of architectures and to provide feedback from this
+  realization to the original architectures, links should be established with design activities on a more
+  detailed level, e.g., business process design, information modelling, or software development.
+  Companies use different concepts and tools for these activities, and relations with these should be
+  defined. Furthermore, integration with existing design tools in these domains should be provided.
+
+ Change: An architecture often covers a large part of an organization and may be related to several
+  other architectures. Therefore, changes to an architecture may have a profound impact. Assessing
+  the consequences of such changes beforehand and carefully planning the evolution of
+  architectures are therefore very important. Until now, support for this has been virtually non-
+  existent.
+GETTING TO GRIPS WITH ARCHITECTURAL COMPLEXITY
+
+ Compositionality
+
+In current practice, enterprise architectures often comprise many heterogeneous models and other
+descriptions, with ill-defined or completely lacking relations, inconsistencies, and a general lack of
+coherence and vision.
+
+The main driver behind most of the needs identified above is the complexity of architectures, their
+relations, and their use. Many different architectures or architectural views co-exist within an
+organization. These architectures need to be understood by different stakeholders, each at their own
+level. The connections and dependencies that exist among these different views make life even more
+difficult. Management and control of these connected architectures is extremely complex.
+GETTING TO GRIPS WITH ARCHITECTURAL COMPLEXITY
+
+   Compositionality
+
+ The standard approach to dealing with the complexity of systems is to
+    use a compositional approach, which distinguishes between parts of
+    a system, and the relations between these parts.
+
+ To understand how a car functions, we first describe the parts of the
+    car such as the engine, the wheels and the air conditioning system,
+    and then we describe the relationship among these parts.
+
+ Likewise, we understand the information system of a company as a
+    set of systems and their relations, and we understand a company as
+    a set of business processes and their relations.
+GETTING TO GRIPS WITH ARCHITECTURAL COMPLEXITY
+
+
+   Integration of Architectural Domains
+
+o   Example 1: As a first example of an integration problem, consider Fig. 3.1, which contains several
+    architectures. The five architectures may be models expressed in UML, or models from cells of Zachman’s
+    architectural framework, or any kind of combination. For instance, there may be a company that has
+    modelled its applications in UML and its business processes in BPMN.
+
+o   In all these cases, it is unclear how concepts in one view are related to concepts in another view.
+
+o   Moreover, it is unclear whether views are compatible with each other.
+ GETTING TO GRIPS WITH ARCHITECTURAL COMPLEXITY
+
+
+ Integration of Architectural Domains
+
+
+This is often called a problem of alignment,
+and the UML–BPMN example is called a
+business–IT alignment problem.
+GETTING TO GRIPS WITH ARCHITECTURAL COMPLEXITY
+
+
+
+   Integration of Architectural Domains
+
+o   Example 2: As a second example of an integration problem, consider the first two viewpoints of the IEEE
+    1471 standard (IEEE Computer Society 2000): the structural viewpoint and the behavioral viewpoint.
+
+o   How are structure and behavior related?
+
+o   One instance of this problem is how structural concepts like software components are related to behavioral
+    concepts like application functions.
+GETTING TO GRIPS WITH ARCHITECTURAL COMPLEXITY
+
+
+     Discussion
+     According to the below paper describe how different enterprise
+     architecture domains can be integrated?
+
+
+        Antunes, G., Caetano, A., Bakhshandeh, M., Mayer, R., & Borbinha, J. (2013,
+         June). Using ontologies to integrate multiple enterprise architecture domains.
+         In International Conference on Business Information Systems (pp. 61-72).
+         Springer, Berlin, Heidelberg.
+DESCRIBING ENTERPRISE ARCHITECTURES
+
+
+ Describing Enterprise Architectures
+
+We concentrate on what is essential for enterprise architecture, and therefore we limit ourselves to the
+core elements of these domains and focus especially on the relations and interactions between them.
+Precise definitions and constraints will help us to create insight into the complexity of the enterprise
+architecture and to evade conflicts and inconsistencies between the different domains.
+    DESCRIBING ENTERPRISE ARCHITECTURES
+
+   Observing the Universe
+
+The viewer is a stakeholder of (part of) the organizational,
+technical, or other systems that make up the enterprise, i.e.,
+the universe that the viewer observes. The conception of
+this universe then is the architecture of the enterprise.
+
+The representation of this architecture is an architecture
+description, which may contain models of the architecture,
+but also, for example, textual descriptions. The underlying
+relationships between stakeholder, enterprise, architecture
+and architecture description can be expressed in the form of
+a tetrahedron, as depicted in Fig. 3.2, which is based on the
+FRISCO tetrahedron (Falkenberg et al. 1998).
+DESCRIBING ENTERPRISE ARCHITECTURES
+
+ Observing Domains
+
+   Domain: any subset of a conception (being a set of elements) of the universe that is conceived
+    of as being some ‘part’ or ‘aspect’ of the universe.
+
+   Model: a purposely abstracted and unambiguous conception of a domain.
+
+   Modelling: the act of purposely abstracting a model from (what is conceived to be) a part of the
+    universe.
+DESCRIBING ENTERPRISE ARCHITECTURES
+
+
+ Views and Viewpoints
+
+   View: expresses the architecture of the system of interest from the perspective of one or more
+     stakeholders to address specific concerns, using the conventions established by its viewpoint
+
+   Viewpoint: a specification of the conventions for constructing, interpreting, using and analyzing
+     one type of architecture view
+DESCRIBING ENTERPRISE ARCHITECTURES
+
+   Ways of Working
+ A way of thinking: articulates the assumptions about the kinds of problem domains, solutions, and modellers involved.
+
+ A way of modelling: identifies the core concepts of the language that may be used to denote, analyse, visualise,
+    and/or animate architecture descriptions.
+ A way of communicating: describes how the abstract concepts from the way of modelling are communicated to
+    human beings, e.g., in terms of a textual or a graphical notation (syntax, style, medium).
+ A way of working: structures (parts of) the way in which a system is developed. It defines the possible tasks, including
+    subtasks, and ordering of tasks, to be performed as part of the development process. It furthermore provides
+    guidelines and suggestions (heuristics) on how these tasks should be performed.
+ A way of supporting: the support that is offered by (possibly automated) tools for the handling (creating, presenting,
+    modifying, etc.) of models and views. In general, a way of supporting is supplied in the form of some computerised tool.
+ A way of using: identifies heuristics that:
+
+    •   define situations, classes of stakeholders, and concerns for which a particular model or viewpoint is most suitable;
+    •   provide guidance in tuning the viewpoint to specific situations, classes of stakeholders, and their concerns.
+PICTURES, MODELS, AND SEMANTICS
+
+   Symbolic      Models:       A    symbolic   model
+    expresses properties of architectures of
+    systems by means of symbols that refer to
+    reality.
+
+   Semantic Models: A semantic model is an
+    interpretation   of     a       symbolic    model,
+    expressing the meaning of the symbols in
+    that model.
+PICTURES, MODELS, AND SEMANTICS
+
+
+   Symbolic Models:
+
+Fig. 3.4 exhibits a structural description of the employees of a company. We need to recall that the above
+is a syntactic structure; that is, a description of a symbolic model with a signature whose sorts are
+Employee and Director, and with respective entities related by a relation named Responsible_for.
+PICTURES, MODELS, AND SEMANTICS
+
+   Symbolic Models:
+
+For example, Fig. 3.5 extends the previous signature with an ‘is-a’ relationship between the sorts Director
+and Employee (denoted by a UML inheritance relation), intuitively suggesting that every director is also an
+employee. Moreover, the symbolic model may also contain a set of actions, and the signature a set of
+action symbols.
+PICTURES, MODELS, AND SEMANTICS
+
+
+      Semantic Models: for a symbolic model, we will denote by x:T a variable
+       x which ranges over individuals of sort T. For example, we could use the
+       logical sentence
+
+      ∃ x : Director. 8y : Employee. Responsible_ for(x, y)
+
+      to constraint the interpretation of the sort Director to be a non-empty set.
+       Note that since Director is_a Employee, also the interpretation of the latter
+       sort will be non-empty.
+PICTURES, MODELS, AND SEMANTICS
+
+
+  Discussion
+
+  According to the below paper describe how symbolic models can be
+  integrated using an architectural language, how integrated models can
+  be updated using the distinction between symbolic models and their
+  visualization, and how semantic models can be integrated?
+
+
+   Arbab, F., de Boer, F., Bonsangue, M., Lankhorst, M., Proper, E., & van
+     der Torre, L. (2007). Integrating architectural models-symbolic, semantic
+     and subjective models in enterprise architecture. Enterprise Modelling
+     and Information Systems Architectures (EMISAJ), 2(1), 40-57.
+REFERENCES
+
+
+  Lankhorst, M. (2017). Enterprise architecture at work (ISBN 978-3-662-53933-
+    0). Berlin: Springer.
+  Antunes, G., Caetano, A., Bakhshandeh, M., Mayer, R., & Borbinha, J. (2013, June).
+    Using ontologies to integrate multiple enterprise architecture domains. In
+    International Conference on Business Information Systems (pp. 61-72). Springer,
+    Berlin, Heidelberg.
+  Antunes, G., Caetano, A., Bakhshandeh, M., Mayer, R., & Borbinha, J. (2013, June).
+    Using ontologies to integrate multiple enterprise architecture domains. In
+    International Conference on Business Information Systems (pp. 61-72). Springer,
+    Berlin, Heidelberg.
+
